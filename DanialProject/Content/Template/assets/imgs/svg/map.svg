@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="37px" height="37px" viewBox="0 0 37 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>map copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M20.5,13.5 C20.5,18 15,23 15,23 C15,23 9.5,18 9.5,13.5 C9.5,10.4624339 11.9624339,8 15,8 C18.0375661,8 20.5,10.4624339 20.5,13.5 Z M15,16 C16.3807119,16 17.5,14.8807119 17.5,13.5 C17.5,12.1192881 16.3807119,11 15,11 C13.6192881,11 12.5,12.1192881 12.5,13.5 C12.5,14.8807119 13.6192881,16 15,16 Z" id="path-1"></path>
+    </defs>
+    <g id="\\-Map" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="map/default" transform="translate(-1353.000000, -41.000000)">
+            <g id="Group-2" transform="translate(1310.000000, 41.000000)">
+                <g id="map-copy-2" transform="translate(43.000000, 0.000000)">
+                    <rect id="Rectangle" stroke="#C8C8C8" fill="#FFFFFF" x="0.5" y="0.5" width="36" height="36" rx="1"></rect>
+                    <g id="icons/ui/map" transform="translate(4.000000, 4.000000)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="Mask" fill="#444444" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <g id="colors/dark-navy" mask="url(#mask-2)">
+                            <g transform="translate(-1.000000, -1.000000)"></g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

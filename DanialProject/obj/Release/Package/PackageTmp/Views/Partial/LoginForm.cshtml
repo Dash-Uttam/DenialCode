@@ -1,0 +1,97 @@
+﻿<!--Login Modal-->
+<div class="modal login-modal" id="LoginModal" #LoginModal>
+    <div class="modal-dialog">
+        <div class="modal-content login_form_wrapper">
+            <div class="modal-body pt-3 text-center">
+                <div class="mt-5">
+                    <div class="login-logo">
+                        <img src="~/Content/Template/assets/imgs/logo/logo.png" width="150" alt="">
+                    </div>
+                </div>
+                <form action="#/" method="post" onsubmit="return LoginForm();" class="form-horizontal" role="form">
+                    <div class="row mt-5">
+                        <div class="col-12 mt-5">
+                            <div class="form-group g-margin-auto g-max-width-300">
+                                <input type="email" class="form-control" required id="LoginEmail" placeholder="E-mail Address">
+                            </div>
+                        </div>
+                        <div class="col-12 mt-5">
+                            <div class="form-group g-margin-auto g-max-width-300">
+                                <input type="password" class="form-control" required id="LoginPassword" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <a href="#/" id="ForgotButton" onclick="ForgotPassword();" class="green">forgot password?</a>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button type="submit" id="btnLogin" class="btn btn-bg-green pl-4 pr-4">Login</button>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <p style="color:red;" id="ErrorLogin"></p>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col white">
+                        Don't have an account?
+                        <a href="../../Home/ContactUs" class="green">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Login Modal-->
+<!--Change Password Modal-->
+<div class="modal fade" id="ChnagePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" style="padding: 20px 25px 4px 25px">
+            <form action="#/" method="post" onsubmit="return UpdateLoginForm();" class="form-horizontal" role="form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="heading font1">UPDATE PASSWORD</h1>
+                        </div>
+                    </div> 
+                    <div class="col p-0 mt-3">
+                        <p style="color:red; line-height:1.5;">
+                            DO NOT CLICK OUT OF THIS SCREEN - A security code
+                            was just sent to your email, it could take up to 5 minutes to arrive.  Make sure
+                            to check your spam folder :)
+                        </p>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>SECURITY CODE</label>
+                                <input type="text" required class="form-control" id="DallienSecurityCode" />
+                            </div>
+                            <div class="form-group">
+                                <label>YOUR DALLIEN EMAIL</label>
+                                <input type="email" required class="form-control" id="DallienEmail" />
+                            </div>
+                            <div class="form-group">
+                                <label>NEW PASSWORD</label>
+                                <input type="password" required class="form-control" id="DallienPassowrd" />
+                            </div>
+                            <div class="form-group">
+                                <label>CONFIRM PASSWORD</label>
+                                <input type="password" required class="form-control" id="ConfirmPassword" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="mb-0 red" id="ErrorLoginUpdate"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <hr class="m-0"/>
+                    <button type="submit" id="btnLoginUpdate" class="btn btn-success mb-3">SUBMIT CHANGES</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Change Password Modal-->

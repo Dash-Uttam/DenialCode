@@ -1,0 +1,203 @@
+@{
+    ViewBag.Title = "Admins";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../Content/ProjectFiles/Admin/Admins.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+</head>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-default">
+                <div class="box-header">
+                    <div>
+                        <h1 class="box-title col-md-3" style="font-weight:bold; font-size:24px; padding-bottom:5px;">Admins</h1>
+                        <button type="button" data-toggle="modal" data-target="#AddModel" style="margin-bottom:2px;" class="btn btn-default btn-sm pull-right"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <div class="container" style="overflow-x:auto; width:100% !important;">
+                                    <table id="example" class="table table-striped table-hover table-bordered dataTable no-footer" cellspacing="0" style="width:100% !important;">
+                                        <thead>
+                                            <tr>
+                                                <th class="no-sort">Image</th>
+                                                <th>Occupation</th>
+                                                <th>Full Name</th>
+                                                <th>UserName</th>
+                                                <th>Password</th>
+                                                <th>Security Level</th>
+                                                <th>Add_Date</th>
+                                                <th class="no-sort">AdditionalOptions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal" id="AddModel">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 5px !important;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="font-weight:bold;" font-size:24px;">Add Admin</h4>
+            </div>
+            <div class="box-body">
+                <form action="#/" id="Adminform" method="post" onsubmit="return Add();" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <!-- image-preview-filename input [CUT FROM HERE]-->
+                        <label class="col-sm-3  " style="text-align:right !important;">Profile Picture:</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                                <div class="input-group-btn">
+                                    <!-- image-preview- button -->
+                                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                        <span class="fa fa-trash-o"></span> Clear
+                                    </button>
+                                    <!-- image-preview-input -->
+                                    <div class="btn btn-default image-preview-input">
+                                        <span class="glyphicon glyphicon-folder-open"></span>
+                                        <span class="image-preview-input-title">Browse</span>
+                                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview" id="AdminImage" /> <!-- rename it -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-3 control-label">FullName: <span style="color:red;">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" minLength="2" maxlength="50" id="Name" required placeholder="Enter Your Full Name">
+                            <p class="pull-right" style="color:red;">min of 2 and max of 50 characters allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-3 control-label">UserName: <span style="color:red;">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" minLength="5" maxlength="50" id="UserName1" required placeholder="Enter Your UserName">
+                            <p class="pull-right" style="color:red;">min of 5 and max of 50 characters allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-3 control-label">Password: <span style="color:red;">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" minLength="8" maxlength="50" id="Password1" required placeholder="Enter Your UserName">
+                            <p class="pull-right" style="color:red;">min of 8 and max of 50 characters allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Role" class="col-sm-3 control-label">Security Level:</label>
+                        <div class="col-sm-9">
+                            <select name="AdminSecurityLevel" id="AdminSecurityLevel" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-9 col-md-3">
+                            <button type="submit" id="BtnAdmin" class="btn btn-success">Save changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="UpdateModel">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 5px !important;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="font-weight:bold;" font-size:24px;">Update Admin</h4>
+            </div>
+            <div class="box-body">
+                <form action="#/" id="UpdateForm" method="post" onsubmit="return Update();" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <!-- image-preview-filename input [CUT FROM HERE]-->
+                        <label class="col-sm-3  " style="text-align:right !important;">Profile Picture:</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                                <div class="input-group-btn">
+                                    <!-- image-preview- button -->
+                                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                        <span class="fa fa-trash-o"></span> Clear
+                                    </button>
+                                    <!-- image-preview-input -->
+                                    <div class="btn btn-default image-preview-input">
+                                        <span class="glyphicon glyphicon-folder-open"></span>
+                                        <span class="image-preview-input-title">Browse</span>
+                                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview" id="ImageUpdate" /> <!-- rename it -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" hidden>
+                        <input type="text" class="form-control" id="AdminId" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-3 control-label">FullName: <span style="color:red;">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" minLength="2" maxlength="50" id="NameUpdate" required placeholder="Enter Your Full Name">
+                            <p class="pull-right" style="color:red;">min of 2 and max of 50 characters allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-3 control-label">UserName: <span style="color:red;">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" minLength="5" pattern="(.){5,50}" maxlength="50" id="UserNameUpdate" required placeholder="Enter Your UserName">
+                            <p class="pull-right" style="color:red;">min of 5 and max of 50 characters allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-3 control-label">Password: <span style="color:red;">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" minLength="8" maxlength="50" id="PasswordUpdate" required placeholder="Enter Your UserName">
+                            <p class="pull-right" style="color:red;">min of 8 and max of 50 characters allowed</p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="SecurityLevelDiv">
+                        <label for="Role" class="col-md-3 control-label">Security Level:</label>
+                        <div class="col-md-9">
+                            <select name="UpdateSecurityLevel" id="UpdateSecurityLevel" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-9 col-md-3">
+                            <button type="submit" id="BtnAdminUpdate" class="btn btn-success">Save changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

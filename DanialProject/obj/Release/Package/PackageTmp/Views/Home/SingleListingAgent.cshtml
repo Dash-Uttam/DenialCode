@@ -1,0 +1,1460 @@
+@model DanialProject.Models.Database.Buildings
+<html>
+<head>
+    <title>DALLIEN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/Template/assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="@DanialProject.Models.FingerPoint.Tag("/Content/Template/styles.css")">
+    <script type="text/javascript" src="~/Content/Template/assets/jquery/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/bootstrap/js/bootstrap.js"></script>
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Content/Template/style.js")"></script>
+    <script src="~/Content/js/bootbox.min.js"></script>
+    <!-- mobile navbar -->
+    <style>
+
+        .mobile-nav-header {
+            margin-bottom: 30px;
+        }
+
+        .top-navbar-mobile {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(41, 56, 71, 1);
+            position: fixed;
+            z-index: 999;
+            overflow-x: hidden;
+            left: 100%;
+            top: 0;
+            right: 0;
+            -webkit-transition: all 500ms ease;
+            -moz-transition: all 500ms ease;
+            -ms-transition: all 500ms ease;
+            -o-transition: all 500ms ease;
+            transition: all 500ms ease;
+        }
+
+            .top-navbar-mobile .mobile-logo-div {
+                padding: 15px;
+            }
+
+            .top-navbar-mobile .mobile-navbar-close {
+                font-size: 20px;
+                color: white;
+                padding: 15px;
+            }
+
+                .top-navbar-mobile .mobile-navbar-close i {
+                    cursor: pointer;
+                }
+
+            .top-navbar-mobile ul.mobile-top-navs {
+                text-align: right;
+                padding-right: 25px;
+                padding-left: 15px;
+            }
+
+                .top-navbar-mobile ul.mobile-top-navs::after {
+                    content: '';
+                    width: 20px;
+                    border-top: 1px solid white;
+                    position: absolute;
+                    right: 40px;
+                    bottom: -20px;
+                }
+
+                .top-navbar-mobile ul.mobile-top-navs .nav-item .nav-link {
+                    color: #ffffff;
+                    font-size: 25px;
+                    line-height: 1;
+                    letter-spacing: 1px;
+                    padding: 10px 0px;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+
+            .top-navbar-mobile ul.mobile-footer-links {
+                text-align: right;
+                padding-right: 25px;
+                padding-left: 15px;
+            }
+
+                .top-navbar-mobile ul.mobile-footer-links .nav-item .nav-link {
+                    color: #838D96;
+                    font-size: 17px;
+                    line-height: 1;
+                    letter-spacing: 1px;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+
+        .show-mobile-navbar {
+            left: 0;
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint
+        /*#map .gm-control-active*/ button[title="Zoom in"] {
+            background-color: grey !important;
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint
+        /*#map .gm-control-active*/ button[title="Zoom out"] {
+            background-color: grey !important;
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint
+        /*#map .gm-control-active*/ button[title="Zoom in"] img {
+            content: url('../../Content/Images/Features/plus.png');
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint button[title="Zoom out"] img {
+            content: url('../../Content/Images/Features/minus.png');
+        }
+    </style>
+    <!-- mobile navbar -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-transparent inverse">
+        <a class="navbar-brand" href="../../Home/Index">
+            <img alt="Brand" src="~/Content/Template/assets/imgs/logo/logo.png" width="85">
+        </a>
+        <button class="navbar-toggler ml-auto mobile-nav-opener" type="button" data-toggle="collapse">
+            <i class="fas fa-align-justify"></i>
+        </button>
+        <div class="collapse navbar-collapse top-navbar-links" id="collapsibleNavbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/FindListing">FIND A LISTING</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/Apply">APPLY</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                </li>
+                @{
+                    try
+                    {
+                        HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                        FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                        string cookiePath1 = ticket.CookiePath;
+                        DateTime expiration = ticket.Expiration;
+                        bool expired = ticket.Expired;
+                        bool isPersistent = ticket.IsPersistent;
+                        DateTime issueDate = ticket.IssueDate;
+                        string CookieId = ticket.Name;
+                        string userData = ticket.UserData;
+                        int version = ticket.Version;
+                        if (!expired)
+                        {
+                            <li class="nav-item">
+                                <a href="../../Home/ManageListing/@CookieId" class="nav-link">
+                                    MY PROFILE
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                   style="background-image: url(@userData)">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../Account/SignOut" class="logout nav-link">
+                                    LOGOUT &nbsp;<i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a onclick="$('#LoginModal').modal('show')" class="btn btn-bg-transparent pl-4 pr-4" href="javascript:void(0)">Login</a>
+                            </li>
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        <li class="nav-item">
+                            <a onclick="$('#LoginModal').modal('show')" class="btn btn-bg-transparent pl-4 pr-4" href="javascript:void(0)">Login</a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <!-- mobile navbar -->
+        <div class="container-fluid d-block d-md-none top-navbar-mobile">
+            <div class="row mobile-nav-header">
+                <div class="col-12">
+                    <div class="float-left mobile-logo-div">
+                        <img src="~/Content/Template/assets/imgs/logo/logo.png" width="70" alt="Alternate Text" />
+                    </div>
+                    <div class="mobile-navbar-close float-right">
+                        <i class="fas fa-times close-mobile-navbar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <ul class="navbar-nav mobile-top-navs">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/FindListing">FIND A LISTING</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/Apply">APPLY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                        </li>
+                        @{
+                            try
+                            {
+                                HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                                string cookiePath1 = ticket.CookiePath;
+                                DateTime expiration = ticket.Expiration;
+                                bool expired = ticket.Expired;
+                                bool isPersistent = ticket.IsPersistent;
+                                DateTime issueDate = ticket.IssueDate;
+                                string CookieId = ticket.Name;
+                                string userData = ticket.UserData;
+                                int version = ticket.Version;
+                                if (!expired)
+                                {
+                                    <li class="nav-item">
+                                        <a href="../../Home/ManageListing/@CookieId" class="nav-link">
+                                            MY PROFILE
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                           style="background-image: url(@userData)">
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                    </li>
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                <li class="nav-item">
+                                    <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="col-12 mt-5">
+                    <ul class="navbar-nav mobile-footer-links">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/OurAgents">OUR AGENTS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/ContactUs">LIST WITH US</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/LearnMore">ABOUT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/ContactUs">CAREERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/ContactUs">CONTACT</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- mobile navbar -->
+    </nav>
+    <div class="container-fluid m-t-10">
+        <div class="row" style="margin-left:-4px; margin-right:-4px;">
+            <div class="col-12 col-sm-4 p-0">
+                <div class="side-bar-2" style="min-height:512px; position:relative;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="upper-content">
+                                <h5 class="font1">
+                                    <a href="../../Home/SimpleListing" class="float-left font1 link cursor-pointer all-listings"><i class="fas fa-arrow-left font-14"></i> &nbsp;&nbsp;All LISTINGS</a>
+                                    <i class="far fa-heart float-right" style="font-size:25px;color:#838d96" onmouseover="this.style.color='red'" onmouseout="this.style.color='#838d96'"></i>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all">
+                        <div class="row">
+                            <div class="col">
+                                @{
+                                    var price = "";
+                                    if (Model.Price.ToString().Contains("."))
+                                    {
+
+                                        var splitdot = Model.Price.ToString().Split('.');
+                                        var toIntValue = Int32.Parse(splitdot[1]);
+
+                                        if (toIntValue > 0)
+                                        {
+                                            price = @String.Format("{0:C2}", Convert.ToDouble(Model.Price));
+                                        }
+                                        else
+                                        {
+                                            price = @String.Format("{0:C0}", Convert.ToDouble(Model.Price));
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        price = @String.Format("{0:C0}", Convert.ToDouble(Model.Price));
+                                    }
+
+                                    var sp1 = Model.Address.Split(',');
+                                    var name1 = sp1[0];
+                                    var address1 = "";
+                                    if (sp1[0] == Model.Name)
+                                    {
+                                        address1 = "";
+                                    }
+                                    else
+                                    {
+                                        address1 = Model.Name;
+                                    }
+                                    <div class="lower-content" style="margin-bottom:5px !important;">
+                                        <h2 class="uppeer-case" style="margin-bottom: 1px;font-size: 50px;line-height: 1;">@name1 @Model.Borough</h2>
+                                        <h4 class="uppeer-case" style="font-size: 31px;">@address1</h4>
+                                        <small class="m-t-15"><STRONG>Unit:</STRONG> @Model.Unit</small>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="row m-t-15 single_listing_rates_wrapper" style="border-bottom: 1px solid #F2F2F3; padding-bottom: 20px;">
+                            <div class="col-md-4 rates">
+                                <small>Price</small><br />
+                                <h5 class="rate font1">@price</h5>
+                            </div>
+                            <div class="col-md-5 rates">
+                                <small>Rooms</small><br />
+                                <h5 class="rate font1">@Model.Beds BED / @Model.Baths BATH</h5>
+                            </div>
+                            <div class="col-md-3 rates">
+                                @*<div class="op">
+                                        <small>LOCAL TRANSIT</small>
+                                        <img src="~/Content/Template/assets/imgs/svg/transport.svg" />
+                                    </div>*@
+                                <div class="col">
+                                    <small>NEIGHBORHOOD</small><br />
+                                    <h5 class="rate font1 uppeer-case ">@Model.Neighbourhood</h5>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.Type == "Sale")
+                        {
+                            <div class="row m-t-15 single_listing_rates_wrapper single_listing_rates_small_wrapper">
+                                <div class="col-md-3 rates">
+                                    <small>COMMISSION</small><br />
+                                    <h5 class="rate font1">@Model.SaleBuilding.Commision</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>TAX</small><br />
+                                    <h5 class="rate font1">@Model.SaleBuilding.Tax</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>SQ FT</small>
+                                    <h5 class="rate font1">@Model.SaleBuilding.SqFt</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Availability</small>
+                                    <h5 class="rate font1">NA</h5>
+                                </div>
+                            </div>
+                            <div class="row m-t-15 single_listing_rates_wrapper single_listing_rates_small_wrapper">
+                                <div class="col-md-3 rates">
+                                    <small>MAINT. / CC</small><br />
+                                    <h5 class="rate font1">@Model.SaleBuilding.Maintenance</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Price/SqFt</small>
+                                    <h5 class="rate font1">@Model.SaleBuilding.PriceSqFt</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Bld. Accs.</small><br />
+                                    <h5 class="rate font1">@Model.SaleBuilding.Building_Access</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Unit Accs.</small>
+                                    <h5 class="rate font1">@Model.SaleBuilding.Unit_Access</h5>
+                                </div>
+                            </div>
+                            <div class="row m-t-15 single_listing_rates_wrapper single_listing_rates_small_wrapper">
+                                <div class="col-md-12 rates">
+                                    <small>Notes</small><br />
+                                    <h5 class="rate font1 text-uppercase">@Model.SaleBuilding.Access_Notes</h5>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row m-t-15 single_listing_rates_wrapper single_listing_rates_small_wrapper">
+                                <div class="col-md-3 rates">
+                                    <small>OP</small><br />
+                                    <h5 class="rate font1">@Model.OtherDetails.OP</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>FEE</small><br />
+                                    <h5 class="rate font1">@Model.OtherDetails.Fee</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Lease Term</small>
+                                    <h5 class="rate font1">@Model.OtherDetails.Lease_term</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Availability</small>
+                                    <h5 class="rate font1">@Model.OtherDetails.AvalibilityDate.ToShortDateString()</h5>
+                                </div>
+                            </div>
+                            <div class="row m-t-15 single_listing_rates_wrapper single_listing_rates_small_wrapper">
+                                <div class="col-md-3 rates">
+                                    <small>WEEKS FREE</small><br />
+                                    <h5 class="rate font1">@Model.OtherDetails.Incentives</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>EXCLUSIVITY</small>
+                                    <h5 class="rate font1">@Model.OtherDetails.Exclusivity</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Bld. Accs.</small><br />
+                                    <h5 class="rate font1">@Model.OtherDetails.Building_Access</h5>
+                                </div>
+                                <div class="col-md-3 rates">
+                                    <small>Unit Accs.</small>
+                                    <h5 class="rate font1">@Model.OtherDetails.Unit_Access</h5>
+                                </div>
+                            </div>
+                            <div class="row m-t-15 single_listing_rates_wrapper single_listing_rates_small_wrapper">
+                                <div class="col-md-12 rates">
+                                    <small>Notes</small><br />
+                                    <h5 class="rate font1 text-uppercase">@Model.OtherDetails.Access_Notes</h5>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-8 pr-0" style="padding-left:10px;">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" style="border: 2px solid #f8f8f8;min-height: 510px;">
+                    <div id="carouselExample" class="carousel-inner">
+
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+                        <img src="~/Content/Template/assets/imgs/svg/left.png" class="carasol-icons" />
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                        <img src="~/Content/Template/assets/imgs/svg/right.png" class="carasol-icons" />
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container content">
+        <input id="lat" type="text" style="display: none" value="@Model.Latitude" />
+        <input id="long" type="text" style="display: none" value="@Model.Longitude" />
+        @if (Model.Type == "Rent")
+        {
+            <div class="row m-t-15 mr-0 ml-0">
+                <div class="col-md-2 rates" style="padding:0;">
+                    <div class="notes listing-notes">
+                        <h4 class="font1">STATUS</h4>
+                        <p class="paragraph" style="font-size:14px !important; color:#838D96 !important;">
+                            @Model.BuildingStatus
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-2 rates" style="padding:0;">
+                    <div class="notes listing-notes">
+                        <h4 class="font1">BLD. TYPE.</h4>
+                        <p class="paragraph" style="font-size:14px !important; color:#838D96 !important;">
+                            @Model.BuildingType
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-2 rates" style="padding:0;">
+                    <div class="notes listing-notes">
+                        <h4 class="font1">LANDLORD</h4>
+                        <p class="paragraph" style="font-size:14px !important; color:#838D96 !important;">
+                            @Model.OtherDetails.Landlord
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 rates" style="padding:0;">
+                    <div class="notes listing-notes">
+                        <h4 class="font1">GUARANTORS ACCEPTED</h4>
+                        <p class="paragraph" style="font-size:14px !important; color:#838D96 !important;">
+                            @Model.OtherDetails.Guarantors
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 rates" style="padding:0;">
+                    <div class="notes listing-notes">
+                        <h4 class="font1">MOVE-IN COSTS</h4>
+                        <p class="paragraph" style="font-size:14px !important; color:#838D96 !important;" id="Move_In_Cost">
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row m-t-15 mr-0 ml-0">
+                <div class="col-md-2 rates" style="padding:0;">
+                    <div class="notes listing-notes">
+                        <h4 class="font1">STATUS</h4>
+                        <p class="paragraph" style="font-size:14px !important; color:#838D96 !important;">
+                            @Model.BuildingStatus
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-2 rates" style="padding:0;">
+                    <div class="notes listing-notes">
+                        <h4 class="font1">BLD. TYPE.</h4>
+                        <p class="paragraph" style="font-size:14px !important; color:#838D96 !important;">
+                            @Model.BuildingType
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row m-t-10 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+        </div>
+        <div class="row m-t-50  mr-0 ml-0">
+            <div class="col-sm-7" style="padding:0;">
+                <div class="notes listing-notes">
+                    <h4 class="font1">ABOUT THIS PROPERTY</h4>
+                    <p class="paragraph m-t-25" style="font-size:14px !important; color:#838D96 !important;">
+                        @Model.Description
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-4 p-0" style="margin-top:-5px;">
+                <div class="row">
+                    <div class="col">
+                        <p class="float-right share-icons share-icons-listing">
+                            <span class="font1">SHARE</span>
+                            &nbsp; &nbsp; &nbsp;
+                            <a href="https://www.facebook.com/" target="_blank"><img src="~/Content/Template/assets/imgs/svg/facebook.svg"></a>
+                            &nbsp; &nbsp;
+                            <a href="https://twitter.com/" target="_blank"><img src="~/Content/Template/assets/imgs/svg/twitter.svg"></a>
+                            &nbsp; &nbsp;
+                            <a href="mailto:"><img src="~/Content/Template/assets/imgs/svg/email-grey.svg"></a>
+                            &nbsp; &nbsp;
+                            <a href="#/" onclick="CopyLinkToClipbord();"><img src="~/Content/Template/assets/imgs/svg/copy-link.svg"></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col">
+                        <div class="grey-card">
+                            <div class="media">
+                                <div class="polygon polygon-wrap-small img-box-agent cursor-pointer" onclick="AgentInfo(@ViewBag.Agent.ID);" style="margin-right: 20px;">
+                                    <img src="@ViewBag.Agent.Path" class="display-box" />
+                                </div>
+                                <div class="media-body listing-media-body">
+                                    <a href="../../Home/SingleAgent/@ViewBag.Agent.ID" class="user-link">
+                                        <h5 class="mt-1 font1">
+                                            <span class="agent-title-smal d-block">
+                                                <small class="listing-media-body-small">
+                                                    @ViewBag.Agent.Position
+                                                </small>
+                                            </span>
+                                            @ViewBag.Agent.FirstName @ViewBag.Agent.LastName
+                                        </h5>
+                                    </a>
+
+                                    <a href="tel:@ViewBag.Agent.Phone"><u class="listing-media-body-text">@ViewBag.Agent.Phone</u></a><br />
+                                    <a href="mailto:@ViewBag.Agent.EmailField"><u class="listing-media-body-text">@ViewBag.Agent.EmailField</u></a>
+                                </div>
+                            </div>
+                            <a href="mailto:@ViewBag.Agent.EmailField" class="btn btn-success schedule-viewing m-t-15">
+                                Schedule a viewing
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model.Type == "Sale")
+        {
+            <div id="Exposure" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">EXPOSURE</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "Exposure" && (details.ListingType == "Sale" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="Utilities" style="display:none;">
+                <div class="row m-t-50 pt-5 mr-0 ml-0" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">UTILITIES INCLUDED</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "Utilities" && (details.ListingType == "Rent" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        <div id="OutdoorSpace" style="display:none;">
+            <div class="row m-t-50 pt-5 mr-0 ml-0" style="border-top: 1px solid #F2F2F3;">
+                <h3 class="font1 amenities_title">OUTDOOR SPACE</h3>
+            </div>
+            <div class="row m-t-5 ml-0">
+                @foreach (var details in ViewBag.Features)
+                {
+                    if (details.IconType == "OutdoorSpace" && (details.ListingType == "Rent" || details.ListingType == "Sale" || details.ListingType == "Both"))
+                    {
+                        <div class="col-md-3 col-sm-6 col-6 m-t-10" onchange="FeaturesChange('OutdoorSpace');" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                            <div class="grey-widget">
+                                <img src="@details.Icon" />
+                                <span>@details.Name</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div id="BuildingAmenities" style="display:none;">
+            <div class="row m-t-50 pt-5 mr-0 ml-0" style="border-top: 1px solid #F2F2F3;">
+                <h3 class="font1 amenities_title">BUILDING AMENITIES</h3>
+            </div>
+            <div class="row m-t-5 ml-0">
+                @foreach (var details in ViewBag.Features)
+                {
+                    if (details.IconType == "BuildingAmenities" && (details.ListingType == "Rent" || details.ListingType == "Sale" || details.ListingType == "Both"))
+                    {
+                        <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                            <div class="grey-widget">
+                                <img src="@details.Icon" />
+                                <span>@details.Name</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        @if (Model.Type == "Sale")
+        {
+            <div id="UnitFeatures" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">UNIT FEATURES</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "UnitFeatures" && (details.ListingType == "Sale" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div id="Policies" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">BUILDING POLICIES</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "Policies" && (details.ListingType == "Sale" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        @if (Model.Type == "Rent")
+        {
+            <div id="Amenities" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">UNIT AMENITIES</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "Amenities" && (details.ListingType == "Rent" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div id="Pets" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">PETS ALLOWED</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "Pets" && (details.ListingType == "Rent" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div id="Fireplace" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">FIREPLACE</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "Fireplace" && (details.ListingType == "Rent" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div id="BedroomSizes" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">BEDROOM SIZES</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "BedroomSizes" && (details.ListingType == "Rent" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div id="Parking" style="display:none;">
+                <div class="row m-t-50 mr-0 ml-0 pt-5" style="border-top: 1px solid #F2F2F3;">
+                    <h3 class="font1 amenities_title">PARKING</h3>
+                </div>
+                <div class="row m-t-5 ml-0">
+                    @foreach (var details in ViewBag.Features)
+                    {
+                        if (details.IconType == "Parking" && (details.ListingType == "Rent" || details.ListingType == "Both"))
+                        {
+                            <div class="col-md-3 col-sm-6 col-6 m-t-10" id="@details.ID" style="display:none; padding: 0 10px 0 0;">
+                                <div class="grey-widget">
+                                    <img src="@details.Icon" />
+                                    <span>@details.Name</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        <div class="row m-t-50 location_wrapper pt-5 mr-0 ml-0" style="border-top: 1px solid #F2F2F3;">
+            <div class="col-sm-7 p-0">
+                <h4 class="font1 uppeer-case">@Model.Borough</h4>
+                <p class="paragraph m-t-25">
+                    @*The Building here is very bad The Building here is very bad The Building here is very bad
+                        The Building here is very bad The Building here is very bad The Building here is very bad
+                        The Building here is very bad The Building here is very bad The Building here is very bad*@
+                </p>
+            </div>
+            <div class="col-sm-1 p-0">
+            </div>
+            <div class="col-sm-4 p-0 m-t-50">
+                <form action="#/" method="post" onsubmit="return CalculateDistance();">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="font1">DISTANCE FROM</label>
+                        <div class="input-group mb-3" id="Ditance-Search-Field">
+                            <input type="text" class="form-control col-sm-8" id="Address" required placeholder="Address">
+                            <div class="input-group-append col-sm-4 pl-2 pr-0">
+                                <button class="btn btn-outline-secondary font1" style="width:100%;" type="submit">SEARCH</button>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3" id="Ditance-Info-Field" style="display:none;">
+                            <span class="m-t-15 Distance-close" style="float:right; cursor:pointer;"><a href="#/" onclick="CalcDistance();"><i class="fa fa-times"></i></a></span>
+                            <h5 id="Distance-Info" class="font1 uppeer-case" style="font-size:16px !important; margin-top: -4px; color:#aaaaaa !important;"></h5>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="m-t-25">
+            <div class="col-sm-12" style="padding:0;">
+                <div id="map" style="height: 600px;"></div>
+            </div>
+        </div>
+        <div style="margin-top:30px; border-top: 1px solid #F2F2F3; width:100%">
+        </div>
+        <div class="row m-t-50">
+            <div class="col-sm-12">
+                <h2 class="text-uppercase font1">Similar Listings</h2>
+            </div>
+        </div>
+        <div class="row m-t-10 mr-0" style="margin-left:-10px;">
+            @foreach (var item in ViewBag.SimmilerLiting)
+            {
+                var localprice = "";
+                if (item.Price.ToString().Contains("."))
+                {
+
+                    var splitdot = item.Price.ToString().Split('.');
+                    var toIntValue = Int32.Parse(splitdot[1]);
+
+                    if (toIntValue > 0)
+                    {
+                        localprice = @String.Format("{0:C2}", Convert.ToDouble(item.Price));
+                    }
+                    else
+                    {
+                        localprice = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                    }
+
+                }
+                else
+                {
+                    localprice = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                }
+
+                var sp = item.Address.Split(',');
+                var name = sp[0];
+                var address = "";
+                if (sp[0] == item.Name)
+                {
+                    address = "";
+                }
+                else
+                {
+                    address = item.Name;
+                }
+                <div class="col-md-4 pl-2 pr-0">
+                    <div class="card" style="min-height:430px;">
+                        <div class="card-img-box" style="height:200px;">
+                            <img src="@item.Image" style="cursor:pointer; width:auto; height:100%;" onclick="gotoSingleListing(@item.ID);" class="img-responsive center" />
+                        </div>
+                        <div class="card-content">
+                            <a href="../../Home/SingleListing/@item.ID" class="user-link uppeer-case"><h1 class="font1">@name</h1></a>
+                            <span class="room-short-text font1 uppeer-case">@address</span>
+                            <div class="row m-t-15">
+                                <div class="col-md-6">
+                                    <small>Price</small><br />
+                                    <h5 class="rate font1">@localprice</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <small>Rooms</small><br />
+                                    <h5 class="rate font1">@item.Beds BEDS / @item.Baths BATHS</h5>
+                                </div>
+                                @*<div class="col-md-6">
+                                        <small>Local Transit</small><br />
+                                        <img src="~/Content/Template/assets/imgs/svg/transport.svg" style="margin-top:4px" />
+                                    </div>*@
+                                <div class="col-md-6">
+                                    <small>BOROUGH</small><br />
+                                    <h5 class="rate font1 uppeer-case ">@item.Borough</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <small>NEIGHBORHOOD</small><br />
+                                    <h5 class="rate font1 uppeer-case ">@item.Neighbourhood</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script type="text/javascript">
+        var origin = { lat: 40.6927172, lng: -73.924730299999965 };
+        var destination = { lat: 40.6927172, lng: -73.924730299999965 };
+        function initMap() {
+            // Styles a map in night mode.
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: @Model.Latitude, lng: @Model.Longitude },
+                zoom: 12,
+                mapTypeControl: false,
+                streetViewControl: false,
+                styles: [
+                    {
+                        "stylers": [
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#523735"
+                            }
+                        ]
+                    },
+                    {
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                            {
+                                "color": "#f5f1e6"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative",
+                        "stylers": [
+                            {
+                                "color": "#293847"
+                            },
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.land_parcel",
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.locality",
+                        "stylers": [
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "administrative.locality",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "landscape",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#eaeaea"
+                            },
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "color": "#c3ecb2"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#293847"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "stylers": [
+                            {
+                                "lightness": -5
+                            },
+                            {
+                                "visibility": "simplified"
+                            },
+                            {
+                                "color": "#e0e0e0"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "stylers": [
+                            {
+                                "color": "#f09b70"
+                            },
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "color": "#523735"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.local",
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit.station.airport",
+                        "stylers": [
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "stylers": [
+                            {
+                                "color": "#aab9c7"
+                            }
+                        ]
+                    }
+                ]
+            });
+            var transitLayer = new google.maps.TransitLayer();
+            transitLayer.setMap(map);
+
+            if ("@Model.Type" === "Rent") {
+                image = "../../Content/Template/assets/imgs/Icons/map-pin-mint.png";
+            }
+            else {
+                image = "../../Content/Template/assets/imgs/Icons/map-pin-coral.png";
+            }
+            var marker = new google.maps.Marker({
+                zoom: 8,
+                position: { lat: @Model.Latitude, lng: @Model.Longitude },
+                map: map,
+                title: '' + '@Model.Address',
+                icon: {
+                    url: image,
+                    scaledSize: new google.maps.Size(18, 32)
+                },
+                id: @Model.ID
+            });
+
+            marker.setMap(map);
+
+             origin = { lat: @Model.Latitude, lng: @Model.Longitude };
+            ///////////////////////////////
+            //////////////////////////////
+            ////
+            //Calculate Distance Api
+            var input = document.getElementById('Address');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+            autocomplete.setFields(
+                ['address_components', 'geometry', 'icon', 'name']);
+
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    // User entered the name of a Place that was not suggested and
+                    // pressed the Enter key, or the Place Details request failed.
+                    window.alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                        (place.address_components[0] && place.address_components[0].short_name || ''),
+                        (place.address_components[1] && place.address_components[1].short_name || ''),
+                        (place.address_components[2] && place.address_components[2].short_name || ''),
+                        (place.address_components[3] && place.address_components[3].short_name || ''),
+                        (place.address_components[4] && place.address_components[4].short_name || ''),
+                        (place.address_components[5] && place.address_components[5].short_name || ''),
+                        (place.address_components[6] && place.address_components[6].short_name || ''),
+                        (place.address_components[7] && place.address_components[7].short_name || '')
+
+                    ].join(' ');
+                }
+                destination = { lat: place.geometry.location.lat(), lng: place.geometry.location.lng() };
+            });
+        }
+        function CalculateDistance() {
+            var destinationIcon = 'https://chart.googleapis.com/chart?' +
+                'chst=d_map_pin_letter&chld=D|FF0000|000000';
+            var originIcon = 'https://chart.googleapis.com/chart?' +
+                'chst=d_map_pin_letter&chld=O|FFFF00|000000';
+            var geocoder = new google.maps.Geocoder;
+
+            var service = new google.maps.DistanceMatrixService;
+            service.getDistanceMatrix({
+                origins: [origin],
+                destinations: [destination],
+                travelMode: 'DRIVING',
+                unitSystem: google.maps.UnitSystem.IMPERIAL,
+                avoidHighways: false,
+                avoidTolls: false
+            }, function (response, status) {
+                if (status !== 'OK') {
+                    document.getElementById("").innerHTML = "We are sorry we are unable to calculate distance for you.";
+                } else {
+                    var originList = response.originAddresses;
+                    var destinationList = response.destinationAddresses;
+                    var outputDiv = document.getElementById('Distance-Info');
+                    outputDiv.innerHTML = '';
+
+                    var showGeocodedAddressOnMap = function (asDestination) {
+                        var icon = asDestination ? destinationIcon : originIcon;
+                        return function (results, status) {
+                        };
+                    };
+
+                    try {
+                        for (var i = 0; i < originList.length; i++) {
+                            var results = response.rows[i].elements;
+                            geocoder.geocode({ 'address': originList[i] },
+                                showGeocodedAddressOnMap(false));
+                            for (var j = 0; j < results.length; j++) {
+                                geocoder.geocode({ 'address': destinationList[j] },
+                                    showGeocodedAddressOnMap(true));
+                                outputDiv.innerHTML += destinationList[j] +
+                                    ': ' + results[j].distance.text + ' / ' +
+                                    results[j].duration.text + '<br>';
+                            }
+                        }
+                    } catch (error) { outputDiv.innerHTML = "We are sorry we are unable to calculate distance for you."; }
+                }
+            });
+
+            document.getElementById("Ditance-Search-Field").style.display = "none";
+            document.getElementById("Ditance-Info-Field").style.display = "initial";
+            return false;
+        }
+        function CalcDistance() {
+            document.getElementById("Address").value = "";
+            document.getElementById("Ditance-Search-Field").style.display = "flex";
+            document.getElementById("Ditance-Info-Field").style.display = "none";
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu7d0PtAJTeDEv8CgVlbE9DY8usCwgB2Q&libraries=places&callback=initMap">
+    </script>
+    </div>
+    <!--Footer-->
+    <div class="container-fluid footer" id="footer">
+        <div class="row">
+            <div class="col-sm-3">
+                <img class="img-responsive cursor-pointer" onclick="HomePage();" src="~/Content/Template/assets/imgs/logo/logo.png" width="85" />
+                <p class="m-t-45">We don't just open doors, <br /> we <b>create opportunity</b></p>
+                <img src="~/Content/Template/assets/imgs/svg/housing.svg" />
+            </div>
+            <div class="col-sm-2">
+                <h3>Explore</h3>
+                <a href="../../Home/FindListing">Find a listing</a>
+                <a href="../../Home/Apply">APPLY</a>
+                <a target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">Pay</a>
+                @{
+                    try
+                    {
+                        HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                        FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                        string cookiePath1 = ticket.CookiePath;
+                        DateTime expiration = ticket.Expiration;
+                        bool expired = ticket.Expired;
+                        bool isPersistent = ticket.IsPersistent;
+                        DateTime issueDate = ticket.IssueDate;
+                        string CookieId = ticket.Name;
+                        string userData = ticket.UserData;
+                        int version = ticket.Version;
+                        if (!expired)
+                        {
+                            <a href="../../Home/ManageListing/@CookieId">My profile</a>
+                        }
+                        else
+                        {
+                            <a onclick="$('#LoginModal').modal('show')" href="javascript:void(0)">Login</a>
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        <a onclick="$('#LoginModal').modal('show')" href="javascript:void(0)">Login</a>
+                    }
+                }
+            </div>
+            <div class="col-sm-2">
+                <h3>Company</h3>
+                <a href="../../Home/OurAgents">Our Agents</a>
+                <a href="../../Home/ContactUs">List with us</a>
+                <a href="../../Home/LearnMore">About</a>
+                <a href="../../Home/ContactUs">Careers</a>
+                <a href="../../Home/ContactUs">Contact</a>
+            </div>
+            <div class="col-sm-2">
+                <h3>Address</h3>
+                <a href="https://maps.google.com/?q=DALLIEN, East 33rd Street, New York, NY, USA" target="_blank">33 EAST 33RD STREET SUITE 901 NEW YORK, NY 10016</a>
+                <div class="row footer_social_rapper">
+                    <a class="col-sm-2" href="https://www.facebook.com/DallienRealty/" target="_blank"><i class="fab fa-facebook-square"></i></a>
+                    <a class="col-sm-2" href="https://twitter.com/Dallienrealty" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a class="col-sm-2" href="https://www.instagram.com/dallienrealty/" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <h3>Phone</h3>
+                <a href="tel:212.257.2127">212.257.2127</a>
+            </div>
+            <div class="col-sm-2">
+                <h3>Email</h3>
+                <a href="mailto:info@dallien.com">INFO@DALLIEN.COM</a>
+                <input type="text" class="copy-to-clipboard" value="https://www.dallien.com/Home/SingleListing/@Model.ID" id="CopyToClipboard" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <small>Copyright © 2019 Dallien Realty. All rights reserved</small>
+            </div>
+        </div>
+    </div>
+    <!--Footer-->
+    <!--Login Modal-->
+    <div class="modal login-modal" id="LoginModal" #LoginModal>
+        <div class="modal-dialog">
+            <div class="modal-content login_form_wrapper">
+                <div class="modal-body pt-3 text-center">
+                    <div class="mt-5">
+                        <img src="~/Content/Template/assets/imgs/logo/logo.png" width="150" alt="">
+                    </div>
+                    <form action="#/" method="post" onsubmit="return LoginForm();" class="form-horizontal" role="form">
+                        <div class="row">
+                            <div class="col-12 mt-5">
+                                <div class="form-group g-margin-auto g-max-width-300">
+                                    <input type="email" class="form-control" required id="LoginEmail" placeholder="E-mail Address">
+                                </div>
+                            </div>
+                            <div class="col-12 mt-5">
+                                <div class="form-group g-margin-auto g-max-width-300">
+                                    <input type="password" class="form-control" required id="LoginPassword" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <a href="javascript:void(0)" class="green">fogot password?</a>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" id="btnLogin" class="btn btn-bg-green pl-5 pr-5">Login</button>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <p style="color:red;" id="ErrorLogin"></p>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col white">
+                            Don't have an account?
+                            <a href="../../Home/ContactUs" class="green">
+                                Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- mobile navbar -->
+    <script>
+        $(document).ready(function (e) {
+            $('.close-mobile-navbar').on('click', function (e) {
+                $(this).closest('.top-navbar-mobile').removeClass('show-mobile-navbar');
+            });
+            $('.mobile-nav-opener').on('click', function (e) {
+                $(this).closest('.navbar').find('.top-navbar-mobile').addClass('show-mobile-navbar');
+            });
+            var FeaturesObj = @Html.Raw(Json.Encode(ViewBag.Features));
+            var counter = 0;
+            $.ajax({
+                type: "GET",
+                url: "/api/WebApis/GetBuildingFeatures?Id=" + '@ViewBag.BuildingId' + "", //URI
+                dataType: "json",
+                success: function (data) {
+                    var datavalue = data;
+                    var myJsonObject = datavalue;
+                    contentType: "application/json";
+                    $.each(myJsonObject, function (i, mobj) {
+                        try {
+                            document.getElementById(mobj.FeaturesID).style.display = "initial";
+                            for (var count = 0; count < FeaturesObj.length; count++) {
+                                if (FeaturesObj[count].ID === mobj.FeaturesID) {
+                                    if (FeaturesObj[count].IconType === "DepositType")
+                                    {
+                                        $("#Move_In_Cost").append = FeaturesObj[count].Name;
+                                    }
+                                    document.getElementById(FeaturesObj[count].IconType).style.display = "initial";
+                                    break;
+                                }
+                            }
+                        } catch (err) {
+                            for (var count1 = 0; count1 < FeaturesObj.length; count1++) {
+                                if (FeaturesObj[count1].ID === mobj.FeaturesID) {
+                                    if (FeaturesObj[count1].IconType === "DepositType") {
+                                        if (counter === 0) {
+                                            $("#Move_In_Cost").append(FeaturesObj[count1].Name);
+                                            counter++;
+                                        }
+                                        else
+                                        {
+                                            $("#Move_In_Cost").append(", " + FeaturesObj[count1].Name);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    $("#preloader").hide();
+                },
+                error: function (err, textStatus, errorThrown) {
+                }
+            });
+        });
+    </script>
+    <!-- mobile navbar -->
+</body>
+</html>
+<script>
+
+    $(document).ready(function () {
+        var counter = 1;
+            $.ajax({
+                type: "GET",
+                url: "/api/WebApis/GetGalleryImages?BuildingId=" + '@ViewBag.BuildingId' + "", //URI
+                dataType: "json",
+                success: function (data) {
+                var datavalue = data;
+                var myJsonObject = datavalue;
+                contentType: "application/json";
+                    $.each(myJsonObject.list, function (i, mobj) {
+                        if (counter === 1) {
+                            if (data.Type === "Rent" && data.No_Fee === true) {
+                                var html = '<div class="carousel-item active img-box" style="max-height:500px;; position: relative;">' +
+                                    '<img src= "' + mobj.Path + '" onclick= "gotoSingleListing(' + mobj.BuildingsID + ');" style="cursor:pointer; height:100%; width:auto;" class="d-block center" alt= "..." >' +
+                                    '<img src="../../Content/Template/assets/imgs/Icons/nofree.png" class="nofee-img" />' +
+                                    '</div>';
+                                $('#carouselExample').append(html);
+                                counter++;
+                            }
+                            else {
+                                var html1 = '<div class="carousel-item img-box active" style="max-height:500px;">' +
+                                    '<img src= "' + mobj.Path + '" onclick= "gotoSingleListing(' + mobj.BuildingsID + ');" style="cursor:pointer; height:100%; width:auto;" class="d-block center" alt= "..." >' +
+                                    '</div>';
+                                $('#carouselExample').append(html1);
+                                counter++;
+                            }
+                        }
+                        else {
+                            if (data.Type === "Rent" && data.No_Fee === true) {
+                                var html2 = '<div class="carousel-item img-box" style="max-height:500px;; position: relative;">' +
+                                    '<img src= "' + mobj.Path + '" onclick= "gotoSingleListing(' + mobj.BuildingsID + ');" style="cursor:pointer; height:100%; width:auto;" class="d-block center" alt= "..." >' +
+                                    '<img src="../../Content/Template/assets/imgs/Icons/nofree.png" class="nofee-img" />' +
+                                    '</div>';
+                                $('#carouselExample').append(html2);
+                                counter++;
+                            }
+                            else {
+                                var html3 = '<div class="carousel-item img-box" style="max-height:500px;">' +
+                                    '<img src= "' + mobj.Path + '" onclick= "gotoSingleListing(' + mobj.BuildingsID + ');" style="cursor:pointer; height:100%; width:auto;" class="d-block center" alt= "..." >' +
+                                    '</div>';
+                                $('#carouselExample').append(html3);
+                            }
+                        }
+                    });
+                        $("#preloader").hide();
+                },
+                error: function (err, textStatus, errorThrown) {
+                    $("#preloader").hide();
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">There was an error retrieving your requested result. Please try again.</p>',
+                    closeButton: false
+                });
+                     setTimeout(function () { }, 2000);
+                }
+            });
+    });
+    function gotoSingleListing(Id)
+    {
+        location.href = "../../Home/SingleListing/" + Id;
+    }
+    function AgentInfo(id) {
+        location.href = '../../Home/SingleAgent/' + id;
+    }
+</script>

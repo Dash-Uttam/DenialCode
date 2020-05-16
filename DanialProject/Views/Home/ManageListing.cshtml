@@ -1,0 +1,564 @@
+
+@{
+    
+    ViewBag.Title = "Dallien Realty";
+    Layout = "~/Views/Shared/_CompleteLayout.cshtml";
+}
+
+@model IEnumerable<DanialProject.Models.Database.Buildings>
+<div class="container">
+    <div class="user-img manage-page manage-page-agents">
+        <div class="m-r-10 polygon polygon-wrap img-box-agent">
+            <img src="@ViewBag.Agent.Path" class="display-box-all" />
+        </div>
+        <span class="user-name">@ViewBag.Agent.FirstName <span class="user-last-name">@ViewBag.Agent.LastName </span> </span>
+        <span class="links">
+            <a href="../../Home/SingleAgent/@ViewBag.Agent.ID">MY INFO</a>
+            <a href="../../Home/ManageListing/@ViewBag.Agent.ID" style="margin-left:15px; color:#3A6F77 !important;">MANAGE LISTINGS</a>
+            @if (ViewBag.Agent.Category == "Team")
+            {
+                <a href="../../Home/ManageListingAdmin/@ViewBag.Agent.ID" style="margin-left:15px;">AGENT LISTINGS</a>
+                <a href="../../Agents/Index" style="margin-left:15px;">AGENT PROFILES</a>
+            }
+        </span>
+    </div>
+</div>
+<div class="container content-single-agent">
+    <div class="row">
+        <div class="col">
+            <h1 class="heading font1 float-left">Manage Listings</h1>
+            <div class="float-right add-buttons">
+                <a href="../../Home/SalesListing" class="btn btn-lg btn-outline-secondary font1" style="background-color:#F09B70 !important; border-color:#F09B70;">+ ADD SALES LISTING</a>
+                <a href="../../Home/UnitListing" class="btn btn-lg btn-success" style="width:auto;margin-top:0">+ ADD RENTAL LISTING</a>
+            </div>
+        </div>
+    </div>
+    @{
+        try
+        {
+            foreach (var item in ViewBag.Name)
+            {
+                if (item == null)
+                {
+                    continue;
+                }
+                var data = Model.Where(x => x.Address != null && x.Address.Equals(item)).ToList();
+                <div class="row m-t-50">
+                    <div class="col">
+                        <div class="table-card table-responsive">
+                            <h3 class="font1">@item</h3>
+                            <small class="">@data.Count() UNITS LISTED</small>
+                            <div class="manage_lisitings_action_btns">
+                                <button class="btn btn-xs btn-outline-secondary font1 mr-3 copy-selected-button selection-buttons hidden">
+                                    <i class="fas fa-clone" style="color: #838d96;"></i>
+                                    COPY SELECTED
+                                </button>
+                                <button class="btn btn-xs btn-outline-secondary font1 delete-selected-button selection-buttons hidden">
+                                    <i class="fas fa-times" style="color: #d54d4d; font-size: 14px;"></i>
+                                    DELETE SELECTED
+                                </button>
+                            </div>
+                            <table class="table table-dallien table-responsive-sm table-responsive-md">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 35px; padding:0.75rem 0.75rem 0.35rem 0.35rem !important;">
+                                            <div class="form-check list-checkbox list-checkbox-double">
+                                                <input class="form-check-input check-all-items" type="checkbox" value="" id="">
+                                            </div>
+                                        </th>
+                                        <th>UNITS</th>
+                                        <th class="manage-listing-hide" style="width:230px;">STATUS</th>
+                                        <th class="manage-listing-hide">WEEKS FREE</th>
+                                        <th class="manage-listing-hide">PHOTOS</th>
+                                        <th class="text-center manage-listing-hide">PRICE</th>
+                                        <th class="text-center manage-listing-hide">BEDS</th>
+                                        <th class="text-center manage-listing-hide">BATHS</th>
+                                        <th class="text-center manage-listing-hide">BLD. ACCS</th>
+                                        <th class="text-center manage-listing-hide">UNIT ACCS.</th>
+                                        <th class="text-center">COPY</th>
+                                        <th class="text-center">DELETE</th>
+                                        <th class="text-center">EDIT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var details in data)
+                                    {
+                                        try
+                                        {
+                                            var price = "";
+                                            if (details.Price.ToString().Contains("."))
+                                            {
+                                                var splitdot = details.Price.ToString().Split('.');
+                                                var toIntValue = Int32.Parse(splitdot[1]);
+
+                                                if (toIntValue > 0)
+                                                {
+                                                    price = @String.Format("{0:C2}", Convert.ToDouble(details.Price));
+                                                }
+                                                else
+                                                {
+                                                    price = @String.Format("{0:C0}", Convert.ToDouble(details.Price));
+                                                }
+                                            }
+                                            else
+                                            {
+                                                price = @String.Format("{0:C0}", Convert.ToDouble(details.Price));
+                                            }
+
+                                            var color = "red";
+                                            if (details.DraftOrSave == "Draft")
+                                            {
+                                                color = "#838D96";
+                                            }
+                                            else if (details.Status == "Approved" && details.Type == "Rent")
+                                            {
+                                                color = "#A9D9C2";
+                                            }
+                                            else if (details.Status == "Approved" && details.Type == "Sale")
+                                            {
+                                                color = "#F09B70";
+                                            }
+                                            else if (details.Status == "Pending")
+                                            {
+                                                color = "#C8C8C8";
+                                            }
+                                            else
+                                            {
+                                                color = "red";
+                                            }
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check list-checkbox">
+                                                        <input class="form-check-input mrg-unitbox" style="margin-top:0.5rem !important" type="checkbox" data-unitid="@details.ID">
+                                                    </div>
+                                                </td>
+                                                @if (details.Type.Equals("Sale"))
+                                                {
+
+                                                    <td class="text-center"><a href="../../Home/EditSalesListing/?id=@details.ID&type=ManageListing" style="color:#F09B70 !important;">@details.Unit</a></td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center"><a href="../../Home/EditUnitListing/?id=@details.ID&type=ManageListing" style="color:#A9D9C2 !important;">@details.Unit</a></td>
+                                                }
+                                                <td class="manage-listing-hide">
+
+                                                    <select class="dallien-select dallien-select-s" id="BuildingSelect" onchange="ChangeStatus(@details.ID);" style="color:@color !important;">
+                                                        @if (details.BuildingStatus == "Available")
+                                                        {
+                                                            <option selected>Available</option>
+                                                            <option>Approved Awaiting Lease Signing</option>
+                                                            <option>Contact Agent</option>
+                                                            <option>Deposit Received</option>
+                                                            <option>Leases Signed</option>
+                                                            <option>Take Backups</option>
+                                                            <option>Temporarily Off Market</option>
+                                                        }
+                                                        else if (details.BuildingStatus == "Deposit Received")
+                                                        {
+                                                            <option selected>Deposit Received</option>
+                                                            <option>Approved Awaiting Lease Signing</option>
+                                                            <option>Available</option>
+                                                            <option>Contact Agent</option>
+                                                            <option>Leases Signed</option>
+                                                            <option>Take Backups</option>
+                                                            <option>Temporarily Off Market</option>
+                                                        }
+                                                        else if (details.BuildingStatus == "Take Backups")
+                                                        {
+                                                            <option selected>Take Backups</option>
+                                                            <option>Approved Awaiting Lease Signing</option>
+                                                            <option>Available</option>
+                                                            <option>Contact Agent</option>
+                                                            <option>Deposit Received</option>
+                                                            <option>Leases Signed</option>
+                                                            <option>Temporarily Off Market</option>
+                                                        }
+                                                        else if (details.BuildingStatus == "Approved Awaiting Lease Signing")
+                                                        {
+                                                            <option selected>Approved Awaiting Lease Signing</option>
+                                                            <option>Available</option>
+                                                            <option>Contact Agent</option>
+                                                            <option>Deposit Received</option>
+                                                            <option>Leases Signed</option>
+                                                            <option>Take Backups</option>
+                                                            <option>Temporarily Off Market</option>
+                                                        }
+                                                        else if (details.BuildingStatus == "Leases Signed")
+                                                        {
+                                                            <option selected>Leases Signed</option>
+                                                            <option>Approved Awaiting Lease Signing</option>
+                                                            <option>Available</option>
+                                                            <option>Contact Agent</option>
+                                                            <option>Deposit Received</option>
+                                                            <option>Take Backups</option>
+                                                            <option>Temporarily Off Market</option>
+                                                        }
+                                                        else if (details.BuildingStatus == "Contact Agent")
+                                                        {
+                                                            <option selected>Contact Agent</option>
+                                                            <option>Approved Awaiting Lease Signing</option>
+                                                            <option>Available</option>
+                                                            <option>Deposit Received</option>
+                                                            <option>Leases Signed</option>
+                                                            <option>Take Backups</option>
+                                                            <option>Temporarily Off Market</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option selected>Temporarily Off Market</option>
+                                                            <option>Approved Awaiting Lease Signing</option>
+                                                            <option>Available</option>
+                                                            <option>Contact Agent</option>
+                                                            <option>Deposit Received</option>
+                                                            <option>Leases Signed</option>
+                                                            <option>Take Backups</option>
+                                                        }
+                                                    </select><img src="~/Content/Template/assets/imgs/svg/path.svg" />
+                                                </td>
+                                                @if (details.Type.Equals("Sale"))
+                                                {
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">NA</td>
+                                                }
+                                                else
+                                                {
+                                                    try
+                                                    {
+                                                        <td class="text-center manage-listing-hide" style="color:@color !important;">@details.OtherDetails.Incentives</td>
+
+                                                    }
+                                                    catch (Exception) { }
+                                                }
+                                                <td class="manage-listing-hide"><a href="#/" onclick="RequestPhotos(@details.ID);" style="color:@color !important;">Request</a></td>
+                                                <td class="text-center manage-listing-hide" style="color:@color !important;">@price</td>
+                                                @if (details.Type.Equals("Sale"))
+                                                {
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.Beds</td>
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.Baths</td>
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.SaleBuilding.Building_Access</td>
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.SaleBuilding.Unit_Access</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.Beds</td>
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.Baths</td>
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.OtherDetails.Building_Access</td>
+                                                    <td class="text-center manage-listing-hide" style="color:@color !important;">@details.OtherDetails.Unit_Access </td>
+                                                }
+                                                <td class="text-center"><a href="#/" onclick="Duplicate(@details.ID);"><i class="fas fa-clone" style="color: #838d96;"></i></a></td>
+                                                <td class="text-center"><a href="#/" onclick="deleteRow(@details.ID);"><i class="fas fa-times" style="color: #d54d4d;"></i></a></td>
+                                                @if (details.Type.Equals("Sale"))
+                                                {
+                                                    <td class="text-center"><a href="../../Home/EditSalesListing/?id=@details.ID&type=ManageListing"><i class="far fa-edit" style="color: #293847;"></i></a></td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center"><a href="../../Home/EditUnitListing/?id=@details.ID&type=ManageListing"><i class="far fa-edit" style="color: #293847;"></i></a></td>
+                                                }
+                                            </tr>
+                                        }
+                                        catch (Exception) { }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        catch (Exception) { }
+    }
+    <div class="row">
+        <div class="col mobile-btn pt-4">
+            <a href="../../Home/UnitListing" class="btn btn-lg btn-success btn-block" style="width:auto;margin-top:0">ADD RENTAL LISTING</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function deleteRow(id) {
+        bootbox.confirm({
+            title: "Remove entry?",
+            message: "There might be some related record to this entry, If you delete you will lose some data. Are you sure you want to delete? This cannot be undone.",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Confirm'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $("#preloader").show();
+                    $.ajax({
+                        type: 'DELETE',
+                        url: "/api/WebApis/DeleteListing?Id=" + id + "", //URI
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data, textStatus, xhr) {
+                            if (data == 0) {
+                                $("#preloader").hide();
+                                bootbox.alert('There was an error deleting your requested result. Please try again.');
+                            }
+                            else {
+                                $("#preloader").hide();
+                                var dialog = bootbox.dialog({
+                                    message: '<p class="text-center">Record Successfully Deleted.</p>',
+                                    closeButton: false
+                                });
+                                setTimeout(function () { location.reload(); }, 2000);
+                            }
+                        },
+                        error: function (err, textStatus, errorThrown) {
+                            $("#preloader").hide();
+                            var dialog = bootbox.dialog({
+                                message: '<p class="text-center">There was an error retrieving your requested result. Please try again.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function () { location.reload(); }, 2000);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function deleteWitoutConfiramtion(id) {
+        $("#preloader").show();
+        $.ajax({
+            type: 'DELETE',
+            url: "/api/WebApis/DeleteListing?Id=" + id + "", //URI
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data, textStatus, xhr) {
+                if (data == 0) {
+                    $("#preloader").hide();
+                    bootbox.alert('There was an error deleting your requested result. Please try again.');
+                }
+                else {
+                    $("#preloader").hide();
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Record Successfully Deleted.</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function () { location.reload(); }, 2000);
+                }
+            },
+            error: function (err, textStatus, errorThrown) {
+                $("#preloader").hide();
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center">There was an error retrieving your requested result. Please try again.</p>',
+                    closeButton: false
+                });
+                setTimeout(function () { location.reload(); }, 2000);
+            }
+        });
+    }
+
+    function Duplicate(id) {
+        $("#preloader").show();
+        $.ajax({
+            type: "GET",
+            url: "/api/WebApis/GetDuplicateListing?Id=" + id + "", //URI
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                var datavalue = data;
+                var myJsonObject = datavalue;
+                contentType: "application/json";
+                if (data == 0) {
+                    $("#preloader").hide();
+                    bootbox.alert('There was an error duplicationg your requested listing. Please try again.');
+                }
+                else {
+                    $("#preloader").hide();
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Listing Successfully Duplicated.</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function () { location.reload(); }, 2000);
+                }
+            },
+            error: function (err, textStatus, errorThrown) {
+                $("#preloader").hide();
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center">There was an error retrieving your requested result. Please try again.</p>',
+                    closeButton: false
+                });
+                setTimeout(function () { location.reload(); }, 2000);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#home-bg').addClass('bg-manage-listing');
+        $('.page-profile').addClass('active');
+
+
+        $('.check-all-items').on('click', function (e) {
+            var table = $(this).closest('table');
+            var unitsCheckBoxes = table.find('tbody').find('.form-check-input');
+            if ($(this).is(':checked')) {
+                unitsCheckBoxes.prop('checked', true);
+            } else {
+                unitsCheckBoxes.prop('checked', false);
+            }
+            toggleButtons(unitsCheckBoxes);
+        });
+
+        $('tbody .form-check-input').on('click', function (e) {
+            var unitsCheckBoxes = $(this).closest('tbody').find('.form-check-input');
+            toggleButtons(unitsCheckBoxes);
+        });
+
+        $('.copy-selected-button').on('click', function (e) {
+            var selectedUnits = $(this).closest('.table-card').find('tbody').find('.form-check-input:checked');
+            var selectedUnitsIds = "";
+            selectedUnits.each(function (i, element) {
+                selectedUnitsIds = selectedUnitsIds + $(element).data('unitid') + ",";
+            });
+            $.ajax({
+                type: "GET",
+                url: "/api/WebApis/GetMultipleDuplicate?arr=" + selectedUnitsIds + "", //URI
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    var datavalue = data;
+                    var myJsonObject = datavalue;
+                    contentType: "application/json";
+                    if (data == 0) {
+                        $("#preloader").hide();
+                        bootbox.alert('There was an error duplicationg your requested listing. Please try again.');
+                    }
+                    else {
+                        $("#preloader").hide();
+                        var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Listing Successfully Duplicated.</p>',
+                            closeButton: false
+                        });
+                        setTimeout(function () { location.reload(); }, 2000);
+                    }
+                },
+                error: function (err, textStatus, errorThrown) {
+                    $("#preloader").hide();
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">There was an error retrieving your requested result. Please try again.</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function () { location.reload(); }, 2000);
+                }
+            });
+        });
+
+        $('.delete-selected-button').on('click', function (e) {
+            var selectedUnits = $(this).closest('.table-card').find('tbody').find('.form-check-input:checked');
+            var selectedUnitsIds = "";
+            selectedUnits.each(function (i, element) {
+                selectedUnitsIds = selectedUnitsIds + $(element).data('unitid') + ",";
+            });
+            $("#preloader").show();
+            $.ajax({
+                type: 'DELETE',
+                url: "/api/WebApis/DeleteMultipleListing?arr=" + selectedUnitsIds + "", //URI
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data, textStatus, xhr) {
+                    if (data == 0) {
+                        $("#preloader").hide();
+                        bootbox.alert('There was an error deleting your requested results. Please try again.');
+                    }
+                    else {
+                        $("#preloader").hide();
+                        var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Records Successfully Deleted.</p>',
+                            closeButton: false
+                        });
+                        setTimeout(function () { location.reload(); }, 2000);
+                    }
+                },
+                error: function (err, textStatus, errorThrown) {
+                    $("#preloader").hide();
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">There was an error retrieving your requested result. Please try again.</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function () { location.reload(); }, 2000);
+                }
+            });
+        });
+    });
+
+    function toggleButtons(unitsCheckBoxes) {
+        if (unitsCheckBoxes.is(':checked')) {
+            unitsCheckBoxes.closest('.table-card').find('.selection-buttons').removeClass('hidden');
+        } else {
+            unitsCheckBoxes.closest('.table-card').find('.selection-buttons').addClass('hidden');
+        }
+    }
+    function ChangeStatus(Id) {
+        var a = document.getElementById("BuildingSelect").selectedIndex;
+        var b = document.getElementById("BuildingSelect").options;
+        var Imageform = new FormData();
+        Imageform.append("Id", Id);
+        Imageform.append("Status", b[a].value);
+        var ajaxRequest = $.ajax({
+            type: "POST",
+            url: "/api/WebApis/ChnageStatus",
+            contentType: false,
+            processData: false,
+            data: Imageform,
+            success: function (data, textStatus, xhr) {
+            },
+            error: function (err, textStatus, errorThrown) {
+            }
+        });
+    }
+    function RequestPhotos(id) {
+        $("#preloader").show();
+        // Make Ajax request with the contentType = false, and procesDate = false
+        var ajaxRequest = $.ajax({
+            type: "POST",
+            url: "/api/WebApis/RequestPhotosEmail?Id=" + id + "",
+            contentType: 'application/json; charset=utf-8',
+            processData: false,
+            dataType: "json",
+            success: function (data, textStatus, xhr) {
+                if (data === 0) {
+                    $("#preloader").hide();
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">There was some error sending your emil. Try again later.</p>',
+                        closeButton: false
+                    });
+
+                    setTimeout(function () {
+                        dialog.modal('hide');
+                    }, 1000);
+                }
+                else {
+                    $("#preloader").hide();
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Your request for photos has been forwarded to admin.</p>',
+                        closeButton: false
+                    });
+
+                    setTimeout(function () {
+                        dialog.modal('hide');
+                    }, 1000);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#preloader").hide();
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center">There was some error sending your emil. Try again later.</p>',
+                    closeButton: false
+                });
+
+                setTimeout(function () {
+                    dialog.modal('hide');
+                }, 1000);
+            }
+        });
+        return false;
+    }
+</script>
+

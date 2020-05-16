@@ -1,0 +1,154 @@
+@model IEnumerable<DanialProject.Models.Database.Agents>
+@{
+    ViewBag.Title = "Dallien Realty";
+    Layout = "~/Views/Shared/_CompleteLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $('#home-bg').addClass('bg-agents');
+    });
+    function relocate(reload) {
+        location.href = reload;
+    }
+    function relocateTeam(reload) {
+        location.href = reload;
+    }
+</script>
+<div class="container">
+    <h1 class="d-none d-sm-block" letter-spacing:2px;">MEET OUR AGENTS</h1>
+    <h2 class="d-block d-sm-none" style="margin-top: 200px !important;">MEET OUR AGENTS</h2>
+</div>
+<div class="container content">
+    @*<p class="paragraph col-lg-8">
+            We <i class="fas fa-heart" style="color:#f09b70;"></i> NY.
+            Give us a call today, we can’t wait to meet!
+        </p>*@
+    <div class="row m-t-50">
+        <div class="col-sm-12">
+            <h1 class="heading font1 hr-gray-Index">AGENTS</h1>
+        </div>
+    </div>
+    <div class="row m-t-25">
+        <div class="col">
+            <ul class="nav nav-pills simple-pills font1 m-t-10" role="tablist">
+                <li role="presentation"><a href="#home" class="active" aria-controls="home" role="tab" data-toggle="tab">All</a></li>
+                <li role="presentation"><a href="#profile" class="ml-4" aria-controls="profile" role="tab" data-toggle="tab">Agents</a></li>
+                <li role="presentation"><a href="#messages" class="ml-4" aria-controls="messages" role="tab" data-toggle="tab">Teams</a></li>
+                <li role="presentation"><a href="#settings" class="ml-4" aria-controls="settings" role="tab" data-toggle="tab">Management</a></li>
+            </ul>
+            <div class="tab-content m-t-15">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="row">
+                        @{
+                            try
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <div class="col-lg-3 col-md-4 col-6 m-t-25 our-agents-card">
+                                        <div class="card" style="height:495px;">
+                                            <div class="agent-card-img img-box-agent">
+                                                <img src="@item.Path" onclick="relocate('../../Home/SingleAgent/@item.ID');" class="display-box cursor-pointer" />
+                                            </div>
+                                            <div class="card-content">
+                                                <a href="../../Home/SingleAgent/@item.ID" class="user-link"><h2 class="font1 agent-hover">@item.FirstName @item.LastName</h2></a>
+                                                <span class="short-text font1 uppeer-case">@item.Position</span>
+                                                <hr />
+                                                <p class="m-t-15">
+                                                    <img src="~/Content/Template/assets/imgs/svg/phone.svg" /> &nbsp;<a href="tel:@item.Phone"><u>@item.Phone</u></a><br />
+                                                    <img src="~/Content/Template/assets/imgs/svg/email.svg" /> &nbsp;<a href="mailto:@item.EmailField"><u>@item.EmailField</u></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            catch (Exception) { }
+                        }
+                        <div class="col-lg-3 col-md-4 col-6 m-t-25">
+                            <div class="card" style="height:495px;">
+                                <img src="~/Content/Images/Agents/HudsonTeam.jpg" onclick="relocate('../../Home/Team#the-hudson-team')" class="img-responsive cursor-pointer" />
+                                <div class="card-content">
+                                    <a href="../../Home/Team#the-hudson-team" class="user-link"><h2 class="font1 agent-hover">THE HUDSON TEAM</h2></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="  ">
+                    <div class="row">
+                        @{
+                            //var agentsList = (Model as System.Collections.Generic.IEnumerable<dynamic>)
+                                                          //.Select(a => a.Category != "Team");
+                            try
+                            {
+                            
+                                foreach (var item in Model.Where(x => x.Category != "Team"))
+                                {
+
+                                    <div class="col-lg-3 col-md-4 col-6 m-t-25 our-agents-card">
+                                        <div class="card" style="height:495px;">
+                                            <div class="agent-card-img img-box-agent">
+                                                <img src="@item.Path" onclick="relocate('../../Home/SingleAgent/@item.ID');" class="cursor-pointer display-box" />
+                                            </div>
+                                            <div class="card-content">
+                                                <a href="../../Home/SingleAgent/@item.ID" class="user-link"><h2 class="font1 agent-hover">@item.FirstName @item.LastName</h2></a>
+                                                <span class="short-text font1 uppeer-case">@item.Position</span>
+                                                <hr />
+                                                <p class="m-t-15">
+                                                    <img src="~/Content/Template/assets/imgs/svg/phone.svg" /> &nbsp;<a href="tel:@item.Phone"><u>@item.Phone</u></a><br />
+                                                    <img src="~/Content/Template/assets/imgs/svg/email.svg" /> &nbsp;<a href="mailto:@item.EmailField"><u>@item.EmailField</u></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            catch (Exception) { }
+                        }
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="messages">
+                    <div class="col-lg-3 col-md-4 col-6 m-t-25">
+                        <div class="card">
+                            <img src="~/Content/Images/Agents/HudsonTeam.jpg" onclick="relocate('../../Home/Team#the-hudson-team');" class="img-responsive cursor-pointer" />
+                            <div class="card-content">
+                                <a href="../../Home/Team#the-hudson-team" class="user-link"><h2 class="font1 agent-hover">THE HUDSON TEAM</h2></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="settings">
+                    <div class="row">
+                        @{
+                            try
+                            {
+                                foreach (var item in Model.Where(x => x.Category.Equals("Team")))
+                                {
+                                    <div class="col-lg-3 col-md-4 col-6 m-t-25 our-agents-card">
+                                        <div class="card" style="height:495px;">
+                                            <div class="agent-card-img img-box-agent">
+                                                <img src="@item.Path" onclick="relocate('../../Home/SingleAgent/@item.ID');" class="cursor-pointer display-box" />
+                                            </div>
+                                            <div class="card-content">
+                                                <a href="../../Home/SingleAgent/@item.ID" class="user-link"><h2 class="font1 agent-hover">@item.FirstName @item.LastName</h2></a>
+                                                <span class="short-text font1 uppeer-case">@item.Position</span>
+                                                <hr />
+                                                <p class="m-t-15">
+                                                    <img src="~/Content/Template/assets/imgs/svg/phone.svg" /> &nbsp;<a href="tel:@item.Phone"><u>@item.Phone</u></a><br />
+                                                    <img src="~/Content/Template/assets/imgs/svg/email.svg" /> &nbsp;<a href="mailto:@item.EmailField"><u>@item.EmailField</u></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            catch (Exception) { }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

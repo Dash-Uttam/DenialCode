@@ -1,0 +1,210 @@
+@model IEnumerable<DanialProject.Models.Database.Buildings>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="~/Content/AdminPage/plugins/iCheck/all.css">
+<!-- iCheck 1.0.1 -->
+<script src="~/Content/AdminPage/plugins/iCheck/icheck.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+        $("#preloader").hide();
+        $('#example').DataTable();
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box scriptbox-default">
+                <div class="box-header">
+                    <div>
+                        <h1 class="box-title col-md-3" style="font-weight:bold; font-size:24px; padding-bottom:5px;">On Approval</h1>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <div class="container" style="overflow-x:auto; width:100% !important;">
+                                    <table id="example" class="table table-striped table-hover table-bordered dataTable no-footer" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <label>
+                                                        <input type="checkbox" class="flat-red">
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    Units
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th>
+                                                    Building Name
+                                                </th>
+                                                <th>
+                                                    Agent
+                                                </th>
+                                                <th>
+                                                    Incentive
+                                                </th>
+                                                <th>
+                                                    Access
+                                                </th>
+                                                <th>
+                                                    View
+                                                </th>
+                                                <th>
+                                                    Approve
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                try
+                                                {
+                                                    foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <label>
+                                                                    <input type="checkbox" class="flat-red">
+                                                                </label>
+                                                            </td>
+                                                            <td>@item.Unit</td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <select name="ListingType" class="form-control" style="width:100%;">
+                                                                        <option value="Rent">Available</option>
+                                                                        <option value="Sale">Remove</option>
+                                                                        <option value="Both">Other</option>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>@item.Name</td>
+                                                            <td>Agents Name</td>
+                                                            <td>6 weeks free or 100% OP</td>
+                                                            <td>Grj master</td>
+                                                            <td><i class="fa fa-list"></i></td>
+                                                            <td align="center"><i class="fa fa-remove" style="color:red;"></i> &nbsp; &nbsp; &nbsp; <i class="fa fa-check" style="color:aqua"></i></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                catch (Exception) { }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>
+                                                    <label>
+                                                        <input type="checkbox" class="flat-red">
+                                                    </label>
+                                                </th>
+                                                <th>
+                                                    Units
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th>
+                                                    Building Name
+                                                </th>
+                                                <th>
+                                                    Agent
+                                                </th>
+                                                <th>
+                                                    Incentive
+                                                </th>
+                                                <th>
+                                                    Access
+                                                </th>
+                                                <th>
+                                                    View
+                                                </th>
+                                                <th>
+                                                    Approve
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Datemask dd/mm/yyyy
+        $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+        //Datemask2 mm/dd/yyyy
+        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+        //Money Euro
+        $('[data-mask]').inputmask()
+
+        //Date range picker
+        $('#reservation').daterangepicker()
+        //Date range picker with time picker
+        $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+        //Date range as a button
+        $('#daterange-btn').daterangepicker(
+            {
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment()
+            },
+            function (start, end) {
+                $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+            }
+        )
+
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        })
+
+        //iCheck for checkbox and radio inputs
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        })
+        //Red color scheme for iCheck
+        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+            checkboxClass: 'icheckbox_minimal-red',
+            radioClass: 'iradio_minimal-red'
+        })
+        //Flat red color scheme for iCheck
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        })
+
+        //Colorpicker
+        $('.my-colorpicker1').colorpicker()
+        //color picker with addon
+        $('.my-colorpicker2').colorpicker()
+
+        //Timepicker
+        $('.timepicker').timepicker({
+            showInputs: false
+        })
+    })
+</script>

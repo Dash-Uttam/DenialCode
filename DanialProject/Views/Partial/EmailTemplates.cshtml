@@ -1,0 +1,90 @@
+﻿<script>
+    function SendEmailAppointment(email) { 
+        $("#EmailSendingModal").modal(); 
+        document.getElementById("EmailTo").value = email; 
+    }
+</script>
+<div class="modal" id="EmailSendingModal" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:95% !important;">
+        <div class="modal-content" style="border-radius: 5px !important;">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                        <div class="box box-warning">
+                            <div class="box-header with-border">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h1 class="box-title col-md-3" style="font-weight:bold; font-size:24px; padding-bottom:5px;">Mailbox</h1>
+                            </div>
+                            <script type="text/javascript" src="../../Content/ProjectFiles/Admin/emails.js"></script>
+                            <script>
+                                $(function () {
+                                    $("#compose-textarea").wysihtml5();
+                                });
+                            </script>
+                            <link rel="stylesheet" href="../../Content/AdminPage/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+                            <div>
+                                <section class="content">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <a href="#" onclick="ComposeEmail();" class="btn btn-primary btn-block margin-bottom"><i class="fa fa-envelope"></i> Compose</a>
+                                            <div class="box box-solid">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">Email Templates</h3>
+                                                </div>
+                                                <div class="box-body no-padding">
+                                                    <ul class="nav nav-pills nav-stacked" id="list2"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="box box-primary">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">Compose & Send</h3>
+                                                </div>
+                                                <div class="box-body" id="EmailBody">
+                                                    <form id="EmailForm" action="#/" onsubmit="return SendEmail();">
+                                                        <div class="form-group" hidden>
+                                                            <input class="form-control" hidden id="TemplateId" value="0" type="text">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input class="form-control" id="TemplateName" maxlength="50" type="text" placeholder="Template Name:for name Only min 5 characters">
+                                                            <p class="pull-right" style="color:red;">max of 50 characters allowed</p>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input class="form-control" id="EmailTo" required maxlength="50" type="email" placeholder="To: for sending only">
+                                                            <p class="pull-right" style="color:red;">Email required max of 50 characters allowed</p>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input class="form-control" id="Subject" minlength="5" maxlength="50" required placeholder="Subject: min 5 characters">
+                                                            <p class="pull-right" style="color:red;">min of 5 and max of 50 characters allowed</p>
+                                                        </div>
+                                                        <div class="form-group" style="margin-top:30px;">
+                                                            <textarea id="compose-textarea" required placeholder="min 10 characters" minlength="10" maxlength="1000" class="form-control" style="height: 300px"></textarea>
+                                                            <p class="pull-right" style="color:red;">min of 10 and max of 50 characters allowed</p>
+                                                        </div>
+                                                        <div class="box-footer" style="margin-top:30px;">
+                                                            <div class="pull-right">
+                                                                <button type="button" id="TemplateButton" onclick="SaveEmail();" class="btn btn-default"><i class="fa fa-check"></i> Save as Template</button>
+                                                                <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <script src="../../Content/AdminPage/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

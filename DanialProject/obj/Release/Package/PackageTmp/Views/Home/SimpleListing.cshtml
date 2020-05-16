@@ -1,0 +1,661 @@
+
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>DALLIEN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/Template/assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="@DanialProject.Models.FingerPoint.Tag("/Content/Template/styles.css")">
+    <script type="text/javascript" src="~/Content/Template/assets/jquery/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/bootstrap/js/bootstrap.js"></script>
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Content/Template/style.js")"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/jquery/jquery.priceformat.js"></script>
+    <!-- mobile navbar -->
+    <style>
+
+        .mobile-nav-header {
+            margin-bottom: 30px;
+        }
+
+        .top-navbar-mobile {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(41, 56, 71, 1);
+            position: fixed;
+            z-index: 999;
+            overflow-x: hidden;
+            left: 100%;
+            top: 0;
+            right: 0;
+            -webkit-transition: all 500ms ease;
+            -moz-transition: all 500ms ease;
+            -ms-transition: all 500ms ease;
+            -o-transition: all 500ms ease;
+            transition: all 500ms ease;
+        }
+
+            .top-navbar-mobile .mobile-logo-div {
+                padding: 15px;
+            }
+
+            .top-navbar-mobile .mobile-navbar-close {
+                font-size: 20px;
+                color: white;
+                padding: 15px;
+            }
+
+                .top-navbar-mobile .mobile-navbar-close i {
+                    cursor: pointer;
+                }
+
+            .top-navbar-mobile ul.mobile-top-navs {
+                text-align: right;
+                padding-right: 25px;
+                padding-left: 15px;
+            }
+
+                .top-navbar-mobile ul.mobile-top-navs::after {
+                    content: '';
+                    width: 20px;
+                    border-top: 1px solid white;
+                    position: absolute;
+                    right: 40px;
+                    bottom: -20px;
+                }
+
+                .top-navbar-mobile ul.mobile-top-navs .nav-item .nav-link {
+                    color: #ffffff;
+                    font-size: 25px;
+                    line-height: 1;
+                    letter-spacing: 1px;
+                    padding: 10px 0px;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+
+            .top-navbar-mobile ul.mobile-footer-links {
+                text-align: right;
+                padding-right: 25px;
+                padding-left: 15px;
+            }
+
+                .top-navbar-mobile ul.mobile-footer-links .nav-item .nav-link {
+                    color: #838D96;
+                    font-size: 17px;
+                    line-height: 1;
+                    letter-spacing: 1px;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+
+        .show-mobile-navbar {
+            left: 0;
+        }
+    </style>
+    <!-- mobile navbar -->
+</head>
+<body>
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+    <nav class="navbar navbar-expand-sm navbar-transparent inverse" style="padding-left:20px; padding-right:20px;">
+        <a class="navbar-brand" href="../../Home/Index">
+            <img alt="Brand" src="~/Content/Template/assets/imgs/logo/logo.png" width="85">
+        </a>
+        <button class="navbar-toggler ml-auto mobile-nav-opener" type="button" data-toggle="collapse">
+            <i class="fas fa-align-justify"></i>
+        </button>
+        <div class="collapse navbar-collapse top-navbar-links" id="collapsibleNavbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/FindListing" style="color:white !important;">FIND A LISTING</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/Apply">APPLY</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                </li>
+                @{
+                    try
+                    {
+                        HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                        FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                        string cookiePath1 = ticket.CookiePath;
+                        DateTime expiration = ticket.Expiration;
+                        bool expired = ticket.Expired;
+                        bool isPersistent = ticket.IsPersistent;
+                        DateTime issueDate = ticket.IssueDate;
+                        string CookieId = ticket.Name;
+                        string userData = ticket.UserData;
+                        int version = ticket.Version;
+                        if (!expired)
+                        {
+                            <li class="nav-item">
+                                <a href="../../Home/ManageListing/@CookieId" class="nav-link">
+                                    MY PROFILE
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                   style="background-image: url(@userData)">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../Account/SignOut" class="logout nav-link">
+                                    LOGOUT &nbsp;<i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a onclick="$('#LoginModal').modal('show')" class="btn btn-login-transparent pl-4 pr-4" href="javascript:void(0)">Login</a>
+                            </li>
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        <li class="nav-item">
+                            <a onclick="$('#LoginModal').modal('show')" class="btn btn-login-transparent pl-4 pr-4" href="javascript:void(0)">Login</a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <!-- mobile navbar -->
+        <div class="container-fluid d-block d-md-none top-navbar-mobile">
+            <div class="row mobile-nav-header">
+                <div class="col-12">
+                    <div class="float-left mobile-logo-div">
+                        <img src="~/Content/Template/assets/imgs/logo/logo.png" width="70" alt="Alternate Text" />
+                    </div>
+                    <div class="mobile-navbar-close float-right">
+                        <i class="fas fa-times close-mobile-navbar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <ul class="navbar-nav mobile-top-navs">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/FindListing" style="color:white !important;">FIND A LISTING</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../Home/Apply">APPLY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                        </li>
+                        @{
+                            try
+                            {
+                                HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                                string cookiePath1 = ticket.CookiePath;
+                                DateTime expiration = ticket.Expiration;
+                                bool expired = ticket.Expired;
+                                bool isPersistent = ticket.IsPersistent;
+                                DateTime issueDate = ticket.IssueDate;
+                                string CookieId = ticket.Name;
+                                string userData = ticket.UserData;
+                                int version = ticket.Version;
+                                if (!expired)
+                                {
+                                    <li class="nav-item">
+                                        <a href="../../Home/ManageListing/@CookieId" class="nav-link">
+                                            MY PROFILE
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                           style="background-image: url(@userData)">
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../../Account/SignOut" class="logout nav-link">
+                                            LOGOUT &nbsp;<i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                    </li>
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                <li class="nav-item">
+                                    <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="col-12 mt-5">
+                    <ul class="navbar-nav mobile-footer-links">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">OUR AGENTS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">LIST WITH US</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">ABOUT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">CAREERS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">CONTACT</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- mobile navbar -->
+    </nav>
+    <div class="container-fluid footer_fix mrg-viewbox-l">
+        <div class="row m-t-50 ml-5">
+            <div id="listings_wrapper" class="col-sm-9 offset-sm-3">
+                <div class="row">
+                    <div class="col-sm-12" style="padding:0px;">
+                        <h1 class="heading font1 float-left col-sm-3" style="margin-left:-10px;">LISTINGS</h1>
+                        <div class="float-right">
+                            <a href='#/' onclick="SetSessionForFilterBox('SimpleListing');">
+                                <img src="~/Content/Template/assets/imgs/svg/Listview.svg" />
+                            </a>
+                            <a href='#/' onclick="SetSessionForFilterBox('FindListing');">
+                                <img src="~/Content/Template/assets/imgs/svg/map.svg" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-25" style="margin-left:-19px;" id="listing-id">
+                </div>
+            </div>
+        </div>
+        <a href="#/" class="filter-left-collapse">
+            <img src="~/Content/Template/assets/imgs/svg/collapse.svg" />
+        </a>
+        <a href="#/" class="filter-right-open">
+            <img src="~/Content/Template/assets/imgs/svg/search-box-expand.svg" />
+        </a>
+        <!--Filter Card-->
+        <div id="filter-card" class="filter-card">
+            <h2 class="font1">FIND A LISTING</h2>
+            <input type="text" class="hidden" name="Filter" id="Filter" value="Rent" />
+            <div class="filter-card-body">
+                <ul class="nav nav-pills simple-pills font1 justify-content-center" role="tablist">
+                    <li role="presentation"><a href="#Rent" class="rent selected-rent category-tabs">RENT</a></li>
+                    <li role="presentation"><a href="#Buy" class="buy category-tabs">BUY</a></li>
+                    <li role="presentation"><a href="#Find-a-Room" class="find-room category-tabs">FIND A ROOM</a></li>
+                </ul>
+                <div class="btn-group m-t-10 full-width" role="group" aria-label="Basic example">
+                    <button type="button" id="RESIDENTIAL" onclick="ChangeDisability('RESIDENTIAL');" class="btn btn-outline-secondary font1">RESIDENTIAL</button>
+                    <button type="button" id="COMMERCIAL" onclick="ChangeDisability('COMMERCIAL');" class="btn btn-outline-secondary font1 disablilty">COMMERCIAL</button>
+                </div>
+                <div class="filter-field m-t-15">
+                    <label class="font1 label">PRICE</label><br />
+                    <label class="field" style="position:relative;" onclick="ShowField_Price(this)"><span id="label-price">$0 - $10,000</span><img class="arrow-img" src="~/Content/Template/assets/imgs/svg/path.svg" /></label>
+                    <div class="slide m-t-5" style="display: none; border-bottom: 1px solid #ccc;">
+                        <div class="row">
+                            <div class="col-6" style="padding-right: 8px;">
+                                <div class="form-group">
+                                    <label>From</label>
+                                    <input type="text" id="from-price" class="form-control" value="$0">
+                                </div>
+                            </div>
+                            <div class="col-6" style="padding-left: 8px;">
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <input type="text" id="to-price" class="form-control" value="$10,000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-field m-t-10">
+                    <label class="font1 label">ROOMS</label><br />
+                    <label class="field" style="position:relative;" onclick="ShowField_Rooms(this)"><span id="label-room">0+ BED / .5+ BATH</span><img class="arrow-img" src="~/Content/Template/assets/imgs/svg/path.svg" /></label>
+                    <div class="slide m-t-5" style="display: none; border-bottom: 1px solid #ccc;">
+                        <div class="row">
+                            <div class="col-6" style="padding-right: 8px;">
+                                <div class="form-group">
+                                    <label>BEDS</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <i class="fas fa-minus-circle left-icon" onclick="U_Bedsdec($('#bed').val());"></i>
+                                        </div>
+                                        <input type="text" readonly class="form-control text-center no-btn" required placeholder="" id="bed" value="0+">
+                                        <div class="input-group-append">
+                                            <i class="fas fa-plus-circle right-icon" onclick="U_BedsInc($('#bed').val());"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6" style="padding-left: 8px;">
+                                <div class="form-group">
+                                    <label>BATHS</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <i class="fas fa-minus-circle left-icon" onclick="U_Bathsdec($('#bath').val());"></i>
+                                        </div>
+                                        <input type="text" readonly class="form-control text-center" placeholder="" id="bath" value=".5+">
+                                        <div class="input-group-append">
+                                            <i class="fas fa-plus-circle right-icon" onclick="U_BathsInc($('#bath').val());"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-field m-t-10">
+                    <label class="font1 label">PREFRENCES</label><br />
+                    <label class="field" style="position:relative;" onclick="$('#Filters').modal('show');">FILTERS <i class="fas fa-plus arrow-img" style="font-size: 10px; color:#293847;"></i></label>
+                </div>
+                <a href="#/" id="filter-search" onclick="SetSessionForFilterBox('RefreshPage');" class="btn btn-filter btn-selected-rent m-t-25">SEARCH</a>
+            </div>
+        </div>
+        <!--Filter Card-->
+    </div>
+    <footer class="m-t-50">
+        <div class="footer-navbar">
+            <ul class="navbar-nav col-lg-11 col-md-10 col-sm-10 col-10 pl-5">
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/OurAgents">our agents</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/ContactUs">list with us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/LearnMore">about</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/ContactUs">careers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../Home/ContactUs">contact</a>
+                </li>
+            </ul>
+            <a class="nav-link" href="#/" style="cursor:initial;">
+                <img src="~/Content/Template/assets/imgs/svg/housing.svg" />
+            </a>
+        </div>
+    </footer>
+    <!--Login_Form-->
+    @Html.Partial("~/Views/Partial/LoginForm.cshtml")
+    <!--Login_Form-->
+    <!--Filters Modal-->
+    @Html.Partial("~/Views/Partial/SearchFilterBox.cshtml")
+    <!--Filters Modal-->
+    <!-- mobile navbar -->
+    <script type="text/javascript">
+        var gValue = 1;
+        function ChangeDisability(id) {
+            if (id === "RESIDENTIAL") {
+                $('#RESIDENTIAL').removeClass('disablilty');
+                $('#COMMERCIAL').addClass('disablilty');
+            }
+            else {
+                $('#COMMERCIAL').removeClass('disablilty');
+                $('#RESIDENTIAL').addClass('disablilty');
+            }
+        }
+        function filtersCheck() {
+            if (gValue == 1) {
+                $("input[name='Amenities']").each(function () {
+                    $(this).prop('checked', true);
+                });
+                gValue = 0;
+                document.getElementById("select-all").innerHTML = "Un-Select All";
+            }
+            else {
+                $("input[name='Amenities']").each(function () {
+                    $(this).prop('checked', false);
+                });
+                gValue = 1;
+                document.getElementById("select-all").innerHTML = "Select All";
+            }
+        }
+        $(document).ready(function (e) {
+            SetFilterBox();
+            RefreshPage();
+            SetFilterFeaturesBox();
+
+            $('.close-mobile-navbar').on('click', function (e) {
+                $(this).closest('.top-navbar-mobile').removeClass('show-mobile-navbar');
+            });
+            $('.mobile-nav-opener').on('click', function (e) {
+                $(this).closest('.navbar').find('.top-navbar-mobile').addClass('show-mobile-navbar');
+            });
+
+        });
+        function Redirect(id) {
+            window.location = '../../Home/SingleListing/' + id;
+        }
+        var name = "";
+        var address = "";
+        function RefreshPage() {
+            $("#preloader").show();
+            $("#listing-id").html('');
+            $.ajax({
+                type: "GET",
+                url: "/api/WebApis/GetSimpleBuildings?filter=" + Filter + "", //URI
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    var datavalue = data;
+                    var myJsonObject = datavalue;
+                    contentType: "application/json";
+                    $.each(myJsonObject, function (i, mobj) {
+                        var sp = mobj.Address.split(",");
+                        var name = sp[0];
+                        var address = "";
+                        if (sp[0] == mobj.Name) {
+                            address = "";
+                        }
+                        else {
+                            address = mobj.Name;
+                        }
+                        var n1 = name.split(" ");
+                        var address_for_users = "";
+                        for (var y = 1; y < n1.length; y++) {
+                            address_for_users = address_for_users + n1[y] + " ";
+                        }
+
+                        if (mobj.Type === "Sale") {
+                            address_for_users = name;
+                        }
+                        var noFeeFilter;
+                        if (mobj.Type === "Rent" && mobj.No_Fee == true) {
+                            noFeeFilter = `<div class="card-img-box" style="height: 200px; position: relative; ">
+                                <img src = "${mobj.Image}" class="img-responsive center" onclick = "Redirect(${mobj.ID});" style = "cursor:pointer; width:auto; height:100%;" />
+                                <img src="../../Content/Template/assets/imgs/Icons/nofree.png" class="nofee-img" />
+                            </div>`;
+                        }
+                        else {
+                            noFeeFilter = ` <div class="card-img-box" style="height:200px;">
+                                    <img src="${mobj.Image}" class="img-responsive center" onclick="Redirect(${mobj.ID});" style="cursor:pointer; width:auto; height:100%;" />
+                                </div>`;
+
+                        }
+                        $("#listing-id").append(`<div class="col-md-4 pt-2 pl-2 pr-0">
+                                        <div class="card" style="min-height:430px; ">
+                                            ${noFeeFilter}
+                                            <div class="card-content">
+                                                <a href="../../Home/SingleListing/${mobj.ID}" class="user-link"><h1 class="font1 uppeer-case ">${address_for_users}</h1></a>
+                                                <span class="room-short-text font1 uppeer-case ">${address}</span>
+                                                <div class="row m-t-15">
+                                                    <div class="col">
+                                                        <small>Price</small><br />
+                                                        <h5 class="rate font1">${dotDivider(mobj.Price)}</h5>
+                                                    </div>
+                                                    <div class="col">
+                                                        <small>Rooms</small><br />
+                                                        <h5 class="rate font1 uppeer-case ">${mobj.Beds} BED / ${mobj.Baths} BATH</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <small>BOROUGH</small><br />
+                                                        <h5 class="rate font1 uppeer-case">${mobj.Borough}</h5>
+                                                    </div>
+                                                    <div class="col">
+                                                        <small>NEIGHBORHOOD</small><br />
+                                                        <h5 class="rate font1 uppeer-case ">${mobj.Neighbourhood}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`);
+                    });
+                    $("#preloader").hide();
+                },
+                error: function (xhr) {
+                    bootbox.alert('Internel Error...');
+                    $("#preloader").hide();
+                }
+            });
+        }
+        $('.filter-left-collapse').click(function () {
+            $('#filter-card').css({
+                left: '-700px'
+            });
+            $(this).hide();
+            setTimeout(function () {
+                $('a.filter-right-open').addClass('active');
+            }, 500);
+
+            $('#listings_wrapper').removeClass('col-sm-9');
+            $('#listings_wrapper').removeClass('offset-sm-3');
+            $('#listings_wrapper').addClass('col-sm-11');
+            $('#listings_wrapper').addClass('offset-sm-1');
+
+
+        });
+        $('.filter-right-open').click(function () {
+            $(this).removeClass('active');
+            $('#filter-card').css({
+                left: '40px'
+            });
+            setTimeout(function () {
+                $('a.filter-left-collapse').show();
+            }, 500);
+
+            $('#listings_wrapper').removeClass('col-sm-11');
+            $('#listings_wrapper').removeClass('offset-sm-1');
+            $('#listings_wrapper').addClass('col-sm-9');
+            $('#listings_wrapper').addClass('offset-sm-3');
+
+        });
+        $(function () {
+            // from-price
+            $('#from-price').priceFormat({
+                prefix: '$',
+                suffix: '',
+                centsLimit: 0
+            });
+
+            // to-price
+            $('#to-price').priceFormat({
+                prefix: '$',
+                suffix: '',
+                centsLimit: 0
+            });
+        });
+        function BroughChange() {
+            var a = document.getElementById("Brough").selectedIndex;
+            var b = document.getElementById("Brough").options;
+
+            if (b[a].value === "Brooklyn") {
+                document.getElementById("Brooklyn").style.display = "initial";
+                document.getElementById("Manhattan").style.display = "none";
+                document.getElementById("Queens").style.display = "none";
+                document.getElementById("TheBronx").style.display = "none";
+                document.getElementById("StatenIsland").style.display = "none";
+                document.getElementById("LongIsland").style.display = "none";
+                document.getElementById("UpstateNY").style.display = "none";
+                document.getElementById("EmptySelect").style.display = "none";
+                BrooklynChange();
+            }
+            else if (b[a].value === "Manhattan") {
+                document.getElementById("Brooklyn").style.display = "none";
+                document.getElementById("Manhattan").style.display = "initial";
+                document.getElementById("Queens").style.display = "none";
+                document.getElementById("TheBronx").style.display = "none";
+                document.getElementById("StatenIsland").style.display = "none";
+                document.getElementById("LongIsland").style.display = "none";
+                document.getElementById("UpstateNY").style.display = "none";
+                document.getElementById("EmptySelect").style.display = "none";
+                ManhattanChange();
+            }
+            else if (b[a].value === "Queens") {
+                document.getElementById("Brooklyn").style.display = "none";
+                document.getElementById("Manhattan").style.display = "none";
+                document.getElementById("Queens").style.display = "initial";
+                document.getElementById("TheBronx").style.display = "none";
+                document.getElementById("StatenIsland").style.display = "none";
+                document.getElementById("LongIsland").style.display = "none";
+                document.getElementById("UpstateNY").style.display = "none";
+                document.getElementById("EmptySelect").style.display = "none";
+                QueensChange();
+            }
+            else if (b[a].value === "The Bronx") {
+                document.getElementById("Brooklyn").style.display = "none";
+                document.getElementById("Manhattan").style.display = "none";
+                document.getElementById("Queens").style.display = "none";
+                document.getElementById("TheBronx").style.display = "initial";
+                document.getElementById("StatenIsland").style.display = "none";
+                document.getElementById("LongIsland").style.display = "none";
+                document.getElementById("UpstateNY").style.display = "none";
+                document.getElementById("EmptySelect").style.display = "none";
+                TheBronxChange();
+            }
+            else if (b[a].value === "Staten Island") {
+                document.getElementById("Brooklyn").style.display = "none";
+                document.getElementById("Manhattan").style.display = "none";
+                document.getElementById("Queens").style.display = "none";
+                document.getElementById("TheBronx").style.display = "none";
+                document.getElementById("StatenIsland").style.display = "initial";
+                document.getElementById("LongIsland").style.display = "none";
+                document.getElementById("UpstateNY").style.display = "none";
+                document.getElementById("EmptySelect").style.display = "none";
+                StatenIslandChange();
+            }
+            else if (b[a].value === "Long Island") {
+                document.getElementById("Brooklyn").style.display = "none";
+                document.getElementById("Manhattan").style.display = "none";
+                document.getElementById("Queens").style.display = "none";
+                document.getElementById("TheBronx").style.display = "none";
+                document.getElementById("StatenIsland").style.display = "none";
+                document.getElementById("LongIsland").style.display = "initial";
+                document.getElementById("UpstateNY").style.display = "none";
+                document.getElementById("EmptySelect").style.display = "none";
+                LongIslandChange();
+            }
+            else {
+                document.getElementById("Brooklyn").style.display = "none";
+                document.getElementById("Manhattan").style.display = "none";
+                document.getElementById("Queens").style.display = "none";
+                document.getElementById("TheBronx").style.display = "none";
+                document.getElementById("StatenIsland").style.display = "none";
+                document.getElementById("LongIsland").style.display = "none";
+                document.getElementById("UpstateNY").style.display = "initial";
+                document.getElementById("EmptySelect").style.display = "none";
+                UpstateNYChange();
+            }
+        }
+    </script>
+    <!-- mobile navbar -->
+</body>
+</html>

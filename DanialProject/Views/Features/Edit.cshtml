@@ -1,0 +1,299 @@
+@model DanialProject.Models.Database.Features
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+        $("#preloader").hide();
+    });
+</script>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box scriptbox-default">
+                <div class="box-header">
+                    <div>
+                        <h1 class="box-title col-md-3" style="font-weight:bold; font-size:24px; padding-bottom:5px;">Edit</h1>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <div class="container" style="overflow-x:auto; width:100% !important;">
+                                    @using (Html.BeginForm("Edit", "Features", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+                                            <h4>Features</h4>
+                                            <hr />
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.ID)
+                                            @Html.HiddenFor(model => model.Icon)
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @Html.TextBoxFor(model => model.File, new { type = "File" })
+                                                    @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ListingType, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    <select name="ListingType" class="form-control select2" style="width:100%;">
+                                                        @{
+                                                            if (ViewBag.Listing == "Rent")
+                                                            {
+                                                                <option value="Rent" selected>Rent</option>
+                                                                <option value="Sale">Sale</option>
+                                                                <option value="Both">Both</option>
+                                                            }
+                                                            else if (ViewBag.Listing == "Sale")
+                                                            {
+                                                                <option value="Rent">Rent</option>
+                                                                <option value="Sale" selected>Sale</option>
+                                                                <option value="Both">Both</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="Rent">Rent</option>
+                                                                <option value="Sale">Sale</option>
+                                                                <option value="Both" selected>Both</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Icon, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    <select name="IconType" id="IconType" class="form-control select2" style="width:100%;">
+                                                        @{
+                                                            if (ViewBag.Icon == "Amenities")
+                                                            {
+                                                                <option value="Amenities" selected>Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "BuildingAmenities")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities" selected>Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "Utilities")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities" selected>Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "Pets")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets" selected>Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "UnitFeatures")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures" selected>Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "OutdoorSpace")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace" selected>Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "BedroomSizes")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes" selected>Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "Parking")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking" selected>Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "Parking")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking" selected>Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "DepositType")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType" selected>Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "Exposure")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure" selected>Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else if (ViewBag.Icon == "UnitFeatures")
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures" selected>Unit Features</option>
+                                                                <option value="Policies">Policies</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="Amenities">Amenities</option>
+                                                                <option value="BuildingAmenities">Building Amenities</option>
+                                                                <option value="Utilities">Utilities</option>
+                                                                <option value="Pets">Pets</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="OutdoorSpace">Outdoor Space</option>
+                                                                <option value="BedroomSizes">Bedroom Sizes</option>
+                                                                <option value="Parking">Parking</option>
+                                                                <option value="Exposure">Exposure</option>
+                                                                <option value="DepositType">Deposit Type</option>
+                                                                <option value="UnitFeatures">Unit Features</option>
+                                                                <option value="Policies" selected>Policies</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" value="Save" class="btn btn-default" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div>
+                                        @Html.ActionLink("Back to List", "Index")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

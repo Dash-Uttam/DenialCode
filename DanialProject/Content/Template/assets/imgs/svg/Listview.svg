@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="37px" height="37px" viewBox="0 0 37 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>List view</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M26,12 C26.6,12 27,12.4 27,13 C27,13.6 26.6,14 26,14 L12,14 C11.4,14 11,13.6 11,13 C11,12.4 11.4,12 12,12 L26,12 Z M26,18 C26.6,18 27,18.4 27,19 C27,19.6 26.6,20 26,20 L12,20 C11.4,20 11,19.6 11,19 C11,18.4 11.4,18 12,18 L26,18 Z M26,24 C26.6,24 27,24.4 27,25 C27,25.6 26.6,26 26,26 L12,26 C11.4,26 11,25.6 11,25 C11,24.4 11.4,24 12,24 L26,24 Z" id="path-1"></path>
+        <path d="M26.875,12 C27.55,12 28,12.4 28,13 C28,13.6 27.55,14 26.875,14 L11.125,14 C10.45,14 10,13.6 10,13 C10,12.4 10.45,12 11.125,12 L26.875,12 Z M26.875,18 C27.55,18 28,18.4 28,19 C28,19.6 27.55,20 26.875,20 L11.125,20 C10.45,20 10,19.6 10,19 C10,18.4 10.45,18 11.125,18 L26.875,18 Z M26.875,24 C27.55,24 28,24.4 28,25 C28,25.6 27.55,26 26.875,26 L11.125,26 C10.45,26 10,25.6 10,25 C10,24.4 10.45,24 11.125,24 L26.875,24 Z" id="path-3"></path>
+    </defs>
+    <g id="List-view" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <g id="map-copy" fill="#FFFFFF" stroke="#C8C8C8">
+                <rect id="Rectangle" x="0.5" y="0.5" width="36" height="36" rx="1"></rect>
+            </g>
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#FFFFFF" fill-rule="nonzero" xlink:href="#path-1"></use>
+            <mask id="mask-4" fill="white">
+                <use xlink:href="#path-3"></use>
+            </mask>
+            <use id="Mask" fill="#FFFFFF" fill-rule="nonzero" xlink:href="#path-3"></use>
+            <g id="colors/dark-navy" mask="url(#mask-4)" fill="#293847">
+                <g transform="translate(3.000000, 3.000000)">
+                    <rect x="0" y="0" width="32" height="32"></rect>
+                </g>
+            </g>
+            <g id="colors/dark-navy" mask="url(#mask-4)" fill="#293847">
+                <g transform="translate(4.000000, 4.000000)">
+                    <rect x="0" y="0" width="32" height="32"></rect>
+                </g>
+            </g>
+            <rect id="Rectangle" fill="#FFFFFF" mask="url(#mask-4)" x="13" y="12" width="2" height="14"></rect>
+        </g>
+    </g>
+</svg>

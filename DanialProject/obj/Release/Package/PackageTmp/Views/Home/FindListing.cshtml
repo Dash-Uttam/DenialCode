@@ -1,0 +1,838 @@
+
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>DALLIEN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/Template/assets/bootstrap/css/v-1.5-504911430000000000/bootstrap.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="@DanialProject.Models.FingerPoint.Tag("/Content/Template/styles.css")">
+    <script type="text/javascript" src="~/Content/Template/assets/jquery/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/bootstrap/js/bootstrap.js"></script>
+
+
+    <link href="~/Content/AdminPage/bower_components/select2/dist/css/select2.css" rel="stylesheet">
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Content/AdminPage/bower_components/select2/dist/js/select2.full.min.js")"></script>
+
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Content/Template/style.js")"></script>
+    <script src="~/Content/js/bootbox.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/jquery/jquery.priceformat.js"></script>
+
+    <!-- mobile navbar -->
+    <style>
+        .mobile-nav-header {
+            margin-bottom: 30px;
+        }
+
+        .top-navbar-mobile {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(41, 56, 71, 1);
+            position: fixed;
+            z-index: 999;
+            overflow-x: hidden;
+            left: 100%;
+            top: 0;
+            right: 0;
+            -webkit-transition: all 500ms ease;
+            -moz-transition: all 500ms ease;
+            -ms-transition: all 500ms ease;
+            -o-transition: all 500ms ease;
+            transition: all 500ms ease;
+        }
+
+            .top-navbar-mobile .mobile-logo-div {
+                padding: 15px;
+            }
+
+            .top-navbar-mobile .mobile-navbar-close {
+                font-size: 20px;
+                color: white;
+                padding: 15px;
+            }
+
+                .top-navbar-mobile .mobile-navbar-close i {
+                    cursor: pointer;
+                }
+
+            .top-navbar-mobile ul.mobile-top-navs {
+                text-align: right;
+                padding-right: 25px;
+                padding-left: 15px;
+            }
+
+                .top-navbar-mobile ul.mobile-top-navs::after {
+                    content: '';
+                    width: 20px;
+                    border-top: 1px solid white;
+                    position: absolute;
+                    right: 40px;
+                    bottom: -20px;
+                }
+
+                .top-navbar-mobile ul.mobile-top-navs .nav-item .nav-link {
+                    color: #ffffff;
+                    font-size: 25px;
+                    line-height: 1;
+                    letter-spacing: 1px;
+                    padding: 10px 0px;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+
+            .top-navbar-mobile ul.mobile-footer-links {
+                text-align: right;
+                padding-right: 25px;
+                padding-left: 15px;
+            }
+
+                .top-navbar-mobile ul.mobile-footer-links .nav-item .nav-link {
+                    color: #838D96;
+                    font-size: 17px;
+                    line-height: 1;
+                    letter-spacing: 1px;
+                    font-weight: normal;
+                    text-transform: uppercase;
+                }
+
+        .show-mobile-navbar {
+            left: 0;
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint
+        /*#map .gm-control-active*/ button[title="Zoom in"] {
+            background-color: grey !important;
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint
+        /*#map .gm-control-active*/ button[title="Zoom out"] {
+            background-color: grey !important;
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint
+        /*#map .gm-control-active*/ button[title="Zoom in"] img {
+            content: url('../../Content/Images/Features/plus.png');
+        }
+
+        #map .gm-style > .gmnoprint > .gmnoprint button[title="Zoom out"] img {
+            content: url('../../Content/Images/Features/minus.png');
+        }
+    </style>
+    <!-- mobile navbar -->
+</head>
+<body>
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+    <div class="full-page-main" style="overflow: hidden; position:relative;">
+        <!--navbar-->
+        <nav class="navbar navbar-expand-sm navbar-transparent inverse">
+            <a class="navbar-brand" href="../../Home/Index">
+                <img alt="Brand" src="~/Content/Template/assets/imgs/logo/logo.png" width="85">
+            </a>
+            <button class="navbar-toggler ml-auto mobile-nav-opener" type="button" data-toggle="collapse">
+                <img src="~/Content/Template/assets/imgs/svg/menu.svg" />
+            </button>
+            <div class="collapse navbar-collapse top-navbar-links" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="../../Home/FindListing">FIND A LISTING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../Home/Apply">APPLY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                    </li>
+                    @{
+                        try
+                        {
+                            HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                            string cookiePath1 = ticket.CookiePath;
+                            DateTime expiration = ticket.Expiration;
+                            bool expired = ticket.Expired;
+                            bool isPersistent = ticket.IsPersistent;
+                            DateTime issueDate = ticket.IssueDate;
+                            string CookieId = ticket.Name;
+                            string userData = ticket.UserData;
+                            int version = ticket.Version;
+                            if (!expired)
+                            {
+                                <li class="nav-item">
+                                    <a href="../../Home/ManageListing/@CookieId" class="nav-link">
+                                        MY PROFILE
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                       style="background-image: url(@userData)">
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Account/SignOut" class="logout nav-link">
+                                        LOGOUT &nbsp;<i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a onclick="$('#LoginModal').modal('show')" class="btn btn-login-transparent pl-4 pr-4" href="javascript:void(0)">Login</a>
+                                </li>
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            <li class="nav-item">
+                                <a onclick="$('#LoginModal').modal('show')" class="btn btn-login-transparent pl-4 pr-4" href="javascript:void(0)">Login</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <!-- mobile navbar -->
+            <div class="container-fluid d-block d-md-none top-navbar-mobile">
+                <div class="row mobile-nav-header">
+                    <div class="col-12">
+                        <div class="float-left mobile-logo-div">
+                            <img src="~/Content/Template/assets/imgs/logo/logo.png" width="70" alt="Alternate Text" />
+                        </div>
+                        <div class="mobile-navbar-close float-right">
+                            <i class="fas fa-times close-mobile-navbar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="navbar-nav mobile-top-navs">
+                            <li class="nav-item">
+                                <a class="nav-link" href="../../Home/FindListing">FIND A LISTING</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../../Home/Apply">APPLY</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                            </li>
+                            @{
+                                try
+                                {
+                                    HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                                    string cookiePath1 = ticket.CookiePath;
+                                    DateTime expiration = ticket.Expiration;
+                                    bool expired = ticket.Expired;
+                                    bool isPersistent = ticket.IsPersistent;
+                                    DateTime issueDate = ticket.IssueDate;
+                                    string CookieId = ticket.Name;
+                                    string userData = ticket.UserData;
+                                    int version = ticket.Version;
+                                    if (!expired)
+                                    {
+                                        <li class="nav-item">
+                                            <a href="../../Home/ManageListing/@CookieId" class="nav-link">
+                                                MY PROFILE
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                               style="background-image: url(@userData)">
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                        </li>
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    <li class="nav-item">
+                                        <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-12 mt-5">
+                        <ul class="navbar-nav mobile-footer-links">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">OUR AGENTS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">LIST WITH US</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">ABOUT</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">CAREERS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">CONTACT</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- mobile navbar -->
+        </nav>
+        <!--navbar-->
+        <div class="container-fluid map-listing-main-wrap" style="width: 100%;padding: 0">
+            <!--map-->
+            <div style="position: relative;">
+                <div id="map"></div>
+            </div>
+            <!--map-->
+            <!--Icons-->
+            <div id="filter-maps" class="filter-list-map">
+                <a href='#/' onclick="SetSessionForFilterBox('SimpleListing');">
+                    <img src="~/Content/Template/assets/imgs/svg/Listview.svg" />
+                </a>&nbsp;
+                <a href='#/' onclick="SetSessionForFilterBox('FindListing');">
+                    <img src="~/Content/Template/assets/imgs/svg/map.svg" />
+                </a>
+            </div>
+            <a href="#/" onclick="$('#filter-card').css('visibility', 'visible');" class="filter-left" style="display:none;">
+                <img src="~/Content/Template/assets/imgs/svg/search-box-expand.svg" />
+            </a>
+            <a href="#/" class="filter-left-collapse">
+                <img src="~/Content/Template/assets/imgs/svg/collapse.svg" />
+            </a>
+            <a href="#/" class="filter-right-open">
+                <img src="~/Content/Template/assets/imgs/svg/search-box-expand.svg" />
+            </a>
+            <!--Icons-->
+            <!--Filter Card-->
+            <div id="filter-card" class="filter-card">
+                <h2 class="font1">FIND A LISTING</h2>
+                <input type="text" class="hidden" name="Filter" id="Filter" value="Rent" />
+                <div class="filter-card-body">
+                    <ul class="nav nav-pills simple-pills font1 justify-content-center" role="tablist">
+                        <li role="presentation"><a href="#Rent" class="rent selected-rent category-tabs">RENT</a></li>
+                        <li role="presentation"><a href="#Buy" class="buy category-tabs">BUY</a></li>
+                        <li role="presentation"><a href="#Find-a-Room" class="find-room category-tabs">FIND A ROOM</a></li>
+                    </ul>
+                    <div class="btn-group m-t-10 full-width" role="group" aria-label="Basic example">
+                        <button type="button" id="RESIDENTIAL" onclick="ChangeDisability('RESIDENTIAL');" class="btn btn-outline-secondary font1">RESIDENTIAL</button>
+                        <button type="button" id="COMMERCIAL" onclick="ChangeDisability('COMMERCIAL');" class="btn btn-outline-secondary font1 disablilty">COMMERCIAL</button>
+                    </div>
+                    <div class="filter-field m-t-15">
+                        <label class="font1 label">PRICE</label><br />
+                        <label class="field" style="position:relative;" onclick="ShowField_Price(this)"><span id="label-price">$0 - $10,000</span><img class="arrow-img" src="~/Content/Template/assets/imgs/svg/path.svg" /></label>
+                        <div class="slide m-t-5" style="display: none; border-bottom: 1px solid #ccc;">
+                            <div class="row">
+                                <div class="col-6" style="padding-right: 8px;">
+                                    <div class="form-group">
+                                        <label>From</label>
+                                        <input type="text" id="from-price" name="From_price" oninput="label_Price_Change();" class="form-control" value="$0">
+                                    </div>
+                                </div>
+                                <div class="col-6" style="padding-left: 8px;">
+                                    <div class="form-group">
+                                        <label>To</label>
+                                        <input type="text" id="to-price" name="To_price" oninput="label_Price_Change();" class="form-control" value="$10,000">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-field m-t-10">
+                        <label class="font1 label">ROOMS</label><br />
+                        <label class="field" style="position:relative;" onclick="ShowField_Rooms(this)"><span id="label-room">0+ BED / .5+ BATH</span><img class="arrow-img" src="~/Content/Template/assets/imgs/svg/path.svg" /></label>
+                        <div class="slide m-t-5" style="display: none; border-bottom: 1px solid #ccc;">
+                            <div class="row">
+                                <div class="col-6" style="padding-right: 8px;">
+                                    <div class="form-group">
+                                        <label>BEDS</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <i class="fas fa-minus-circle left-icon" onclick="U_Bedsdec($('#bed').val());"></i>
+                                            </div>
+                                            <input type="text" readonly class="form-control text-center no-btn" required placeholder="" id="bed" name="Bed" value="0">
+                                            <div class="input-group-append">
+                                                <i class="fas fa-plus-circle right-icon" onclick="U_BedsInc($('#bed').val());"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6" style="padding-left: 8px;">
+                                    <div class="form-group">
+                                        <label>BATHS</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <i class="fas fa-minus-circle left-icon" onclick="U_Bathsdec($('#bath').val());"></i>
+                                            </div>
+                                            <input type="text" readonly class="form-control text-center" placeholder="" id="bath" name="Bath" value="0">
+                                            <div class="input-group-append">
+                                                <i class="fas fa-plus-circle right-icon" onclick="U_BathsInc($('#bath').val());"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-field m-t-10">
+                        <label class="font1 label">PREFRENCES</label><br />
+                        <label class="field" style="position:relative;" onclick="$('#Filters').modal('show');">FILTERS <i class="fas fa-plus arrow-img" style="font-size: 10px; color:#293847;"></i></label>
+                    </div>
+                    <a href="#/" id="filter-search" onclick="SetSessionForFilterBox('Map');" class="btn m-t-25 btn-filter btn-selected-rent">SEARCH</a>
+                </div>
+            </div>
+            <!--Filter Card-->
+            <!--Details After Click on Marker-->
+            <div id="detailsModal" class="map-listing">
+                <a href="#/" class="map-listing-close">
+                    <img src="~/Content/Template/assets/imgs/svg/filter-right.svg" />
+                </a>
+                <div class="card search-card-wrapper">
+                    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-interval="false">
+                        <div id="carouselExample" class="carousel-inner h-w-200" style="max-height:200px;">
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+                            <img src="~/Content/Template/assets/imgs/svg/left.svg" class="carasol-icons" />
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                            <img src="~/Content/Template/assets/imgs/svg/right.svg" class="carasol-icons" />
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div class="card-content find_listing_card_content">
+                        @{
+                            try
+                            {
+                                HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                                string cookiePath1 = ticket.CookiePath;
+                                DateTime expiration = ticket.Expiration;
+                                bool expired = ticket.Expired;
+                                bool isPersistent = ticket.IsPersistent;
+                                DateTime issueDate = ticket.IssueDate;
+                                string CookieId = ticket.Name;
+                                string userData = ticket.UserData;
+                                int version = ticket.Version;
+                                if (!expired)
+                                {
+                                    <div class="row clearfix plr-20">
+                                        <div class="col-9 uppeer-case" id="buildingName-Agent">
+
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <img style="width: 20px; margin-top:12px;" src="~/Content/Template/assets/imgs/svg/like.svg" />
+                                        </div>
+                                    </div>
+                                    <span id="buildingAddress" class="room-short-text font1 uppeer-case plr-20"></span>
+                                    <div class="room-short-text font1 plr-20">
+                                        Unit: <span id="unit" class="uppeer-case"></span>
+                                    </div>
+                                    <div class="row m-t-15 plr-20">
+                                        <div class="col">
+                                            <small>Price</small><br />
+                                            <h5 id="buildingRent" class="rate font1 uppeer-case"></h5>
+                                        </div>
+                                        <div class="col">
+                                            <small>Rooms</small><br />
+                                            <h5 id="buildingRooms" class="rate font1 uppeer-case"></h5>
+                                        </div>
+                                    </div>
+                                    <div class="row m-t-15 plr-20">
+                                        <div class="col-md-6">
+                                            <label class="property-label">BOROUGH</label><br />
+                                            <h5 id="ChangeBorough" class="font1 uppeer-case"></h5>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="property-label">NEIGHBORHOOD</label><br />
+                                            <h5 id="ChangeNeighborhood" class="font1 uppeer-case"></h5>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="line"><hr></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="property-label" id="label1"></label><br />
+                                            <h5 id="data1" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="property-label" id="label2"></label><br />
+                                            <h5 id="data2" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="property-label" id="label3"></label><br />
+                                            <h5 id="data3" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="property-label" id="label4"></label><br />
+                                            <h5 id="data4" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="property-label" id="label5"></label><br />
+                                            <h5 id="data5" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="property-label" id="label6"></label><br />
+                                            <h5 id="data6" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="property-label" id="label7"></label><br />
+                                            <h5 id="data7" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col">
+                                            <label class="property-label" id="label8"></label><br />
+                                            <h5 id="data8" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="property-label" id="label9">NOTES</label><br />
+                                            <h5 id="access-notes" class="font1 uppeer-case quick-view-h5">NA</h5>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row clearfix plr-20">
+                                        <div class="col-9 uppeer-case" id="buildingName">
+
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <img style="width: 20px; margin-top:12px;" src="~/Content/Template/assets/imgs/svg/like.svg" />
+                                        </div>
+                                    </div>
+                                    <span id="buildingAddress" class="room-short-text font1 uppeer-case plr-20"></span>
+                                    <div class="room-short-text font1 plr-20">
+                                        Unit: <span id="unit" class="uppeer-case"></span>
+                                    </div>
+                                    <div class="row m-t-15 plr-20">
+                                        <div class="col">
+                                            <small>Price</small><br />
+                                            <h5 id="buildingRent" class="rate font1 uppeer-case"></h5>
+                                        </div>
+                                        <div class="col">
+                                            <small>Rooms</small><br />
+                                            <h5 id="buildingRooms" class="rate font1 uppeer-case"></h5>
+                                        </div>
+                                    </div>
+                                    <div class="row m-t-15 plr-20">
+                                        <div class="col-md-6">
+                                            <label class="property-label">BOROUGH</label><br />
+                                            <h5 id="ChangeBorough" class="font1 uppeer-case"></h5>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="property-label">NEIGHBORHOOD</label><br />
+                                            <h5 id="ChangeNeighborhood" class="font1 uppeer-case"></h5>
+                                        </div>
+                                    </div>
+                                    <form class="m-t-25 plr-20" action="#/" method="post" onsubmit="return CalculateDistance();">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1" class="font1">DISTANCE FROM</label>
+                                            <div class="input-group mb-3" id="Ditance-Search-Field">
+                                                <input type="text" class="form-control" id="Address" required placeholder="Address">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary font1" type="submit">SEARCH</button>
+                                                </div>
+                                            </div>
+                                            <div class="input-group mb-3" id="Ditance-Info-Field" style="display:none;">
+                                                <span class="m-t-15 Distance-close" style="float:right; cursor:pointer;"><a href="#/" onclick="CalcDistance();"><i class="fa fa-times"></i></a></span>
+                                                <h5 id="Distance-Info" class="font1 uppeer-case" style="font-size:16px !important; margin-top: -4px; color:#aaaaaa !important;"></h5>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="plr-20">
+                                        <hr />
+                                    </div>
+                                    <p class="share-icons plr-20">
+                                        <span class="font1">SHARE</span>
+                                        &nbsp;
+                                        <a href="https://www.facebook.com/" target="_blank"><img src="~/Content/Template/assets/imgs/svg/facebook.svg"></a>
+                                        &nbsp; &nbsp;
+                                        <a href="https://twitter.com/" target="_blank"><img src="~/Content/Template/assets/imgs/svg/twitter.svg"></a>
+                                        &nbsp; &nbsp;
+                                        <a href="mailto:"><img src="~/Content/Template/assets/imgs/svg/email-grey.svg"></a>
+                                        &nbsp; &nbsp;
+                                        <a href="#/" onclick="CopyLinkToClipbord();"><img src="~/Content/Template/assets/imgs/svg/copy-link.svg"></a>
+                                    </p>
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                <div class="row clearfix plr-20">
+                                    <div class="col-9 uppeer-case" id="buildingName">
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <img style="width: 20px; margin-top:12px;" src="~/Content/Template/assets/imgs/svg/like.svg" />
+                                    </div>
+                                </div>
+                                <span id="buildingAddress" class="room-short-text font1 uppeer-case plr-20"></span>
+                                <div class="room-short-text font1 plr-20">
+                                    Unit: <span id="unit" class="uppeer-case"></span>
+                                </div>
+                                <div class="row m-t-15 plr-20">
+                                    <div class="col">
+                                        <small>Price</small><br />
+                                        <h5 id="buildingRent" class="rate font1 uppeer-case"></h5>
+                                    </div>
+                                    <div class="col">
+                                        <small>Rooms</small><br />
+                                        <h5 id="buildingRooms" class="rate font1 uppeer-case"></h5>
+                                    </div>
+                                </div>
+                                <div class="row m-t-15 plr-20">
+                                    <div class="col-md-6">
+                                        <label class="property-label">BOROUGH</label><br />
+                                        <h5 id="ChangeBorough" class="font1 uppeer-case"></h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="property-label">NEIGHBORHOOD</label><br />
+                                        <h5 id="ChangeNeighborhood" class="font1 uppeer-case"></h5>
+                                    </div>
+                                </div>
+                                <form class="m-t-25 plr-20" action="#/" method="post" onsubmit="return CalculateDistance();">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" class="font1">DISTANCE FROM</label>
+                                        <div class="input-group mb-3" id="Ditance-Search-Field">
+                                            <input type="text" class="form-control" id="Address" required placeholder="Address">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary font1" type="submit">SEARCH</button>
+                                            </div>
+                                        </div>
+                                        <div class="input-group mb-3" id="Ditance-Info-Field" style="display:none;">
+                                            <span class="m-t-15 Distance-close" style="float:right; cursor:pointer;"><a href="#/" onclick="CalcDistance();"><i class="fa fa-times"></i></a></span>
+                                            <h5 id="Distance-Info" class="font1 uppeer-case" style="font-size:16px !important; margin-top: -4px; color:#aaaaaa !important;"></h5>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="plr-20">
+                                    <hr />
+                                </div>
+                                <p class="share-icons plr-20">
+                                    <span class="font1">SHARE</span>
+                                    &nbsp;
+                                    <a href="https://www.facebook.com/" target="_blank"><img src="~/Content/Template/assets/imgs/svg/facebook.svg"></a>
+                                    &nbsp; &nbsp;
+                                    <a href="https://twitter.com/" target="_blank"><img src="~/Content/Template/assets/imgs/svg/twitter.svg"></a>
+                                    &nbsp; &nbsp;
+                                    <a href="mailto:"><img src="~/Content/Template/assets/imgs/svg/email-grey.svg"></a>
+                                    &nbsp; &nbsp;
+                                    <a href="#/" onclick="CopyLinkToClipbord();"><img src="~/Content/Template/assets/imgs/svg/copy-link.svg"></a>
+                                </p>
+                            }
+                        }
+                        <div class="grey-card grey-card-boarder plr-20" id="agent-media">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Details After Click on Marker-->
+        </div>
+        <!--Footer-->
+        <footer style="margin-top: 0;">
+            <div class="footer-navbar">
+                <ul class="navbar-nav col-lg-11 col-md-10 col-sm-10 col-10 pl-5">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../Home/OurAgents">our agents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../Home/ContactUs">list with us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../Home/LearnMore">about</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../Home/ContactUs">careers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../Home/ContactUs">contact</a>
+                    </li>
+                </ul>
+                <a class="nav-link" href="#/" style="cursor:initial;">
+                    <img src="~/Content/Template/assets/imgs/svg/housing.svg" />
+                </a>
+                <input type="text" class="copy-to-clipboard" id="CopyToClipboard" />
+            </div>
+        </footer>
+        <!--Footer-->
+    </div>
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Scripts/find-listing.js")"></script>
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Scripts/markercluster.js")"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu7d0PtAJTeDEv8CgVlbE9DY8usCwgB2Q&libraries=places&callback=initMap">
+    </script>
+    <!--Login_Form-->
+    @Html.Partial("~/Views/Partial/LoginForm.cshtml")
+    <!--Login_Form-->
+    <!--Filters Modal-->
+    @Html.Partial("~/Views/Partial/SearchFilterBox.cshtml")
+    <!--Filters Modal-->
+    <!-- mobile navbar -->
+    <script>
+        $(document).ready(function () {
+            try {
+                $('.select2').select2();
+            } catch (error) { var exe = error; }
+        });
+
+        function OnBroughChange() {
+
+            var a = document.getElementById("Brough").selectedIndex;
+            var b = document.getElementById("Brough").options;
+
+            var Brooklyn = ["Bath Beach", "Bay Ridge", "Bedford Stuyvesant", "Bensonhurst", "Bergen Beach", "Beverly Square East", "Beverly Square West", "Boerum Hill", "Borough Park", "Brighton Beach", "Brooklyn Heights", "Brownsville", "Bushwick", "Canarsie", "Carroll Gardens", "Clinton Hill", "Cobble Hill", "Colombia Street Waterfront", "Coney Island", "Crown Heights", "Cypress Hills", "Ditmas Park", "Downtown Brooklyn", "Dumbo", "Dyker Heights", "East Flatbush", "East New York", "East Williamsburg", "Fiske Terrace", "Flatbush", "Flatlands", "Fort Greene", "Gerrit son Beach", "Gowan Us", "Gravesend", "Greenpoint", "Greenwood", "Kensington & Parkville", "Manhattan Beach", "Mapleton", "Midwood Park", "Mill Basin", "Park Slope", "Prospect Heights", "Prospect Lefferts Gardens", "Prospect Park South", "Red Hook", "Seagate", "Sheepshead Bay", "Sunset Park", "Vinegar Hill", "West Midwood", "Williamsburg", "Windsor Terrace",];
+            var Manhattan = ["Alphabet City", "Battery Park City", "Bowery", "Chelsea", "Chinatown", "Civic Center", "Clinton", "Columbus Circle", "Diamond District", "East Harlem", "East Village", "Financial District", "Flatiron District", "Fort George", "Garment District", "Gramercy Park", "Greenwich Village", "Hamilton Heights", "Harlem", "Hell's Kitchen", "Hudson Heights", "Hudson Yards", "Inwood", "Kips Bay", "Korea Town", "Lenox Hill", "Lincoln Square", "Little Italy", "Lower East Side", "Manhattan Valley", "Manhattanville", "Meatpacking District", "Midtown Center", "Midtown East", "Midtown South Central", "Midtown West", "Morningside Heights", "Murray Hill", "Noho", "Nolita", "Nomad", "Peter Cooper Village", "Randall's Island", "Restaurant Row", "Roosevelt Island", "Rose Hill", "Soho", "Sutton Place", "Theater District", "Tribeca", "Tudor City", "Turtle Bay", "Two Bridges", "Union Square", "Upper East Side", "Upper West Side", "Washington Heights", "West Village", "Yorkville",];
+            var Queens = ["Arverne", "Astoria", "Auburndale", "Bay Terrace", "Bays Water", "Bayside", "Beech Hurst", "Belle Harbor", "Bellerose", "Bliss Ville", "Breezy Point", "Briarwood", "Broad Channel", "Brook Ville", "Cambria Heights", "College Point", "Corona", "Ditmars", "East Elmhurst", "Edgemere", "Elmhurst", "Far Rockaway", "Floral Park", "Flushing", "Forrest Hills", "Fresh Meadows", "Glen Oaks", "Glendale", "Hamilton Beach", "Hammels", "Hollis Hills", "Hollis", "Howard Beach", "Hunters Point", "Jackson Heights", "Jamaica Estates", "Jamaica Hills", "Jamaica", "Kew Gardens", "Laurelton", "Lindenwood", "Little Neck", "Long Island City", "Malba", "Maspeth", "Middle Village", "Murray Hill", "Neponset", "North Corona", "Oakland Gardens", "Ozone Park", "Pomonok", "Queens Village", "Queensboro Hill", "Rego Park", "Richmond Hill", "Ridgewood", "Rochdale", "Rockaway Park", "Rosedale", "Roxbury", "Seaside", "South Jamaica", "South Ozone Park", "Springfield Gardens", "St. Albans", "Steinway", "Sunnyside Park", "Sunnyside", "Utopia", "Whitestone", "Willets Point", "Woodhaven", "Woodside",];
+            var TheBronx = ["Allerton", "Baychester", "Bedford Park", "Belmont", "Bronx Dale", "Caslon Point", "Castle Hill", "City Island", "Co-op", "Concourse Village", "Country Club", "Crotona Park", "Eastchester", "Eden Wald", "Field Ston", "Fordham Heights", "Fordham North", "High Bridge", "High Island", "Hunts Point", "Kingsbridge Heights", "Kingsbridge", "Longwood", "Melrose", "Morris Heights", "Morris Park", "Morrisania", "Mott Haven", "Mount Hope", "North Brother", "North Riverdale", "Norwood", "Olin Ville", "Parkchester", "Pelham Bay", "Pelham Gardens", "Port Morris", "Rikers Island", "Riverdale", "Schuylerville", "Soundview", "South Brother", "Spuy ten Duyvil", "Throngs Neck", "Tremont", "Union Port", "University Heights", "Van Nest", "Wakefield", "West Concourse", "West Farms", "Westchester Square", "Williamsbridge",];
+            var StatenIsland = ["Annandale", "Arden Heights", "Arlington", "Arrochar", "Bay Terrace", "Bloomfield", "Bulls Head", "Castleton Corners", "Charleston", "Clifton", "Concord", "Dungan Hills", "Elm Park", "Eltingville", "Graniteville", "Grant City", "Grasmere", "Great Kills", "Grimes Hill", "Heartland Village", "Huguenot", "Manor Heights", "Mariners Harbor", "Meiers Corner", "Midland Beach", "New Brighton", "New Drop", "New Springville", "Oakwood", "Old place", "Old town", "Park Hill", "Pleasant Plains", "Port Ivory", "Port Richmond", "Prall's Island", "Prince's Bay", "Randall Manor", "Richmond Town", "Richmond Valley", "Rosebank", "Rossville", "Saint George", "Shooters Island", "Shore Acres", "Silverlake", "South Beach", "Stapleton", "Sunnyside", "Todt Hill", "Tompkinsville", "Tottenville", "Travis-Chelsea", "West New Brighton", "Wester leigh", "Willow Brooke", "Woodrow",];
+            var LongIsland = [];
+            var UpstateNY = [];
+
+            $("#Neighborhood").html('');
+
+            if (b[a].value == "Brooklyn") {
+                for (var i = 0; i < Brooklyn.length; i++) {
+                    $("#Neighborhood").append('<option>' + Brooklyn[i] + '</option>');
+                }
+            }
+            else if (b[a].value == "Manhattan") {
+                for (var i = 0; i < Manhattan.length; i++) {
+                    $("#Neighborhood").append('<option>' + Manhattan[i] + '</option>');
+                }
+            }
+            else if (b[a].value == "Queens") {
+                for (var i = 0; i < Queens.length; i++) {
+                    $("#Neighborhood").append('<option>' + Queens[i] + '</option>');
+                }
+            }
+            else if (b[a].value == "The Bronx") {
+                for (var i = 0; i < TheBronx.length; i++) {
+                    $("#Neighborhood").append('<option>' + TheBronx[i] + '</option>');
+                }
+            }
+            else if (b[a].value == "Staten Island") {
+                for (var i = 0; i < StatenIsland.length; i++) {
+                    $("#Neighborhood").append('<option>' + StatenIsland[i] + '</option>');
+                }
+            }
+            else if (b[a].value == "Long Island") {
+                for (var i = 0; i < LongIsland.length; i++) {
+                    $("#Neighborhood").append('<option>' + LongIsland[i] + '</option>');
+                }
+            }
+            else if (b[a].value == "Upstate NY") {
+                for (var i = 0; i < UpstateNY.length; i++) {
+                    $("#Neighborhood").append('<option>' + UpstateNY[i] + '</option>');
+                }
+            }
+            else {
+
+            }
+        }
+
+        function GetFilterArray() {
+            debugger;
+            var filterFeatures = [];
+
+            $.each($("input[name='features']:checked"), function () {
+                filterFeatures.push($(this).val());
+            });
+            $.each($("input[name = 'pets-allowed']:checked"), function () {
+                filterFeatures.push($(this).val());
+            });
+            $.each($("input[name = 'parking']:checked"), function () {
+                filterFeatures.push($(this).val());
+            });
+
+            var filterBuilding = {
+                NoFee: document.getElementById('no-fee').checked, Brough: $("#Brough").val(),
+                Neighborhood: $('#Neighborhood').select2("val"), AvailibilityDate: $("#availibilty-date").val(),
+                Guarantors: $("#guarantor-accepted").val(), PassengerElevators: $("#passenger-elevators").val(),
+                FrieghtElevators: $("#frieght-elevators").val(), Array: filterFeatures,
+                Under30lbs: document.getElementById('under30lbs-ckb').checked,
+                CasebyCase: document.getElementById('casebycase-ckb').checked,
+            };
+
+            var filterBuildingData = JSON.stringify(filterBuilding);
+
+            var ajaxRequest = $.ajax({
+                type: "POST",
+                url: "/api/WebApis/PostFilterFeatures",
+                contentType: 'application/json; charset=utf-8',
+                processData: false,
+                dataType: "json",
+                data: filterBuildingData,
+                success: function (data) {
+                    //if (data != null) {
+                    //    alert("Brough: " + data.Brough + "No Fee: " + data.NoFee + "Neighborhood: " + data.Neighborhood + "Availibility Date: " + data.AvailibilityDate +
+                    //        "Guarantors Accepted: " + data.Guarantors + "Passenger Elevators: " + data.PassengerElevators + "Frieght Elevators: " + FrieghtElevators +
+                    //        "Features:" + data.Array);
+                    //}
+                    //else {
+                    //    alert("Something went wrong");
+                    //}
+                }
+            });
+
+            $("#Filters").modal('hide');
+        }
+    </script>
+    <script>
+        var gValue = 1;
+
+        function filtersCheck() {
+            if (gValue == 1) {
+                $("input[name='Amenities']").each(function () {
+                    $(this).prop('checked', true);
+                });
+                gValue = 0;
+                document.getElementById("select-all").innerHTML = "Un-Select All";
+            }
+            else {
+                $("input[name='Amenities']").each(function () {
+                    $(this).prop('checked', false);
+                });
+                gValue = 1;
+                document.getElementById("select-all").innerHTML = "Select All";
+            }
+        }
+
+        $(document).ready(function (e) {
+            $('.close-mobile-navbar').on('click', function (e) {
+                $(this).closest('.top-navbar-mobile').removeClass('show-mobile-navbar');
+            });
+            $('.mobile-nav-opener').on('click', function (e) {
+                $(this).closest('.navbar').find('.top-navbar-mobile').addClass('show-mobile-navbar');
+            });
+
+            SetFilterBox();
+            SetFilterFeaturesBox();
+        });
+
+        $(function () {
+            // from-price
+            $('#from-price').priceFormat({
+                prefix: '$',
+                suffix: '',
+                centsLimit: 0
+            });
+
+            // to-price
+            $('#to-price').priceFormat({
+                prefix: '$',
+                suffix: '',
+                centsLimit: 0
+            });
+        });
+    </script>
+    <!-- mobile navbar -->
+</body>
+</html>
+

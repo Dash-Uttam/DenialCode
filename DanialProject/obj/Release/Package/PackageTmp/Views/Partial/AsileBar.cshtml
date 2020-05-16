@@ -1,0 +1,208 @@
+﻿@{
+    var str1 = "";
+    var str2 = "";
+    var str3 = "";
+    var str4 = "";
+    var str5 = "";
+    try
+    {
+        HttpCookie authCookie = Request.Cookies["AdminEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+        FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+        string cookiePath = ticket.CookiePath;
+        DateTime expiration = ticket.Expiration;
+        bool expired = ticket.Expired;
+        bool isPersistent = ticket.IsPersistent;
+        DateTime issueDate = ticket.IssueDate;
+        string CookieId = ticket.Name;
+        string userData = ticket.UserData;
+        int version = ticket.Version;
+        if (!expired)
+        {
+            string[] Access = userData.Split(',');
+            foreach (var details in Access)
+            {
+                if (!string.IsNullOrWhiteSpace(details))
+                {
+                    if (details == "Roles")
+                    {
+                        str1 = str1 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-user-times'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Admins")
+                    {
+                        str1 = str1 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-user-md'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Agents")
+                    {
+                        str1 = str1 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-users'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Analytics")
+                    {
+                        str2 = str2 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-pie-chart'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Features")
+                    {
+                        str2 = str2 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-tag'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Approved")
+                    {
+                        str3 = str3 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-building-o'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Pending")
+                    {
+                        str3 = str3 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-briefcase'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Rejected")
+                    {
+                        str3 = str3 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-cog'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Restaurants")
+                    {
+                        str4 = str4 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-cutlery'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Deals")
+                    {
+                        str4 = str4 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-coffee'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Bumper_Activities")
+                    {
+                        str4 = str4 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-tasks'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Tags")
+                    {
+                        str4 = str4 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-tag'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Events")
+                    {
+                        str4 = str4 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-map-marker'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Contests")
+                    {
+                        str4 = str4 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-angellist'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Careers")
+                    {
+                        str5 = str5 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-cogs'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "News")
+                    {
+                        str5 = str5 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-newspaper-o'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "SliderImages")
+                    {
+                        str5 = str5 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-file-image-o'></i> " + details + "</a></li>";
+                    }
+                    else if (details == "Neighbourhood")
+                    {
+                        str5 = str5 + "<li id='" + details + "A'><a href='../../Admin/" + details + "'><i class='fa fa-file-image-o'></i> " + details + "</a></li>";
+                    }
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(str1))
+            {
+                <li class="treeview" id="AsileUsers">
+                    <a href="#">
+                        <i class="fa fa-users"></i> <span>Accessability</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">@Html.Raw(HttpUtility.HtmlDecode(str1))</ul>
+                </li>
+            }
+            if (!string.IsNullOrWhiteSpace(str2))
+            {
+                <li class="treeview" id="AsileAnalytics">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i> <span>Attributes</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">@Html.Raw(HttpUtility.HtmlDecode(str2))</ul>
+                </li>
+            }
+            if (!string.IsNullOrWhiteSpace(str3))
+            {
+                <li class="treeview" id="AsileClients">
+                    <a href="#">
+                        <i class="fa fa-building-o"></i> <span>Listings</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">@Html.Raw(HttpUtility.HtmlDecode(str3))</ul>
+                </li>
+            }
+            if (!string.IsNullOrWhiteSpace(str4))
+            {
+                <li class="treeview" id="AsileRest">
+                    <a href="#">
+                        <i class="fa fa-map-marker"></i> <span>Activities</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">@Html.Raw(HttpUtility.HtmlDecode(str4))</ul>
+                </li>
+            }
+            if (!string.IsNullOrWhiteSpace(str5))
+            {
+                <li class="treeview" id="AsileNews">
+                    <a href="#">
+                        <i class="fa fa-cogs"></i> <span>Content</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">@Html.Raw(HttpUtility.HtmlDecode(str5))</ul>
+                </li>
+            }
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <i class="fa fa-power-off"></i> <span>Sign Out</span>
+                </a>
+                @using Microsoft.AspNet.Identity
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutFormAsile" }))
+                    {
+                        @Html.AntiForgeryToken()
+                    }
+                }
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <i class="fa fa-power-off"></i> <span>Sign Out</span>
+                </a>
+                @using Microsoft.AspNet.Identity
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutFormAsile" }))
+                    {
+                        @Html.AntiForgeryToken()
+                    }
+                }
+            </li>
+        }
+    }
+    catch (Exception)
+    {
+        <li>
+            <a href="javascript:document.getElementById('logoutForm').submit()">
+                <i class="fa fa-power-off"></i> <span>Sign Out</span>
+            </a>
+            @using Microsoft.AspNet.Identity
+            @if (Request.IsAuthenticated)
+            {
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutFormAsile" }))
+                {
+                    @Html.AntiForgeryToken()
+                }
+            }
+        </li>
+    }
+}

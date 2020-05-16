@@ -1,0 +1,272 @@
+
+@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Views/Shared/_CompleteLayout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        $('#home-bg').addClass('bg-extra-image');
+        $(".navbar-transparent .top-navbar-links li > a").addClass("grey-C8C8C8");
+    });
+    //Form For New Record
+    function SendEmail() {
+        $("#preloader").show();
+        document.getElementById("BtnAdmin").disabled = true;
+        var Admin = {
+            FirstName: $("#FirstName").val(), LastName: $("#LastName").val(),
+            Email: $("#Email").val(), Phone: $("#Phone").val(),
+            Description: $("#Description").val()
+        };
+        var AdminData = JSON.stringify(Admin);
+        // Make Ajax request with the contentType = false, and procesDate = false
+        var ajaxRequest = $.ajax({
+            type: "POST",
+            url: "/api/WebApis/SendContactEmail",
+            contentType: 'application/json; charset=utf-8',
+            processData: false,
+            dataType: "json",
+            data: AdminData,
+            success: function (data, textStatus, xhr) {
+                if (data === 0) {
+                    $("#preloader").hide();
+                    document.getElementById("BtnAdmin").disabled = false;
+                    $('#Adminform')[0].reset();
+                    $("#AddModel").modal('hide');
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">We are very sorry but due to some technical difficulties we are unable to send you message.</p>',
+                        closeButton: false
+                    });
+
+                    setTimeout(function () {
+                        dialog.modal('hide');
+                    }, 1000);
+                }
+                else {
+                    $("#preloader").hide();
+                    document.getElementById("BtnAdmin").disabled = false;
+                    $('#Adminform')[0].reset();
+                    $("#AddModel").modal('hide');
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Thanks for contacting us! We’ll get back to you as soon as we can.</p>',
+                        closeButton: false
+                    });
+
+                    setTimeout(function () {
+                        dialog.modal('hide');
+                    }, 1000);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#preloader").hide();
+                document.getElementById("BtnAdmin").disabled = false;
+                $('#Adminform')[0].reset();
+                $("#AddModel").modal('hide');
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center">We are very sorry but due to some technical difficulties we are unable to send you message.</p>',
+                    closeButton: false
+                });
+
+                setTimeout(function () {
+                    dialog.modal('hide');
+                }, 1000);
+            }
+        });
+        return false;
+    }
+</script>
+<div class="container">
+    <h1 class="d-none d-sm-block">CONTACT</h1>
+    <h3 class="d-block d-sm-none m-t-200">CONTACT</h3>
+</div>
+<form action="#/" id="Adminform" method="post" onsubmit="return SendEmail();" class="form-horizontal" role="form">
+    <div class="container m-t-25">
+        <div class="row m-t-25">
+            <div class="col-12 col-sm-6">
+                <div class="row">
+                    <div class="col">
+                        <h4>We would love to hear from you!</h4>
+                        <p class="paragraph">Send us a message and we’ll get right back in touch.</p>
+                        <div class="form-group">
+                            <label>First Name <span class="c-red">*</span></label>
+                            <input type="text" class="form-control" placeholder="First Name" id="FirstName" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Last Name <span class="c-red">*</span></label>
+                            <input type="text" class="form-control" placeholder="Last Name" id="LastName" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Email  Address <span class="c-red">*</span></label>
+                            <input type="email" class="form-control" placeholder="Email Address" id="Email" required />
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Phone Number <span class="c-red">*</span></label>
+                            <input type="number" class="form-control" placeholder="Phone Number" id="Phone" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>DESCRIPTION</label>
+                            <textarea class="form-control" rows="5" id="Description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-10">
+                    <div class="col-md-12">
+                        <button type="submit" id="BtnAdmin" class="btn search-btn btn-success">Send</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!--map-->
+                        <div id="map" style="height: 100%;"></div>
+                        <!--map-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu7d0PtAJTeDEv8CgVlbE9DY8usCwgB2Q&callback=initMap">
+</script>
+<script>
+    function initMap() {
+        // Styles a map in night mode.
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 40.747000, lng: -73.982550 },
+            zoom: 15,
+            mapTypeControl: false,
+            fullscreenControl: false,
+            styles: [
+                {
+                    "stylers": [
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#eaeaea"
+                        }
+                    ]
+                },
+                {
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#523735"
+                        }
+                    ]
+                },
+                {
+                    "elementType": "labels.text.stroke",
+                    "stylers": [
+                        {
+                            "color": "#f5f1e6"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "stylers": [
+                        {
+                            "color": "#293847"
+                        },
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.land_parcel",
+                    "elementType": "labels",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.locality",
+                    "stylers": [
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.locality",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "stylers": [
+                        {
+                            "lightness": -5
+                        },
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "stylers": [
+                        {
+                            "color": "#f09b70"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "stylers": [
+                        {
+                            "color": "#aab9c7"
+                        }
+                    ]
+                }
+            ]
+        });
+
+        var transitLayer = new google.maps.TransitLayer();
+        transitLayer.setMap(map);
+
+        //40.6652° N, 73.9125° W
+
+        var marker = new google.maps.Marker({
+            zoom: 8,
+            position: { lat: 40.747000, lng: -73.982550 },
+            map: map,
+            title: 'DALLIEN, East 33rd Street, New York, NY, USA',
+            icon: {
+                url: '../../Content/Template/assets/imgs/logo/favicon.png'
+            },
+            id: 1
+        });
+        marker.setMap(map);
+    }
+</script>
+
+

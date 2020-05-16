@@ -1,0 +1,29 @@
+﻿<!-- User Account: style can be found in dropdown.less -->
+<li class="dropdown user user-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <img src="" class="user-image" id="LayoutPageProfilePic1">
+        <span class="hidden-xs" id="LayoutPageFullName1"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <!-- User image -->
+        <li class="user-header" style="height:auto;">
+            <img src="" class="img-circle" id="LayoutPageProfilePic3" alt="User Image">
+            <p>
+                <label id="LayoutPageFullName3"></label>
+                <small id="LayoutPageSecurityLevel1"></small>
+                <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default" style="margin-top:5px;">
+                    <i class="fa fa-power-off"></i> <span>Sign Out</span>
+                </a>
+                @using Microsoft.AspNet.Identity
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        @Html.AntiForgeryToken() 
+                    }
+                }
+            </p>
+        </li>
+    </ul>
+</li>
+

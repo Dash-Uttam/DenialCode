@@ -1,0 +1,538 @@
+
+@{
+    ViewBag.Title = "LearnMore";
+    Layout = "~/Views/Shared/_CompleteLayout.cshtml";
+}
+<style>
+    .bg {
+        background-image: url(/Content/Template/assets/imgs/bg/learn-more.jpg);
+        background-position: center center;
+        background-size: cover;
+        height: 712px;
+    }
+
+    .learn-more-overlay {
+        display: flex;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 712px;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        flex-direction: column;
+        padding: 0px;
+    }
+
+    .learn-more-inner {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+        .learn-more-inner img {
+            align-self: center;
+        }
+
+    .angles-outer {
+        position: absolute;
+        height: 40px;
+        width: 100%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+    }
+
+    .angles-inner {
+        position: relative;
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+
+        .angles-inner > .angle-green {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 120%;
+            width: 120%;
+            background-color: rgba(160, 236, 202, 0.5);
+        }
+
+        .angles-inner > .angle-orange {
+            position: absolute;
+            right: -70%;
+            bottom: -10px;
+            background-color: rgb(240, 155, 112);
+            height: 120%;
+            width: 150%;
+            -ms-transform: rotate(-3deg);
+            -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
+        }
+
+    @@media (max-width: 767px) {
+        .angles-inner > .angle-orange {
+            right: -65%;
+            bottom: -20px;
+            height: 120%;
+            width: 180%;
+            -ms-transform: rotate(-5deg);
+            -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg);
+        }
+    }
+
+    .space-filler {
+        width: 100%;
+        height: 1px;
+        margin-top: 720px;
+    }
+
+    .learn-panel .img-section-outer {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .learn-panel {
+        overflow: hidden;
+    }
+
+        .learn-panel .learn-panel-inner {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .learn-panel .img-section-outer {
+            display: flex;
+            height: 580px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+            .learn-panel .img-section-outer .img-section-inner {
+                align-self: center;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                background-color: rgba(41, 56, 71, 0.6);
+                align-items: center;
+                justify-content: center;
+            }
+
+    .learn-panel-1 .img-section-outer {
+        background-image: url(/Content/Template/assets/imgs/bg/panel-1.jpg);
+    }
+
+    .learn-panel-2 .img-section-outer {
+        background-image: url(/Content/Template/assets/imgs/bg/panel-2.jpg);
+    }
+
+    .learn-panel-3 .img-section-outer {
+        background-image: url(/Content/Template/assets/imgs/bg/panel-3.jpg);
+    }
+
+    .learn-panel-1 {
+        margin-top: 80px;
+        margin-right: -20px;
+    }
+
+    .learn-panel-2 {
+        margin-top: 40px;
+        margin-right: -20px;
+    }
+
+    .learn-panel-3 {
+    }
+
+    @@media (max-width: 768px) {
+        .learn-panel-3 {
+            margin-top: 40px;
+        }
+    }
+
+    .learn-panel-1 .panel-content-section {
+        height: 200px;
+        position: relative;
+    }
+
+        .learn-panel-1 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -50px;
+            bottom: -40px;
+            background-color: #F09B70;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+        }
+
+    .panel-content-section .panel-content-holder {
+        z-index: 9;
+        padding: 20px 25px 20px 35px;
+        position: relative;
+    }
+
+    .learn-panel-2 .panel-content-section .panel-content-holder {
+        z-index: 9;
+        top: -20px;
+        padding: 0px 25px 20px 35px;
+        position: relative;
+    }
+
+    .learn-panel-3 .panel-content-section .panel-content-holder {
+        z-index: 9;
+        top: -40px;
+        padding: 0px 25px 20px 35px;
+        position: relative;
+    }
+
+    .panel-content-holder a:hover {
+        color: white !important;
+    }
+
+    .contact-us-section-inner a:hover {
+        color: white !important;
+    }
+
+    .panel-content-holder p {
+        color: #3A6F77;
+        font-weight: 500;
+        font-size: 17px;
+    }
+
+    .panel-content-holder button {
+        color: #3A6F77;
+        border-color: #3A6F77;
+    }
+
+    .learn-panel-2 .panel-content-section {
+        height: 400px;
+        position: relative;
+    }
+
+        .learn-panel-2 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -73px;
+            bottom: -40px;
+            background-color: #EFD279;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 3%;
+        }
+
+    .learn-panel-3 .panel-content-section {
+        height: 350px;
+        position: relative;
+    }
+
+        .learn-panel-3 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -97px;
+            bottom: -40px;
+            background-color: #A0ECCA;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 5%;
+        }
+
+    .contact-us-section {
+        height: 700px;
+        background-image: url(/Content/Template/assets/imgs/bg/learn-more1.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    .contact-us-section-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20%;
+    }
+
+        .contact-us-section-inner > h1 {
+            align-self: center;
+            font-size: 80px;
+            text-align: center;
+        }
+
+    .label-learn {
+        margin-top: 10px;
+        margin-left: 10px;
+        letter-spacing: 5px;
+        font-size: 30px;
+    }
+
+    @@media (max-width: 1800px) {
+        .learn-panel-2 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -73px;
+            bottom: -40px;
+            background-color: #EFD279;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: -2%;
+        }
+
+        .learn-panel-3 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -97px;
+            bottom: -40px;
+            background-color: #A0ECCA;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: -4%;
+        }
+    }
+
+    @@media (max-width: 1600px) {
+        .learn-panel-2 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -73px;
+            bottom: -40px;
+            background-color: #EFD279;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 0%;
+        }
+
+        .learn-panel-3 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -97px;
+            bottom: -40px;
+            background-color: #A0ECCA;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 0%;
+        }
+    }
+
+    @@media (max-width: 1400px) {
+        .learn-panel-2 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -73px;
+            bottom: -40px;
+            background-color: #EFD279;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 2%;
+        }
+
+        .learn-panel-3 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -97px;
+            bottom: -40px;
+            background-color: #A0ECCA;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 4%;
+        }
+    }
+
+    @@media (max-width: 1200px) {
+        .learn-panel-2 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -73px;
+            bottom: -40px;
+            background-color: #EFD279;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 6%;
+        }
+
+        .learn-panel-3 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -97px;
+            bottom: -40px;
+            background-color: #A0ECCA;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 10%;
+        }
+    }
+
+    @@media (max-width: 952px) {
+        .learn-panel-2 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -73px;
+            bottom: -40px;
+            background-color: #EFD279;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 12%;
+        }
+
+        .learn-panel-3 .panel-content-section .panel-angle-box {
+            position: absolute;
+            left: -40px;
+            right: -40px;
+            top: -97px;
+            bottom: -40px;
+            background-color: #A0ECCA;
+            -ms-transform: rotate(-8deg);
+            -webkit-transform: rotate(-8deg);
+            transform: rotate(-8deg);
+            margin-top: 24%;
+        }
+    }
+</style>
+<div class="container-fluid learn-more-overlay">
+    <div class="learn-more-inner">
+        <img src="~/Content/Template/assets/imgs/logo/logo.png" width="315" alt="Dallien" />
+        <label class="label-learn">REAL ESTATE ADVISORS</label>
+        <div class="angles-outer">
+            <img src="~/Content/Template/assets/imgs/bg/learn-more-lines.svg" alt="Alternate Text" class="img-responsive" />
+            @*<div class="angles-inner">
+                    <div class="angle-green"></div>
+                    <div class="angle-orange"></div>
+                </div>*@
+        </div>
+    </div>
+</div>
+<div class="space-filler"></div>
+<div class="container-fluid pt-5 mb-5">
+    <div class="row pb-5">
+        <div class="col text-center color-dark">
+            <h4 class="text-uppercase mb-0" style="color:#293847 !important;">we don't just open doors</h4>
+            <h1 class="text-uppercase heading-style-2 hr-orange absolute-center" style="letter-spacing:1.5px !important;">we create opportunity</h1>
+            <p style="max-width: 760px; margin: auto; color:#293847; margin-top: 50px; font-size: 18px;">
+                Dallien is a versatile boutique residential brokerage firm that offers a full
+                suite of advisory services including developer consulting and representation, comparative
+                market analysis, real estate optimization and traditional apartment and condo selection.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-5 pb-5 pl-pr-5">
+    <div class="row pt-5">
+        <div class="col-12 text-center color-dark">
+            <h1 class="text-uppercase heading-style-2 hr-orange absolute-center">How we can help</h1>
+        </div>
+        <div class="col-12 mt-5">
+            <div class="row">
+                <div class="col-md-4 learn-panel learn-panel-1">
+                    <div class="learn-panel-inner">
+                        <div class="img-section-outer">
+                            <div class="img-section-inner text-center">
+                                <h2 class="text-uppercase" style="font-size:24px !important;">ACCESS TO EXCLUSIVE<br /> listings</h2>
+                            </div>
+                        </div>
+                        <div class="panel-content-section panel-content-1">
+                            <div class="panel-angle-box"></div>
+                            <div class="panel-content-holder">
+                                <p style="font-size:14px; color:#293847;">A sampling of some of the properties represented by Dallien.</p>
+                                <a href="../../Home/FindListing" class="btn btn-sm btn-bg-transparent" style="color:#293847; border-color:#293847;margin-top:3%;">VIEW LISTINGS</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 learn-panel learn-panel-2">
+                    <div class="learn-panel-inner">
+                        <div class="img-section-outer">
+                            <div class="img-section-inner text-center">
+                                <h2 class="text-uppercase" style="font-size:24px !important;">BUYER & SELLER<br /> REPRESENTATION</h2>
+                            </div>
+                        </div>
+                        <div class="panel-content-section panel-content-2">
+                            <div class="panel-angle-box"></div>
+                            <div class="panel-content-holder">
+                                <p style="font-size:14px; color:#293847;">
+                                    You need a broker who is not just going to
+                                    open a door but guide you through the entire
+                                    sales process. Dallien experienced
+                                    agents will work with you to buy or sell your
+                                    apartment for the right price in the shortest
+                                    period of time. We’ll help you craft an offer
+                                    that is supported by the market and comparable sales.
+                                </p>
+                                <a href="../../Home/ContactUs" class="btn btn-sm btn-bg-transparent" style="color:#293847; border-color:#293847;margin-top:3%;">CONTACT US</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 learn-panel learn-panel-3">
+                    <div class="learn-panel-inner">
+                        <div class="img-section-outer">
+                            <div class="img-section-inner text-center">
+                                <h2 class="text-uppercase" style="font-size:24px !important;">OWNER & DEVELOPER <br />REPRESENTATION</h2>
+                            </div>
+                        </div>
+                        <div class="panel-content-section panel-content-3">
+                            <div class="panel-angle-box"></div>
+                            <div class="panel-content-holder">
+                                <p style="font-size:14px; color:#293847;">
+                                    Dallien is the exclusive rental company for
+                                    over 500 units spread throughout Manhattan
+                                    and Brooklyn. We’ll work with you on layouts,
+                                    marketing campaigns, online strategies and
+                                    can even recommend where it makes the most
+                                    sense to put the kitchen and how big that
+                                    bedroom needs to be to get your desired rent.
+                                </p>
+                                <a href="../../Home/ContactUs" class="btn btn-sm btn-bg-transparent" style="color:#293847; border-color:#293847;margin-top:3%;">CONTACT US</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-5" style="margin-bottom:-60px;">
+    <div class="row">
+        <div class="col contact-us-section">
+            <div class="contact-us-section-inner">
+                <h1 class="text-uppercase">we create opportunity</h1>
+                <a href="../../Home/ContactUs" class="btn btn-sm btn-bg-transparent" style="color:#293847; background-color:#A0ECCA; border:none; margin-top:5%;">CONTACT US</a>
+            </div>
+        </div>
+    </div>
+</div>

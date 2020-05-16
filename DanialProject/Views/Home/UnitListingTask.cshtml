@@ -1,0 +1,966 @@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CompleteLayout.cshtml";
+}
+
+<head>
+    <title></title>
+    <link href="~/Content/Template/assets/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Content/Template/assets/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+    <link href="~/Content/Template/assets/autocomplete/awesomplete.css" rel="stylesheet">
+    <link href="~/Content/Template/assets/autocomplete/prism.css" rel="stylesheet">
+    <script type="text/javascript" src="~/Content/Template/assets/autocomplete/awesomplete.js"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/autocomplete/prism.js"></script>
+
+    <link href="~/Content/AdminPage/bower_components/select2/dist/css/select2.css" rel="stylesheet">
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Content/AdminPage/bower_components/select2/dist/js/select2.full.min.js")"></script>
+
+    <script src="@DanialProject.Models.FingerPoint.Tag("/Content/ProjectFiles/Admin/SalesListing.js")"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/jquery/jquery.priceformat.js"></script>
+</head>
+</div>
+<form action="#/" id="Unitform" method="post" onsubmit="return AddUnit(this.submited);" class="form-horizontal" role="form" autocomplete="off">
+    <div class="container m-t-150">
+        <div class="row m-t-25">
+            <div class="col">
+                <h1 class="heading font1 green">Add Rental Unit</h1>
+            </div>
+        </div>
+        <div class="row m-t-25">
+            <div class="col-lg-6 col-sm-12 col-12">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>BUILDING NAME</label>
+                            <section id="ajax-example2">
+                                <input type="text" data-minchars="1" data-maxitems="10" class="form-control" id="building-name" name="building-name" autocomplete="off">
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>BUILDING TYPE</label>
+                            <select class="form-control" id="building-type">
+                                <option>Select One</option>
+                                <option>Co-op</option>
+                                <option>Condo</option>
+                                <option>Condop</option>
+                                <option>Multi-Family</option>
+                                <option>New Development</option>
+                                <option>Pre-War</option>
+                                <option>Single-Family</option>
+                                <option>Walk Up</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col-lg-7 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>ADDRESS OR CROSS STREETS <span class="c-red">*</span></label>
+                            <input type="text" class="form-control" id="Address" required autocomplete="off" />
+                            <input type="text" class="form-control" id="Latitude" style="display:none;" />
+                            <input type="text" class="form-control" id="Longitude" style="display:none;" />
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>UNIT <span class="c-red">*</span></label>
+                            <input type="text" class="form-control" id="unit" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>PRICE <span class="c-red">*</span></label>
+                            <input type="text" class="form-control" id="price" value="$0.00" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-t-25">
+                    <div class="col-6 col-sm-4">
+                        <div class="form-group">
+                            <label>BEDS <span class="c-red">*</span></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="fas fa-minus-circle left-icon" onclick="Bedsdec($('#bed').val());"></i>
+                                </div>
+                                <input type="number" step="any" readonly class="form-control text-center no-btn" required placeholder="" id="bed" value="0">
+                                <div class="input-group-append">
+                                    <i class="fas fa-plus-circle right-icon" onclick="BedsInc($('#bed').val());"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-4">
+                        <div class="form-group">
+                            <label>BATHS <span class="c-red">*</span></label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="fas fa-minus-circle left-icon" onclick="Bathsdec($('#bath').val());"></i>
+                                </div>
+                                <input type="number" step="any" min="1" readonly class="form-control text-center" placeholder="" id="bath" value="0">
+                                <div class="input-group-append">
+                                    <i class="fas fa-plus-circle right-icon" onclick="BathsInc($('#bath').val());"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <div class="form-check" style="margin-top: 25px;">
+                            <input class="form-check-input" type="checkbox" id="rooms">
+                            <label for="rooms" class="form-check-label checkbox-label">
+                                Room
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="private-listing">
+                            <label class="form-check-label checkbox-label" for="private-listing">
+                                Private Listing
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group link">
+                            <label>BOROUGH</label>
+                            <select class="form-control" onchange="BroughChange();" id="Brough">
+                                <option selected>Brooklyn</option>
+                                <option>Long Island</option>
+                                <option>Manhattan</option>
+                                <option>Queens</option>
+                                <option>Staten Island</option>
+                                <option>The Bronx</option>
+                                <option>Upstate NY</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>NEIGHBORHOOD</label>
+                            <select class="form-control" id="Brooklyn" onchange="BrooklynChange();">
+                                <option>Select One</option>
+                                <option>Bath Beach</option>
+                                <option>Bay Ridge</option>
+                                <option>Bedford Stuyvesant</option>
+                                <option>Bensonhurst</option>
+                                <option>Bergen Beach</option>
+                                <option>Beverly Square East</option>
+                                <option>Beverly Square West</option>
+                                <option>Boerum Hill</option>
+                                <option>Borough Park</option>
+                                <option>Brighton Beach</option>
+                                <option>Brooklyn Heights</option>
+                                <option>Brownsville</option>
+                                <option>Bushwick</option>
+                                <option>Canarsie</option>
+                                <option>Carroll Gardens</option>
+                                <option>Clinton Hill</option>
+                                <option>Cobble Hill</option>
+                                <option>Colombia Street Waterfront</option>
+                                <option>Coney Island</option>
+                                <option>Crown Heights</option>
+                                <option>Cypress Hills</option>
+                                <option>Ditmas Park</option>
+                                <option>Downtown Brooklyn</option>
+                                <option>Dumbo</option>
+                                <option>Dyker Heights</option>
+                                <option>East Flatbush</option>
+                                <option>East New York</option>
+                                <option>East Williamsburg</option>
+                                <option>Fiske Terrace</option>
+                                <option>Flatbush</option>
+                                <option>Flatlands</option>
+                                <option>Fort Greene</option>
+                                <option>Gerrit son Beach</option>
+                                <option>Gowan Us</option>
+                                <option>Gravesend</option>
+                                <option>Greenpoint</option>
+                                <option>Greenwood</option>
+                                <option>Kensington & Parkville</option>
+                                <option>Manhattan Beach</option>
+                                <option>Mapleton</option>
+                                <option>Midwood Park</option>
+                                <option>Mill Basin</option>
+                                <option>Park Slope</option>
+                                <option>Prospect Heights</option>
+                                <option>Prospect Lefferts Gardens</option>
+                                <option>Prospect Park South</option>
+                                <option>Red Hook</option>
+                                <option>Seagate</option>
+                                <option>Sheepshead Bay</option>
+                                <option>Sunset Park</option>
+                                <option>Vinegar Hill</option>
+                                <option>West Midwood</option>
+                                <option>Williamsburg</option>
+                                <option>Windsor Terrace</option>
+                            </select>
+
+                            <select class="form-control" id="Manhattan" onchange="ManhattanChange();" style="display:none;">
+                                <option>Select One</option>
+                                <option>Alphabet City</option>
+                                <option>Battery Park City</option>
+                                <option>Bowery</option>
+                                <option>Chelsea</option>
+                                <option>Chinatown</option>
+                                <option>Civic Center</option>
+                                <option>Clinton</option>
+                                <option>Columbus Circle</option>
+                                <option>Diamond District</option>
+                                <option>East Harlem</option>
+                                <option>East Village</option>
+                                <option>Financial District</option>
+                                <option>Flatiron District</option>
+                                <option>Fort George</option>
+                                <option>Garment District</option>
+                                <option>Gramercy Park</option>
+                                <option>Greenwich Village</option>
+                                <option>Hamilton Heights</option>
+                                <option>Harlem</option>
+                                <option>Hell's Kitchen</option>
+                                <option>Hudson Heights</option>
+                                <option>Hudson Yards</option>
+                                <option>Inwood</option>
+                                <option>Kips Bay</option>
+                                <option>Korea Town</option>
+                                <option>Lenox Hill</option>
+                                <option>Lincoln Square</option>
+                                <option>Little Italy</option>
+                                <option>Lower East Side</option>
+                                <option>Manhattan Valley</option>
+                                <option>Manhattanville</option>
+                                <option>Meatpacking District</option>
+                                <option>Midtown Center</option>
+                                <option>Midtown East</option>
+                                <option>Midtown South Central</option>
+                                <option>Midtown West</option>
+                                <option>Morningside Heights</option>
+                                <option>Murray Hill</option>
+                                <option>Noho</option>
+                                <option>Nolita</option>
+                                <option>Nomad</option>
+                                <option>Peter Cooper Village</option>
+                                <option>Randall's Island</option>
+                                <option>Restaurant Row</option>
+                                <option>Roosevelt Island</option>
+                                <option>Rose Hill</option>
+                                <option>Soho</option>
+                                <option>Sutton Place</option>
+                                <option>Theater District</option>
+                                <option>Tribeca</option>
+                                <option>Tudor City</option>
+                                <option>Turtle Bay</option>
+                                <option>Two Bridges</option>
+                                <option>Union Square</option>
+                                <option>Upper East Side</option>
+                                <option>Upper West Side</option>
+                                <option>Washington Heights</option>
+                                <option>West Village</option>
+                                <option>Yorkville</option>
+                            </select>
+
+                            <select class="form-control" id="Queens" onclick="QueensChange();" style="display:none;">
+                                <option>Select One</option>
+                                <option>Arverne</option>
+                                <option>Astoria</option>
+                                <option>Auburndale</option>
+                                <option>Bay Terrace</option>
+                                <option>Bays Water</option>
+                                <option>Bayside</option>
+                                <option>Beech Hurst</option>
+                                <option>Belle Harbor</option>
+                                <option>Bellerose</option>
+                                <option>Bliss Ville</option>
+                                <option>Breezy Point</option>
+                                <option>Briarwood</option>
+                                <option>Broad Channel</option>
+                                <option>Brook Ville</option>
+                                <option>Cambria Heights</option>
+                                <option>College Point</option>
+                                <option>Corona</option>
+                                <option>Ditmars</option>
+                                <option>East Elmhurst</option>
+                                <option>Edgemere</option>
+                                <option>Elmhurst</option>
+                                <option>Far Rockaway</option>
+                                <option>Floral Park</option>
+                                <option>Flushing</option>
+                                <option>Forrest Hills</option>
+                                <option>Fresh Meadows</option>
+                                <option>Glen Oaks</option>
+                                <option>Glendale</option>
+                                <option>Hamilton Beach</option>
+                                <option>Hammel's</option>
+                                <option>Hollis Hills</option>
+                                <option>Hollis</option>
+                                <option>Howard Beach</option>
+                                <option>Hunters Point</option>
+                                <option>Jackson Heights</option>
+                                <option>Jamaica Estates</option>
+                                <option>Jamaica Hills</option>
+                                <option>Jamaica</option>
+                                <option>Kew Gardens</option>
+                                <option>Laurelton</option>
+                                <option>Lindenwood</option>
+                                <option>Little Neck</option>
+                                <option>Long Island City</option>
+                                <option>Malba</option>
+                                <option>Maspeth</option>
+                                <option>Middle Village</option>
+                                <option>Murray Hill</option>
+                                <option>Neponset</option>
+                                <option>North Corona</option>
+                                <option>Oakland Gardens</option>
+                                <option>Ozone Park</option>
+                                <option>Pomonok</option>
+                                <option>Queens Village</option>
+                                <option>Queensboro Hill</option>
+                                <option>Rego Park</option>
+                                <option>Richmond Hill</option>
+                                <option>Ridgewood</option>
+                                <option>Rochdale</option>
+                                <option>Rockaway Park</option>
+                                <option>Rosedale</option>
+                                <option>Roxbury</option>
+                                <option>Seaside</option>
+                                <option>South Jamaica</option>
+                                <option>South Ozone Park</option>
+                                <option>Springfield Gardens</option>
+                                <option>St. Albans</option>
+                                <option>Steinway</option>
+                                <option>Sunnyside Park</option>
+                                <option>Sunnyside</option>
+                                <option>Utopia</option>
+                                <option>Whitestone</option>
+                                <option>Willets Point</option>
+                                <option>Woodhaven</option>
+                                <option>Woodside</option>
+                            </select>
+
+                            <select class="form-control" id="TheBronx" onclick="TheBronxChange();" style="display:none;">
+                                <option>Select One</option>
+                                <option>Allerton</option>
+                                <option>Baychester</option>
+                                <option>Bedford Park</option>
+                                <option>Belmont</option>
+                                <option>Bronx Dale</option>
+                                <option>Caslon Point</option>
+                                <option>Castle Hill</option>
+                                <option>City Island</option>
+                                <option>Co-op</option>
+                                <option>Concourse Village</option>
+                                <option>Country Club</option>
+                                <option>Crotona Park</option>
+                                <option>Eastchester</option>
+                                <option>Eden Wald</option>
+                                <option>Field Ston</option>
+                                <option>Fordham Heights</option>
+                                <option>Fordham North</option>
+                                <option>High Bridge</option>
+                                <option>High Island</option>
+                                <option>Hunts Point</option>
+                                <option>Kingsbridge Heights</option>
+                                <option>Kingsbridge</option>
+                                <option>Longwood</option>
+                                <option>Melrose</option>
+                                <option>Morris Heights</option>
+                                <option>Morris Park</option>
+                                <option>Morrisania</option>
+                                <option>Mott Haven</option>
+                                <option>Mount Hope</option>
+                                <option>North Brother</option>
+                                <option>North Riverdale</option>
+                                <option>Norwood</option>
+                                <option>Olin Ville</option>
+                                <option>Parkchester</option>
+                                <option>Pelham Bay</option>
+                                <option>Pelham Gardens</option>
+                                <option>Port Morris</option>
+                                <option>Rikers Island</option>
+                                <option>Riverdale</option>
+                                <option>Schuylerville</option>
+                                <option>Soundview</option>
+                                <option>South Brother</option>
+                                <option>Spuy ten Duyvil</option>
+                                <option>Throng's Neck</option>
+                                <option>Tremont</option>
+                                <option>Union Port</option>
+                                <option>University Heights</option>
+                                <option>Van Nest</option>
+                                <option>Wakefield</option>
+                                <option>West Concourse</option>
+                                <option>West Farms</option>
+                                <option>Westchester Square</option>
+                                <option>Williamsbridge</option>
+                            </select>
+
+                            <select class="form-control" id="StatenIsland" onclick="StatenIslandChange();" style="display:none;">
+                                <option>Select One</option>
+                                <option>Annandale</option>
+                                <option>Arden Heights</option>
+                                <option>Arlington</option>
+                                <option>Arrochar</option>
+                                <option>Bay Terrace</option>
+                                <option>Bloomfield</option>
+                                <option>Bulls Head</option>
+                                <option>Castleton Corners</option>
+                                <option>Charleston</option>
+                                <option>Clifton</option>
+                                <option>Concord</option>
+                                <option>Dungan Hills</option>
+                                <option>Elm Park</option>
+                                <option>Eltingville</option>
+                                <option>Graniteville</option>
+                                <option>Grant City</option>
+                                <option>Grasmere</option>
+                                <option>Great Kills</option>
+                                <option>Grimes Hill</option>
+                                <option>Heartland Village</option>
+                                <option>Huguenot</option>
+                                <option>Manor Heights</option>
+                                <option>Mariners Harbor</option>
+                                <option>Meier's Corner</option>
+                                <option>Midland Beach</option>
+                                <option>New Brighton</option>
+                                <option>New Drop</option>
+                                <option>New Springville</option>
+                                <option>Oakwood</option>
+                                <option>Old place</option>
+                                <option>Old town</option>
+                                <option>Park Hill</option>
+                                <option>Pleasant Plains</option>
+                                <option>Port Ivory</option>
+                                <option>Port Richmond</option>
+                                <option>Prall's Island</option>
+                                <option>Prince's Bay</option>
+                                <option>Randall Manor</option>
+                                <option>Richmond Town</option>
+                                <option>Richmond Valley</option>
+                                <option>Rosebank</option>
+                                <option>Rossville</option>
+                                <option>Saint George</option>
+                                <option>Shooters Island</option>
+                                <option>Shore Acres</option>
+                                <option>Silverlake</option>
+                                <option>South Beach</option>
+                                <option>Stapleton</option>
+                                <option>Sunnyside</option>
+                                <option>Todt Hill</option>
+                                <option>Tompkinsville</option>
+                                <option>Tottenville</option>
+                                <option>Travis-Chelsea</option>
+                                <option>West New Brighton</option>
+                                <option>Wester leigh</option>
+                                <option>Willow Brooke</option>
+                                <option>Woodrow</option>
+                            </select>
+
+                            <select class="form-control" id="LongIsland" onclick="LongIslandChange();" style="display:none;">
+                                <option>Select One</option>
+                            </select>
+                            <select class="form-control" id="UpstateNY" onclick="UpstateNYChange();" style="display:none;">
+                                <option>Select One</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>LEASE TERM (MONTHS)</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="fas fa-minus-circle left-icon" onclick="$('#lease-term').val($('#lease-term').val() - 1);"></i>
+                                </div>
+                                <input type="number" min="1" readonly class="form-control text-center no-btn" id="lease-term" value="12">
+                                <div class="input-group-append">
+                                    <i class="fas fa-plus-circle right-icon" onclick="$('#lease-term').val(parseInt($('#lease-term').val()) + 1);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>INCENTIVES (WEEKS FREE)</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="fas fa-minus-circle left-icon" onclick="$('#Incentives').val($('#Incentives').val() - 1);"></i>
+                                </div>
+                                <input type="number" min="1" readonly class="form-control text-center no-btn" placeholder="" id="Incentives" value="0">
+                                <div class="input-group-append">
+                                    <i class="fas fa-plus-circle right-icon" onclick="$('#Incentives').val(parseInt($('#Incentives').val()) + 1);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>EXCLUSIVITY</label>
+                            <select id="exclusivity" class="form-control">
+                                <option>Select One</option>
+                                <option>Co-Exclusive</option>
+                                <option>Exclusive</option>
+                                <option>Open</option>
+                                <option>Semi-Exclusive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>LANDLORD</label>
+                            <input type="text" class="form-control" id="landlord" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col-lg-4 col-sm-4 col-4">
+                        <div class="form-group">
+                            <label>OP% <span class="c-red">*</span></label>
+                            <input type="text" value="0.0%" class="form-control" id="op" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-4">
+                        <div class="form-group">
+                            <label>FEE (IF APPLICABLE)</label>
+                            <input type="text" value="$0.00" class="form-control" id="fee" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-4">
+                        <div class="form-check" style="margin-top: 25px;">
+                            <input class="form-check-input" type="checkbox" value="1" id="no-fee">
+                            <label for="no-fee" class="form-check-label checkbox-label">
+                                No Fee
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <label class="m-t-25">MOVE-IN COSTS</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "DepositType" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-3 col-sm-3 col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div class="col-lg-12 col-sm-12 col-12 m-t-15">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="move-in-text" />
+                        </div>
+                    </div>
+                </div>
+                <label class="m-t-25">UTILITIES INCLUDED</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "Utilities" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-3 col-sm-3 col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <label class="m-t-25">PETS ALLOWED</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "Pets" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-3 col-sm-3 col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="pets-allowed" onclick="PetsCheck();" type="checkbox" id="@item.ID" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div class="col-lg-4 col-sm-6 col-4 disable" id="under30lbs">
+                        <div class="form-check">
+                            <input class="form-check-input dali-checkbox" id="under30lbs-ckb" type="checkbox" value="Under 30 lbs">
+                            <label for="under30lbs-ckb" class="form-check-label checkbox-label">
+                                Under 30 lbs
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-4 disable" id="casebycase">
+                        <div class="form-check">
+                            <input class="form-check-input dali-checkbox" id="casebycase-ckb" type="checkbox" value="case by case">
+                            <label for="casebycase-ckb" class="form-check-label checkbox-label">
+                                case by case
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-25">
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>AVAILIBILITY DATE <span class="c-red">*</span></label>
+                            <input type="date" onload="getDate()" required class="form-control text-uppercase" id="availibilty-date" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>GUARANTORS ACCEPTED</label>
+                            <select class="form-control" id="guarantor-accepted">
+                                <option>Select One</option>
+                                <option>No</option>
+                                <option>Upon Approval</option>
+                                <option>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-25">
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>LISTING AGENT <span class="c-red">*</span></label>
+                            <select class="form-control" id="listing-agent">
+                                @foreach (var item in ViewBag.Agents)
+                                {
+                                    if (ViewBag.Default == item.ID)
+                                    {
+                                        <option selected value="@item.ID"> @item.FirstName @item.LastName  </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID"> @item.FirstName @item.LastName </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>ASSIGN SALES AGENT</label>
+                            <select class="form-control select2" multiple="multiple" style="width:100%;" id="assign-sales-agent">
+                                @foreach (var item in ViewBag.Agents)
+                                {
+                                    if (ViewBag.Default == item.ID)
+                                    {
+                                        <option value="0">HUDSON TEAM</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID"> @item.FirstName @item.LastName </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-25">
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>BUILDING ACCESS <span class="c-red">*</span></label>
+                            <select class="form-control" id="building-access">
+                                <option>Select One</option>
+                                <option>Checkout</option>
+                                <option>Contact Agent</option>
+                                <option>Copyable</option>
+                                <option>Fob</option>
+                                <option>Front Desk</option>
+                                <option>Front Door Code</option>
+                                <option>Latch</option>
+                                <option>Lock Box</option>
+                                <option>Master Key</option>
+                                <option>Open</option>
+                                <option>Super</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>UNIT ACCESS <span class="c-red">*</span></label>
+                            <select class="form-control" id="unit-access">
+                                <option>Select One</option>
+                                <option>Checkout</option>
+                                <option>Contact Agent</option>
+                                <option>Copyable</option>
+                                <option>Fob</option>
+                                <option>Front Desk</option>
+                                <option>Latch</option>
+                                <option>Lock Box</option>
+                                <option>Master Key</option>
+                                <option>Open</option>
+                                <option>Super</option>
+                                <option>Tenant Occupied</option>
+                                <option>Unit Code</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea class="form-control" rows="2" id="access-notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-25">
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>PASSENGER ELEVATORS</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="fas fa-minus-circle left-icon" onclick="$('#passenger-elevators').val($('#passenger-elevators').val() - 1);"></i>
+                                </div>
+                                <input type="number" step="any" min="1" readonly class="form-control text-center no-btn" id="passenger-elevators" value="0">
+                                <div class="input-group-append">
+                                    <i class="fas fa-plus-circle right-icon" onclick="$('#passenger-elevators').val(parseInt($('#passenger-elevators').val()) + 1);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-6">
+                        <div class="form-group">
+                            <label>FRIEGHT ELEVATORS</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="fas fa-minus-circle left-icon" onclick="$('#frieght-elevators').val($('#frieght-elevators').val() - 1);"></i>
+                                </div>
+                                <input type="number" step="any" min="1" readonly class="form-control text-center no-btn" placeholder="" id="frieght-elevators" value="0">
+                                <div class="input-group-append">
+                                    <i class="fas fa-plus-circle right-icon" onclick="$('#frieght-elevators').val(parseInt($('#frieght-elevators').val()) + 1);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <label class="m-t-25">OUTDOOR SPACE</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "OutdoorSpace" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-4 col-sm-4 col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <label class="m-t-25">BUILDING AMENITIES</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "BuildingAmenities" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-6 col-sm-4 col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="features" id="@item.ID" type="checkbox" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <label class="m-t-25">UNIT AMENITIES</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "Amenities" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-6 col-sm-4 col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <label class="m-t-25">FIREPLACE</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "Fireplace" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-4 col-sm-4 col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <label class="m-t-25">BEDROOM SIZES</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "BedroomSizes" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-3 col-sm-3 col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="features" id="@item.ID" type="checkbox" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <label class="m-t-25">PARKING</label>
+                <div class="row m-t-5">
+                    @foreach (var item in Model)
+                    {
+                        if (item.IconType == "Parking" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                        {
+                            <div class="col-lg-3 col-sm-3 col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" name="parking" onclick="ParkingCheck();" type="checkbox" id="@item.ID" value="@item.ID">
+                                    <label for="@item.ID" class="form-check-label checkbox-label">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="row m-t-50">
+                    <div class="col-lg-8 col-sm-8 col-12">
+                        <div class="form-group disable AdditionalCost">
+                            <label>ADDITIONAL PARKING COST</label>
+                            <input type="text" value="$0.00" class="form-control" id="additional-cost" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12 col-12">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>PHOTOS</label>
+                        <div class="section-intro" id="listing-imgs-view-box" style="border: 2px solid #e0e0e0;padding:6px;">
+                            <div class="imgs-preview-wrap">
+                                <div class="img-preview-wrapper">
+                                    <div class="imgs-preview img-box" id="slider-imgs">
+                                    </div>
+                                    <div class="img-arrows previous-arrow carousel-control-prev">
+                                        <img src="~/Content/Template/assets/imgs/svg/left.png" />
+                                    </div>
+                                    <div class="img-arrows next-arrow carousel-control-next">
+                                        <img src="~/Content/Template/assets/imgs/svg/right.png" />
+                                    </div>
+                                </div>
+                                <div class="imgs-thumbnails" id="slider-thumbs">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-t-5 upload-btn" style="display:flex;">
+                            <button type="button" class="btn btn-primary btn-lg pull-left" id="upload-imgs-button" style="margin-right: 0px;">UPLOAD PHOTOS</button>
+                            <input class="btn-primary" style="display:none;" id="GalleryImage" name="file" type="file" multiple>
+                            <span class="pull-left inline-block" style="align-self:center;">Or drag and drop files directly<br />from your computer (max content limit for new images: 90MB)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>DESCRIPTION <span class="c-red">*</span></label>
+                            <textarea class="form-control" required rows="5" id="Description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea class="form-control" rows="3" id="Notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-15 hidden">
+                    @*<div class="col-6">
+                            <div class="form-group">
+                                <label>TRANSPORATION</label>
+                                <p>
+                                    <img src="~/Content/Template/assets/imgs/svg/transport.svg" width="150" height="35" />
+                                </p>
+                            </div>
+                        </div>*@
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>NEIGHBORHOOD</label>
+                            <h3 class="font1" id="ChangeNeighborhood">Seagate</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-5">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>OPEN HOUSE DATES</label>
+                            <div class="open-house-dates-wrap" id="open-house-dates-wrap">
+                            </div>
+                            <button class="btn btn-primary btn-lg" id="add-open-house-btn" type="button">ADD OPEN HOUSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="container-fluid bottom-bar">
+        <div class="container">
+            <div class="float-right buttons">
+                <button class="btn btn-lg btn-outline-secondary font1" onclick="this.form.submited=this.value;" value="Draft" type="submit" id="BtnDraft">SAVE AS DRAFT</button>
+                <button class="btn btn-success btn-lg" style="width: auto;margin-top: 0; margin-left:5px;" onclick="this.form.submited=this.value;" value="Save" type="submit" id="BtnAdmin">SAVE & SUBMIT</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu7d0PtAJTeDEv8CgVlbE9DY8usCwgB2Q&libraries=places&callback=initMap">
+</script>
+<div class="modal datepicker-dialog" id="date-picker-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">add date</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="~/Content/Template/assets/imgs/Icons/close.png" /></button>
+            </div>
+            <div class="modal-body">
+                <div id="date-picker-here" class="datepicker-here my-inline-datepicker"></div>
+                <div class="text-center">
+                    <button type="button" id="add-date-modal-btn" class="btn btn-success btn-lg add-date-modal-btn">ADD DATE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

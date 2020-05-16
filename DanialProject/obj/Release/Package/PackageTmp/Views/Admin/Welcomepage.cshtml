@@ -1,0 +1,22 @@
+@{
+    ViewBag.Title = "WelcomePage";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<style>
+    #welcome {
+        border: 2px solid black;
+        padding: 25px;
+        background: url(/Content/AdminPage/welcome.jpg); 
+        background-size: contain;
+        height:900px !important;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+        $("#preloader").hide();
+    });
+</script>
+<section class="content" id="welcome"> 
+</section>
+

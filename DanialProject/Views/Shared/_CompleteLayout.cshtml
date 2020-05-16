@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    @*<title>DALLIEN</title>*@
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="@DanialProject.Models.FingerPoint.Tag("/Content/Template/assets/bootstrap/css/bootstrap.css")">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <script type="text/javascript" src="~/Content/Template/assets/jquery/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Content/js/bootbox.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/Content/Template/assets/slider/fontello.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Template/assets/slider/fontello2.css">
+    <link href="~/Content/plugins/air-datepicker/dist/css/datepicker.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="@DanialProject.Models.FingerPoint.Tag("/Content/Template/styles.css")">
+    <script type="text/javascript" src="@DanialProject.Models.FingerPoint.Tag("/Content/Template/style.js")"></script>
+</head>
+<body>
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+    <!--Navbar-->
+    <div class="bg" id="home-bg">
+        <nav id="navbar" class="navbar navbar-expand-sm navbar-transparent">
+            <a class="navbar-brand" href="../../Home/Index">
+                <img alt="Brand" src="~/Content/Template/assets/imgs/logo/logo.png" width="85">
+            </a>
+            <button class="navbar-toggler ml-auto mobile-nav-opener" type="button" data-toggle="collapse">
+                <i><img src="~/Content/Template/assets/imgs/svg/menu.svg" /></i>
+            </button>
+            <div class="collapse navbar-collapse top-navbar-links" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link page-find-listing" href="../../Home/FindListing">FIND A LISTING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-apply" href="../../Home/Apply">APPLY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                    </li>
+                    @{
+                        try
+                        {
+                            HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                            string cookiePath1 = ticket.CookiePath;
+                            DateTime expiration = ticket.Expiration;
+                            bool expired = ticket.Expired;
+                            bool isPersistent = ticket.IsPersistent;
+                            DateTime issueDate = ticket.IssueDate;
+                            string CookieId = ticket.Name;
+                            string userData = ticket.UserData;
+                            int version = ticket.Version;
+                            if (!expired)
+                            {
+                                <li class="nav-item">
+                                    <a href="../../Home/ManageListing/@CookieId" class="nav-link page-profile">
+                                        MY PROFILE
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                       style="background-image: url(@userData)">
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../../Account/SignOut" class="logout nav-link">
+                                        LOGOUT &nbsp;<i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a onclick="$('#LoginModal').modal('show')" class="btn btn-login-transparent" href="javascript:void(0)">Login</a>
+                                </li>
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            <li class="nav-item">
+                                <a onclick="$('#LoginModal').modal('show')" class="btn btn-login-transparent" href="javascript:void(0)">Login</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <!-- mobile navbar -->
+            <div class="container-fluid d-block d-md-none top-navbar-mobile">
+                <div class="row mobile-nav-header">
+                    <div class="col-12">
+                        <div class="float-left mobile-logo-div">
+                            <img src="~/Content/Template/assets/imgs/logo/logo.png" width="70" alt="Alternate Text" />
+                        </div>
+                        <div class="mobile-navbar-close float-right">
+                            <i class="fas fa-times close-mobile-navbar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="navbar-nav mobile-top-navs">
+                            <li class="nav-item">
+                                <a class="nav-link page-find-listing" href="../../Home/FindListing">FIND A LISTING</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link page-apply" href="../../Home/Apply">APPLY</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">PAY</a>
+                            </li>
+                            @{
+                                try
+                                {
+                                    HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                                    string cookiePath1 = ticket.CookiePath;
+                                    DateTime expiration = ticket.Expiration;
+                                    bool expired = ticket.Expired;
+                                    bool isPersistent = ticket.IsPersistent;
+                                    DateTime issueDate = ticket.IssueDate;
+                                    string CookieId = ticket.Name;
+                                    string userData = ticket.UserData;
+                                    int version = ticket.Version;
+                                    if (!expired)
+                                    {
+                                        <li class="nav-item">
+                                            <a href="../../Home/ManageListing/@CookieId" class="nav-link page-profile">
+                                                MY PROFILE
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../../Home/ManageListing/@CookieId" class="nav-link profile"
+                                               style="background-image: url(@userData)">
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="../../Account/SignOut" class="logout">LOGOUT &nbsp;<i class="fas fa-sign-out-alt" style="font-size: 16px;"></i></a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                        </li>
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    <li class="nav-item">
+                                        <a onclick="$('#LoginModal').modal('show')" class="nav-link" href="javascript:void(0)">Login</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-12 mt-5">
+                        <ul class="navbar-nav mobile-footer-links">
+                            <li class="nav-item">
+                                <a class="nav-link" href="../../Home/OurAgents">OUR AGENTS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../../Home/ContactUs">LIST WITH US</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../../Home/LearnMore">ABOUT</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../../Home/Contacts">CAREERS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../../Home/Contacts">CONTACT</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- mobile navbar -->
+        </nav>
+    </div>
+    @RenderBody()
+    <!--Footer-->
+    <div class="container-fluid footer" id="footer">
+        <div class="row">
+            <div class="col-sm-3">
+                <img class="img-responsive cursor-pointer" onclick="HomePage();" src="~/Content/Template/assets/imgs/logo/logo.png" width="85" />
+                <p class="m-t-45">We don't just open doors, <br /> we <b>create opportunity</b></p>
+                <img src="~/Content/Template/assets/imgs/svg/housing.svg" />
+            </div>
+            <div class="col-sm-2">
+                <h3>Explore</h3>
+                <a href="../../Home/FindListing">Find a listing</a>
+                <a href="../../Home/Apply">APPLY</a>
+                <a target="_blank" href="https://harland.billeriq.com/ebpp/Dallien/">Pay</a>
+                @{
+                    try
+                    {
+                        HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                        FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                        string cookiePath1 = ticket.CookiePath;
+                        DateTime expiration = ticket.Expiration;
+                        bool expired = ticket.Expired;
+                        bool isPersistent = ticket.IsPersistent;
+                        DateTime issueDate = ticket.IssueDate;
+                        string CookieId = ticket.Name;
+                        string userData = ticket.UserData;
+                        int version = ticket.Version;
+                        if (!expired)
+                        {
+                            <a href="../../Home/ManageListing/@CookieId">My profile</a>
+                        }
+                        else
+                        {
+                            <a onclick="$('#LoginModal').modal('show')" href="javascript:void(0)">Login</a>
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        <a onclick="$('#LoginModal').modal('show')" href="javascript:void(0)">Login</a>
+                    }
+                }
+            </div>
+            <div class="col-sm-2">
+                <h3>Company</h3>
+                <a href="../../Home/OurAgents">Our Agents</a>
+                <a href="../../Home/ContactUs">List with us</a>
+                <a href="../../Home/LearnMore">About</a>
+                <a href="../../Home/ContactUs">Careers</a>
+                <a href="../../Home/ContactUs">Contact</a>
+            </div>
+            <div class="col-sm-2">
+                <h3>Address</h3>
+                <a href="https://maps.google.com/?q=DALLIEN, East 33rd Street, New York, NY, USA" target="_blank">33 EAST 33RD STREET SUITE 901 NEW YORK, NY 10016</a>
+                <div class="row footer_social_rapper">
+                    <a class="col-sm-2" href="https://www.facebook.com/DallienRealty/" target="_blank"><i class="fab fa-facebook-square"></i></a>
+                    <a class="col-sm-2" href="https://twitter.com/Dallienrealty" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a class="col-sm-2" href="https://www.instagram.com/dallienrealty/" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <h3>Phone</h3>
+                <a href="tel:212.257.2127">212.257.2127</a>
+            </div>
+            <div class="col-sm-2">
+                <h3>Email</h3>
+                <a href="mailto:info@dallien.com">INFO@DALLIEN.COM</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <small>Copyright © 2019 Dallien Realty. All rights reserved</small>
+            </div>
+        </div>
+    </div>
+    <!--Footer-->
+    <!--Login_Form-->
+    @Html.Partial("~/Views/Partial/LoginForm.cshtml")
+    <!--Login_Form-->
+
+    <script src="~/Content/plugins/air-datepicker/dist/js/datepicker.min.js"></script>
+    <script src="~/Content/plugins/air-datepicker/dist/js/i18n/datepicker.en.js"></script>
+    <script src="~/Content/Template/assets/slider/TweenMax.min.js"></script>
+    <script src="~/Content/Template/assets/slider/TweenLite.min.js"></script>
+    <script type="text/javascript" src="~/Content/Template/assets/slider/clip_carousel.js"></script>
+</body>
+</html>

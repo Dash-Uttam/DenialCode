@@ -1,0 +1,399 @@
+﻿@model IEnumerable<DanialProject.Models.Database.Features>
+<link href="~/Content/AdminPage/bower_components/select2/dist/css/select2.css" rel="stylesheet">
+<script src="@DanialProject.Models.FingerPoint.Tag("/Content/AdminPage/bower_components/select2/dist/js/select2.full.min.js")"></script>
+
+
+<style>
+    span.select2-container {
+        z-index: 10050 !important;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+        padding: 0px 10px 4px 10px !important;
+        line-height: 32px !important;
+    }
+</style>
+
+<div class="modal fade" id="Filters" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="modal-title heading-filters font1" id="exampleModalCenterTitle">
+                            FILTERS
+                            <button type="button" class="close float-right m-t-15" data-dismiss="modal" aria-label="Close">
+                                <i class="fas fa-times" style="color:#212529 !important;"></i>
+                            </button>
+                        </h1>
+                    </div>
+                </div>
+                <div class="row m-t-50">
+                    <div class="col">
+                        <div class="filter-mini-form">
+                            <h3 class="font1">BOROUGH</h3>
+                            <select class="dallien-select dallien-select-s select2 select2-container" onchange="OnBroughChange();" id="Brough">
+                                <option selected>Select One</option>
+                                <option>Brooklyn</option>
+                                <option>Long Island</option>
+                                <option>Manhattan</option>
+                                <option>Queens</option>
+                                <option>Staten Island</option>
+                                <option>The Bronx</option>
+                                <option>Upstate NY</option>
+                            </select>
+                            <img src="~/Content/Template/assets/imgs/svg/path.svg" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="filter-mini-form">
+                            <h3 class="font1">NEIGHBORHOOD</h3>
+                            <select class="dallien-select dallien-select-s select2 select2-container" multiple="multiple" id="Neighborhood"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-t-25">
+                    <div class="col">
+                        <div class="row">
+                            <h3 class="col-6 font1">FEE</h3>
+                            @*<a href="#/" onclick="filtersCheck();" id="select-all" class="select-all"><u>Select All</u></a>*@
+                        </div>
+                        <div class="row m-t-5">
+                            <div class="col-lg-3 col-sm-3 col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" id="no-fee" name="Features" type="checkbox" />
+                                    <label for="no-fee" class="form-check-label checkbox-label">
+                                        No-Fee
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row  m-t-25">
+                            <h3 class="col-6 font1">BUILDING AMENITIES</h3>
+                            @*<a href="#/" onclick="filtersCheck();" id="select-all" class="select-all"><u>Select All</u></a>*@
+                        </div>
+                        <div class="row m-t-5">
+                            @foreach (var item in Model)
+                            {
+                                if (item.IconType == "BuildingAmenities" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                                {
+                                    <div class="col-lg-4 col-sm-4 col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                            <label for="@item.ID" class="form-check-label checkbox-label">
+                                                @*@item.Name*@
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">UNIT AMENITIES</h3>
+                            @*<a href="#/" onclick="filtersCheck();" id="select-all" class="select-all"><u>Select All</u></a>*@
+                        </div>
+                        <div class="row m-t-5">
+                            @foreach (var item in Model)
+                            {
+                                if (item.IconType == "Amenities" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                                {
+                                    <div class="col-lg-4 col-sm-4 col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                            <label for="@item.ID" class="form-check-label checkbox-label">
+                                                @item.Name
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">PETS ALLOWED</h3>
+                            @*<a href="#/" onclick="filtersCheck();" id="select-all" class="select-all"><u>Select All</u></a>*@
+                        </div>
+                        <div class="row m-t-5">
+                            @foreach (var item in Model)
+                            {
+                                if (item.IconType == "Pets" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                                {
+                                    <div class="col-lg-4 col-sm-3 col-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input dali-checkbox" name="pets-allowed" onclick="PetsCheck();" type="checkbox" id="@item.ID" value="@item.ID">
+                                            <label for="@item.ID" class="form-check-label checkbox-label">
+                                                @item.Name
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <div class="col-lg-4 col-sm-6 col-4 disable" id="under30lbs">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" id="under30lbs-ckb" type="checkbox" value="Under 30 lbs">
+                                    <label for="under30lbs-ckb" class="form-check-label checkbox-label">
+                                        Under 30 lbs
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6 col-4 disable" id="casebycase">
+                                <div class="form-check">
+                                    <input class="form-check-input dali-checkbox" id="casebycase-ckb" type="checkbox" value="case by case">
+                                    <label for="casebycase-ckb" class="form-check-label checkbox-label">
+                                        case by case
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">OUTDOOR SPACE</h3>
+                            @*<a href="#/" onclick="filtersCheck();" id="select-all" class="select-all"><u>Select All</u></a>*@
+                        </div>
+                        <div class="row m-t-5">
+                            @foreach (var item in Model)
+                            {
+                                if (item.IconType == "OutdoorSpace" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                                {
+                                    <div class="col-lg-4 col-sm-4 col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                            <label for="@item.ID" class="form-check-label checkbox-label">
+                                                @item.Name
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">AVAILIBILITY DATE</h3>
+                            <h3 class="col-6 font1">GUARANTORS ACCEPTED</h3>
+                        </div>
+                        <div class="row m-t-5">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <input type="date" required class="form-control text-uppercase" id="availibilty-date" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="guarantor-accepted">
+                                        <option>Select One</option>
+                                        <option>No</option>
+                                        <option>Upon Approval</option>
+                                        <option>Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">PASSENGER ELEVATORS</h3>
+                            <h3 class="col-6 font1">FRIEGHT ELEVATORS</h3>
+                        </div>
+                        <div class="row m-t-5">
+                            <div class="col-lg-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <i class="fas fa-minus-circle left-icon" onclick="$('#passenger-elevators').val($('#passenger-elevators').val() - 1);"></i>
+                                        </div>
+                                        <input type="number" step="any" min="1" readonly class="form-control text-center no-btn" id="passenger-elevators" value="0">
+                                        <div class="input-group-append">
+                                            <i class="fas fa-plus-circle right-icon" onclick="$('#passenger-elevators').val(parseInt($('#passenger-elevators').val()) + 1);"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <i class="fas fa-minus-circle left-icon" onclick="$('#frieght-elevators').val($('#frieght-elevators').val() - 1);"></i>
+                                        </div>
+                                        <input type="number" step="any" min="1" readonly class="form-control text-center no-btn" placeholder="" id="frieght-elevators" value="0">
+                                        <div class="input-group-append">
+                                            <i class="fas fa-plus-circle right-icon" onclick="$('#frieght-elevators').val(parseInt($('#frieght-elevators').val()) + 1);"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">UTILITIES INCLUDED</h3>
+                        </div>
+                        <div class="row m-t-5">
+                            @foreach (var item in Model)
+                            {
+                                if (item.IconType == "Utilities" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                                {
+                                    <div class="col-lg-3 col-sm-3 col-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                            <label for="@item.ID" class="form-check-label checkbox-label">
+                                                @item.Name
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">FIREPLACE</h3>
+                        </div>
+                        <div class="row m-t-5">
+                            @foreach (var item in Model)
+                            {
+                                if (item.IconType == "Fireplace" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                                {
+                                    <div class="col-lg-4 col-sm-4 col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input dali-checkbox" name="features" type="checkbox" id="@item.ID" value="@item.ID">
+                                            <label for="@item.ID" class="form-check-label checkbox-label">
+                                                @item.Name
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="row m-t-25">
+                            <h3 class="col-6 font1">PARKING</h3>
+                        </div>
+                        <div class="row m-t-5">
+                            @foreach (var item in Model)
+                            {
+                                if (item.IconType == "Parking" && (item.ListingType == "Rent" || item.ListingType == "Both"))
+                                {
+                                    <div class="col-lg-3 col-sm-3 col-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input dali-checkbox" name="parking" onclick="ParkingCheck();" type="checkbox" id="@item.ID" value="@item.ID">
+                                            <label for="@item.ID" class="form-check-label checkbox-label">
+                                                @item.Name
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="align-content-center">
+                            <button class="btn btn-success m-t-25" id="btn-filter" onclick="GetFilterArray()">APPLY &nbsp; FILTERS</button>
+                            <label class="count m-t-15">@Model.Count() Results Found</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        try {
+            $('.select2').select2();
+        } catch (error) { var exe = error; } 
+    });
+
+    function OnBroughChange() {
+
+        var a = document.getElementById("Brough").selectedIndex;
+        var b = document.getElementById("Brough").options;
+
+        var Brooklyn = ["Bath Beach", "Bay Ridge", "Bedford Stuyvesant", "Bensonhurst", "Bergen Beach", "Beverly Square East", "Beverly Square West", "Boerum Hill", "Borough Park", "Brighton Beach", "Brooklyn Heights", "Brownsville", "Bushwick", "Canarsie", "Carroll Gardens", "Clinton Hill", "Cobble Hill", "Colombia Street Waterfront", "Coney Island", "Crown Heights", "Cypress Hills", "Ditmas Park", "Downtown Brooklyn", "Dumbo", "Dyker Heights", "East Flatbush", "East New York", "East Williamsburg", "Fiske Terrace", "Flatbush", "Flatlands", "Fort Greene", "Gerrit son Beach", "Gowan Us", "Gravesend", "Greenpoint", "Greenwood", "Kensington & Parkville", "Manhattan Beach", "Mapleton", "Midwood Park", "Mill Basin", "Park Slope", "Prospect Heights", "Prospect Lefferts Gardens", "Prospect Park South", "Red Hook", "Seagate", "Sheepshead Bay", "Sunset Park", "Vinegar Hill", "West Midwood", "Williamsburg", "Windsor Terrace",];
+        var Manhattan = ["Alphabet City", "Battery Park City", "Bowery", "Chelsea", "Chinatown", "Civic Center", "Clinton", "Columbus Circle", "Diamond District", "East Harlem", "East Village", "Financial District", "Flatiron District", "Fort George", "Garment District", "Gramercy Park", "Greenwich Village", "Hamilton Heights", "Harlem", "Hell's Kitchen", "Hudson Heights", "Hudson Yards", "Inwood", "Kips Bay", "Korea Town", "Lenox Hill", "Lincoln Square", "Little Italy", "Lower East Side", "Manhattan Valley", "Manhattanville", "Meatpacking District", "Midtown Center", "Midtown East", "Midtown South Central", "Midtown West", "Morningside Heights", "Murray Hill", "Noho", "Nolita", "Nomad", "Peter Cooper Village", "Randall's Island", "Restaurant Row", "Roosevelt Island", "Rose Hill", "Soho", "Sutton Place", "Theater District", "Tribeca", "Tudor City", "Turtle Bay", "Two Bridges", "Union Square", "Upper East Side", "Upper West Side", "Washington Heights", "West Village", "Yorkville",];
+        var Queens = ["Arverne", "Astoria", "Auburndale", "Bay Terrace", "Bays Water", "Bayside", "Beech Hurst", "Belle Harbor", "Bellerose", "Bliss Ville", "Breezy Point", "Briarwood", "Broad Channel", "Brook Ville", "Cambria Heights", "College Point", "Corona", "Ditmars", "East Elmhurst", "Edgemere", "Elmhurst", "Far Rockaway", "Floral Park", "Flushing", "Forrest Hills", "Fresh Meadows", "Glen Oaks", "Glendale", "Hamilton Beach", "Hammels", "Hollis Hills", "Hollis", "Howard Beach", "Hunters Point", "Jackson Heights", "Jamaica Estates", "Jamaica Hills", "Jamaica", "Kew Gardens", "Laurelton", "Lindenwood", "Little Neck", "Long Island City", "Malba", "Maspeth", "Middle Village", "Murray Hill", "Neponset", "North Corona", "Oakland Gardens", "Ozone Park", "Pomonok", "Queens Village", "Queensboro Hill", "Rego Park", "Richmond Hill", "Ridgewood", "Rochdale", "Rockaway Park", "Rosedale", "Roxbury", "Seaside", "South Jamaica", "South Ozone Park", "Springfield Gardens", "St. Albans", "Steinway", "Sunnyside Park", "Sunnyside", "Utopia", "Whitestone", "Willets Point", "Woodhaven", "Woodside",];
+        var TheBronx = ["Allerton", "Baychester", "Bedford Park", "Belmont", "Bronx Dale", "Caslon Point", "Castle Hill", "City Island", "Co-op", "Concourse Village", "Country Club", "Crotona Park", "Eastchester", "Eden Wald", "Field Ston", "Fordham Heights", "Fordham North", "High Bridge", "High Island", "Hunts Point", "Kingsbridge Heights", "Kingsbridge", "Longwood", "Melrose", "Morris Heights", "Morris Park", "Morrisania", "Mott Haven", "Mount Hope", "North Brother", "North Riverdale", "Norwood", "Olin Ville", "Parkchester", "Pelham Bay", "Pelham Gardens", "Port Morris", "Rikers Island", "Riverdale", "Schuylerville", "Soundview", "South Brother", "Spuy ten Duyvil", "Throngs Neck", "Tremont", "Union Port", "University Heights", "Van Nest", "Wakefield", "West Concourse", "West Farms", "Westchester Square", "Williamsbridge",];
+        var StatenIsland = ["Annandale", "Arden Heights", "Arlington", "Arrochar", "Bay Terrace", "Bloomfield", "Bulls Head", "Castleton Corners", "Charleston", "Clifton", "Concord", "Dungan Hills", "Elm Park", "Eltingville", "Graniteville", "Grant City", "Grasmere", "Great Kills", "Grimes Hill", "Heartland Village", "Huguenot", "Manor Heights", "Mariners Harbor", "Meiers Corner", "Midland Beach", "New Brighton", "New Drop", "New Springville", "Oakwood", "Old place", "Old town", "Park Hill", "Pleasant Plains", "Port Ivory", "Port Richmond", "Prall's Island", "Prince's Bay", "Randall Manor", "Richmond Town", "Richmond Valley", "Rosebank", "Rossville", "Saint George", "Shooters Island", "Shore Acres", "Silverlake", "South Beach", "Stapleton", "Sunnyside", "Todt Hill", "Tompkinsville", "Tottenville", "Travis-Chelsea", "West New Brighton", "Wester leigh", "Willow Brooke", "Woodrow",];
+        var LongIsland = [];
+        var UpstateNY = [];
+
+        $("#Neighborhood").html('');
+
+        if (b[a].value == "Brooklyn") {
+            for (var i = 0; i < Brooklyn.length; i++) {
+                $("#Neighborhood").append('<option>' + Brooklyn[i] + '</option>');
+            }
+        }
+        else if (b[a].value == "Manhattan") {
+            for (var i = 0; i < Manhattan.length; i++) {
+                $("#Neighborhood").append('<option>' + Manhattan[i] + '</option>');
+            }
+        }
+        else if (b[a].value == "Queens") {
+            for (var i = 0; i < Queens.length; i++) {
+                $("#Neighborhood").append('<option>' + Queens[i] + '</option>');
+            }
+        }
+        else if (b[a].value == "The Bronx") {
+            for (var i = 0; i < TheBronx.length; i++) {
+                $("#Neighborhood").append('<option>' + TheBronx[i] + '</option>');
+            }
+        }
+        else if (b[a].value == "Staten Island") {
+            for (var i = 0; i < StatenIsland.length; i++) {
+                $("#Neighborhood").append('<option>' + StatenIsland[i] + '</option>');
+            }
+        }
+        else if (b[a].value == "Long Island") {
+            for (var i = 0; i < LongIsland.length; i++) {
+                $("#Neighborhood").append('<option>' + LongIsland[i] + '</option>');
+            }
+        }
+        else if (b[a].value == "Upstate NY") {
+            for (var i = 0; i < UpstateNY.length; i++) {
+                $("#Neighborhood").append('<option>' + UpstateNY[i] + '</option>');
+            }
+        }
+        else {
+
+        }
+    }
+
+    function GetFilterArray() {
+        debugger;
+        var filterFeatures = [];
+
+        $.each($("input[name='features']:checked"), function () {
+            filterFeatures.push($(this).val());
+        });
+        $.each($("input[name = 'pets-allowed']:checked"), function () {
+            filterFeatures.push($(this).val());
+        });
+        $.each($("input[name = 'parking']:checked"), function () {
+            filterFeatures.push($(this).val());
+        });
+
+        var filterBuilding = {
+            NoFee: document.getElementById('no-fee').checked, Brough: $("#Brough").val(),
+            Neighborhood: $('#Neighborhood').select2("val"), AvailibilityDate: $("#availibilty-date").val(),
+            Guarantors: $("#guarantor-accepted").val(), PassengerElevators: $("#passenger-elevators").val(),
+            FrieghtElevators: $("#frieght-elevators").val(), Array: filterFeatures,
+            Under30lbs: document.getElementById('under30lbs-ckb').checked,
+            CasebyCase: document.getElementById('casebycase-ckb').checked,
+        };
+
+        var filterBuildingData = JSON.stringify(filterBuilding);
+
+        var ajaxRequest = $.ajax({
+            type: "POST",
+            url: "/api/WebApis/PostFilterFeatures",
+            contentType: 'application/json; charset=utf-8',
+            processData: false,
+            dataType: "json",
+            data: filterBuildingData,
+            success: function (data) {
+                //if (data != null) {
+                //    alert("Brough: " + data.Brough + "No Fee: " + data.NoFee + "Neighborhood: " + data.Neighborhood + "Availibility Date: " + data.AvailibilityDate +
+                //        "Guarantors Accepted: " + data.Guarantors + "Passenger Elevators: " + data.PassengerElevators + "Frieght Elevators: " + FrieghtElevators +
+                //        "Features:" + data.Array);
+                //}
+                //else {
+                //    alert("Something went wrong");
+                //}
+            }
+        });
+
+        $("#Filters").modal('hide');
+    }
+</script>*@

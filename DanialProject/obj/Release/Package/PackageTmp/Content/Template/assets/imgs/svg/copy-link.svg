@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <desc>Created with Lunacy</desc>
+  <g id="copy-link">
+    <path d="M0 0L11 0L11 11L0 11L0 0Z" transform="translate(0.5 0.5)" id="Rectangle" fill="#818D96" stroke="#818D96" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M9 0L11 0L11 11L0 11L0 9" transform="translate(4.5 4.5)" id="Path" fill="none" stroke="#818D96" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

@@ -1,0 +1,166 @@
+@{
+    ViewBag.Title = "AdminESR";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+<head>
+    <title></title>
+    <script src="~/Content/ProjectFiles/Admin/Roles.js"></script>
+</head>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h1 class="box-title col-md-3" style="font-weight:bold; font-size:24px; padding-top:15px; padding-bottom:5px;">
+                        System Roles
+                    </h1>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body pad table-responsive">
+                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-2">
+                                        <h3 class="box-title">Security Level</h3>
+                                    </div>
+                                    <div class="col-sm-4" style=" max-height: 30px !important;">
+                                        <div class="form-group">
+                                            <select class="form-control FieldsStyling" id="SecurityLevelOptions" name="SecurityLevelOptions" onchange="LevelChangeFunction();"></select>
+                                        </div>
+                                    </div>
+                                    <form class="form-horizontal" action="#/" onsubmit="return UpdateSecurityLevel();">
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required id="SelectedSecurityLevel" placeholder="Your Selected Level">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" id="UpdateLevelButton" type="submit">Rename</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div> 
+                            <div class="box-body">
+                                <form class="form-horizontal">
+                                    <div class="col-md-4">
+                                        <div class="box box-danger expanded box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">System Features</h3>
+                                            </div> 
+                                            <div class="box-body"> 
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <div class="checkbox" style="overflow:hidden !important;">
+                                                            <label>
+                                                                <input type="checkbox" onclick="CheckCheckboxesCount();" name="SecurityLevelCheckBoxes" value="Roles" id="Roles">
+                                                                Roles
+                                                            </label>
+                                                        </div>
+                                                        <hr style="margin:1px !important;">
+                                                    </div>  
+                                                    <div class="col-sm-12">
+                                                        <div class="checkbox" style="overflow:hidden !important;">
+                                                            <label>
+                                                                <input type="checkbox" onclick="CheckCheckboxesCount();" name="SecurityLevelCheckBoxes" value="Admins" id="Admins">
+                                                                Admins
+                                                            </label>
+                                                        </div>
+                                                        <hr style="margin:1px !important;">
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="checkbox" style="overflow:hidden !important;">
+                                                            <label>
+                                                                <input type="checkbox" onclick="CheckCheckboxesCount();" name="SecurityLevelCheckBoxes" value="Agents" id="Agents">
+                                                                Agents
+                                                            </label>
+                                                        </div>
+                                                        <hr style="margin:1px !important;">
+                                                    </div> 
+                                                </div> 
+                                            </div> 
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-4">
+                                        <div class="box box-warning expanded box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">Important Roles</h3>  
+                                            </div> 
+                                            <div class="box-body"> 
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <div class="checkbox" style="overflow:hidden !important;">
+                                                            <label>
+                                                                <input type="checkbox" onclick="CheckCheckboxesCount();" name="SecurityLevelCheckBoxes" value="Features" id="Features">
+                                                                Features
+                                                            </label>
+                                                        </div>
+                                                        <hr style="margin:1px !important;">
+                                                    </div>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="box box-success expanded box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">Others</h3>
+                                            </div>
+                                            <div class="box-body"> 
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <div class="checkbox" style="overflow:hidden !important;">
+                                                            <label>
+                                                                <input type="checkbox" onclick="CheckCheckboxesCount();" name="SecurityLevelCheckBoxes" value="Approved" id="Approved">
+                                                                Approved
+                                                            </label>
+                                                        </div>
+                                                        <hr style="margin:1px !important;">
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="checkbox" style="overflow:hidden !important;">
+                                                            <label>
+                                                                <input type="checkbox" onclick="CheckCheckboxesCount();" name="SecurityLevelCheckBoxes" value="OnApproval" id="OnApproval">
+                                                                On Approval
+                                                            </label>
+                                                        </div>
+                                                        <hr style="margin:1px !important;">
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="checkbox" style="overflow:hidden !important;">
+                                                            <label>
+                                                                <input type="checkbox" onclick="CheckCheckboxesCount();" name="SecurityLevelCheckBoxes" value="Rejected" id="Rejected">
+                                                                Rejected
+                                                            </label>
+                                                        </div>
+                                                        <hr style="margin:1px !important;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form class="form-horizontal" action="#/" onsubmit="return PostSecurityLevel();">
+                                    <div class="col-lg-6">
+                                        <div class="input-group  pull-left">
+                                            <input type="text" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required id="AddNewLevelText" placeholder="Add New Level">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-primary" type="submit" id="AddNewLevelButton">Add level</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="input-group pull-right">
+                                    <button class="btn btn-success" type="button" id="SecurityLevelButton" onclick="PostLevelAccesses();"> <i class="fa fa-check"></i> Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

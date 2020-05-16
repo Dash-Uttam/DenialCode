@@ -1,0 +1,487 @@
+
+@{
+    ViewBag.Title = "Dallien Realty";
+    Layout = "~/Views/Shared/_CompleteLayout.cshtml";
+}
+@model IEnumerable<DanialProject.Models.Database.Buildings>
+<script>
+    $(document).ready(function () {
+        $('#home-bg').addClass('bg-agents');
+    });
+    function ReadMore()
+    {
+        document.getElementById("ReadMore_Show").innerHTML = '@ViewBag.Agent.Description';
+        $("#readmore").hide();
+        $("#ReadMore").hide();
+    }
+    function SingleListing(id)
+    {
+        window.location = '../../Home/SingleListing/' + id;
+    }
+</script>
+<div class="container">
+    <div class="user-img  manage-page" style="margin-top:213px !important;">
+        <div class="m-r-15 polygon polygon-wrap-agent img-box-agent">
+            <img src="@ViewBag.Agent.Path" class="display-box-all" />
+        </div>
+        <span class="user-name-agent text-uppercase" style="font-size:18px; margin-top:-10px !important; letter-spacing:1px;">@ViewBag.Agent.Position</span>
+        <span class="user-name-agent">@ViewBag.Agent.FirstName <span class="user-last-name">@ViewBag.Agent.LastName </span> </span>
+        <span class="links">
+            <a href="../../Home/SingleAgent/@ViewBag.Agent.ID" style="color:#3A6F77 !important;">MY INFO</a>
+            @{
+                try
+                {
+                    HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                    string cookiePath1 = ticket.CookiePath;
+                    DateTime expiration = ticket.Expiration;
+                    bool expired = ticket.Expired;
+                    bool isPersistent = ticket.IsPersistent;
+                    DateTime issueDate = ticket.IssueDate;
+                    string CookieId = ticket.Name;
+                    string userData = ticket.UserData;
+                    int version = ticket.Version;
+                    if (!expired)
+                    {
+                        int AgentId = Int32.Parse(CookieId);
+                        if (ViewBag.Agent.ID == AgentId)
+                        {
+                            <a href="../../Home/ManageListing/@ViewBag.Agent.ID" style="margin-left:15px;">MANAGE LISTINGS</a>
+                            if (ViewBag.Agent.Category == "Team")
+                            {
+                                <a href="../../Home/ManageListingAdmin/@ViewBag.Agent.ID" style="margin-left:15px;">AGENT LISTINGS</a>
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+        </span>
+    </div>
+</div>
+<div class="container content-single-agent">
+    <p class="back font1 all-agents"><a href="../../Home/OurAgents"><i class="fas fa-arrow-left font-14"></i> &nbsp;&nbsp;All Agents</a></p>
+    <div class="row">
+        <div class="col-sm-8 col-xs-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="heading font1" style="font-size:50px;">About Me</h1>
+                </div>
+                <div class="col-sm-12 m-t-50">
+                    @if (@ViewBag.Agent.Description.Length > 498)
+                    {
+                        <p class="paragraph p-height" id="ReadMore">
+                            @ViewBag.Agent.Description.Substring(0, 499)
+                        </p>
+                        <p class="paragraph" id="ReadMore_Show">
+                        </p>
+                        <a href="#/" id="readmore" onclick="ReadMore();" class="readmore"><img src="~/Content/Template/assets/imgs/svg/drop.svg" /><u style="margin-left:10px;">Read More</u></a>
+                    }
+                    else
+                    {
+                        <p class="paragraph" id="ReadMore">
+                            @ViewBag.Agent.Description
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-6">
+            <div class="side-bar">
+                <div class="upper-content">
+                    <h3 class="font1">CONTACT</h3>
+                    <a href="tel:@ViewBag.Agent.Phone" class="f13"><u>@ViewBag.Agent.Phone</u></a><br />
+                    <a href="mailto:@ViewBag.Agent.EmailField" class="f13"><u>@ViewBag.Agent.EmailField</u></a>
+                    <br />
+                    @if (@ViewBag.Agent.Category != "Hudson")
+                    {
+                        <a href="@ViewBag.Agent.Facebook" target="_blank"><i class="fab fa-facebook-square"></i></a>
+                        <a href="@ViewBag.Agent.Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="@ViewBag.Agent.Instagram" target="_blank"> <i class="fab fa-instagram"></i></a>
+                    }
+                </div>
+                <hr style="margin-top:2rem !important" />
+                @if (@ViewBag.Agent.Category != "Hudson")
+                {
+                    <div class="lower-content">
+                        <p>
+                            <small>Hometown</small><br />
+                            <span>@ViewBag.Agent.HomeTown</span>
+                        </p>
+                        <p>
+                            <small>Languages</small><br />
+                            <span>@ViewBag.Agent.Languages</span>
+                        </p>
+                        <p>
+                            <small>Interests</small><br />
+                            <span>@ViewBag.Agent.Interests</span>
+                        </p>
+                    </div>
+                }
+                <a href="mailto:@ViewBag.Agent.EmailField" class="btn btn-success schedule-viewing">
+                    Schedule a viewing
+                </a>
+            </div>
+        </div>
+    </div>
+    @if (Model.Count() > 0)
+    {
+        var check = 0;
+        var activeRent = "active";
+        var activeSale = "";
+        <div class="row m-t-25">
+            <div class="col-sm-12">
+                <h1 class="heading font1">My Listings</h1>
+            </div>
+            <div class="col-sm-12 m-t-25">
+                <ul class="nav nav-pills simple-pills font1" role="tablist">
+                    @if (Model.Where(x => x.Type.Equals("Rent")).Count() > 0)
+                    {
+                        <li role="presentation"><a href="#home" class="rent selected-rent category-tabs" aria-controls="home" role="tab" data-toggle="tab">For rent</a></li>
+                    }
+                    else if (Model.Where(x => x.Type.Equals("Sale")).Count() > 0)
+                    {
+                        <li role="presentation"><a href="#profile" class="buy selected-buy category-tabs pl-0" aria-controls="profile" role="tab" data-toggle="tab">For Sale</a></li>
+                        check = 1;
+                        activeSale = "active";
+                        activeRent = "";
+                    }
+
+                    @if (Model.Where(x => x.Type.Equals("Sale")).Count() > 0 && check == 0)
+                    {
+                        <li role="presentation"><a href="#profile" class="buy category-tabs" style="padding-left:30px !important;" aria-controls="profile" role="tab" data-toggle="tab">For Sale</a></li>
+                    }
+                </ul>
+                <div class="tab-content m-t-5">
+                    <div role="tabpanel" class="tab-pane @activeRent" id="home">
+                        <div class="row m-0" style="margin-left:-10px !important;">
+                            @{
+                                try
+                                {
+                                    foreach (var item in Model.Where(x => x.Type.Equals("Rent")))
+                                    {
+                                        var price = "";
+                                        if (item.Price.ToString().Contains('.'))
+                                        {
+
+                                            var splitdot = item.Price.ToString().Split('.');
+                                            var toIntValue = Int32.Parse(splitdot[1]);
+
+                                            if (toIntValue > 0)
+                                            {
+                                                price = @String.Format("{0:C2}", Convert.ToDouble(item.Price));
+                                            }
+                                            else
+                                            {
+                                                price = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            price = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                                        }
+
+                                        var sp = item.Address.Split(',');
+                                        var name = sp[0];
+                                        var address = "";
+                                        if (sp[0] == item.Name)
+                                        {
+                                            address = "";
+                                        }
+                                        else
+                                        {
+                                            address = item.Name;
+                                        }
+
+                                        var n1 = name.Split(' ');
+                                        var address_for_users = "";
+                                        for (var y = 1; y < n1.Length; y++)
+                                        {
+                                            address_for_users = address_for_users + n1[y] + " ";
+                                        }
+
+                                        try
+                                        {
+                                            HttpCookie authCookie = Request.Cookies["AgentEatSleepUser1234hytusksdbsdfasdjasdidasdijnasd"];
+                                            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                                            string cookiePath1 = ticket.CookiePath;
+                                            DateTime expiration = ticket.Expiration;
+                                            bool expired = ticket.Expired;
+                                            bool isPersistent = ticket.IsPersistent;
+                                            DateTime issueDate = ticket.IssueDate;
+                                            string CookieId = ticket.Name;
+                                            string userData = ticket.UserData;
+                                            int version = ticket.Version;
+                                            if (!expired)
+                                            {
+                                                <div class="col-md-4 pt-2 pl-2 pr-0">
+                                                    <div class="card" style="min-height:430px;">
+                                                        <div class="card-img-box" style="height:200px;">
+                                                            <img src="@item.Image" class="img-responsive center" onclick="SingleListing(@item.ID);" style="cursor:pointer; width:auto; height:100%;" />
+                                                        </div>
+                                                        <div class="card-content">
+                                                            <a href="../../Home/SingleListing/@item.ID" class="user-link"><h1 class="font1 uppeer-case" style="margin-left:-6px;">@name</h1></a>
+                                                            <span class="room-short-text font1 uppeer-case">@address</span>
+                                                            <div class="row m-t-15">
+                                                                <div class="col">
+                                                                    <small>Price</small><br />
+                                                                    <h5 class="rate font1">@price</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <small>Rooms</small><br />
+                                                                    <h5 class="rate font1 uppeer-case">@item.Beds BED / @item.Baths BATH</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                @*<div class="col">
+                                                                        <small>Local Transit</small><br />
+                                                                        <img src="~/Content/Template/assets/imgs/svg/transport.svg" />
+                                                                    </div>*@
+                                                                <div class="col">
+                                                                    <small>BOROUGH</small><br />
+                                                                    <h5 class="rate font1 uppeer-case">@item.Borough</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <small>NEIGHBORHOOD</small><br />
+                                                                    <h5 class="rate font1 uppeer-case">@item.Neighbourhood</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-4 pt-2 pl-2 pr-0">
+                                                    <div class="card" style="min-height:430px;">
+                                                        <div class="card-img-box" style="height:200px;">
+                                                            <img src="@item.Image" class="img-responsive center" onclick="SingleListing(@item.ID);" style="cursor:pointer; width:auto; height:100%;" />
+                                                        </div>
+                                                        <div class="card-content">
+                                                            <a href="../../Home/SingleListing/@item.ID" class="user-link"><h1 class="font1 uppeer-case" style="margin-left:-6px;">@address_for_users</h1></a>
+                                                            <span class="room-short-text font1 uppeer-case">@address</span>
+                                                            <div class="row m-t-15">
+                                                                <div class="col">
+                                                                    <small>Price</small><br />
+                                                                    <h5 class="rate font1">@price</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <small>Rooms</small><br />
+                                                                    <h5 class="rate font1 uppeer-case">@item.Beds BED / @item.Baths BATH</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                @*<div class="col">
+                                                                        <small class="font1">Local Transit</small><br />
+                                                                        <img src="~/Content/Template/assets/imgs/svg/transport.svg" />
+                                                                    </div>*@
+                                                                <div class="col">
+                                                                    <small>BOROUGH</small><br />
+                                                                    <h5 class="rate font1 uppeer-case">@item.Borough</h5>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <small>NEIGHBORHOOD</small><br />
+                                                                    <h5 class="rate font1 uppeer-case">@item.Neighbourhood</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+                                            <div class="col-md-4 pt-2 pl-2 pr-0">
+                                                <div class="card" style="min-height:430px;">
+                                                    <div class="card-img-box" style="height:200px;">
+                                                        <img src="@item.Image" class="img-responsive center" onclick="SingleListing(@item.ID);" style="cursor:pointer; width:auto; height:100%;" />
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <a href="../../Home/SingleListing/@item.ID" class="user-link"><h1 class="font1 uppeer-case" style="margin-left:-6px;">@address_for_users</h1></a>
+                                                        <span class="room-short-text font1 uppeer-case">@address</span>
+                                                        <div class="row m-t-15">
+                                                            <div class="col">
+                                                                <small>Price</small><br />
+                                                                <h5 class="rate font1">@price</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <small>Rooms</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Beds BED / @item.Baths BATH</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            @*<div class="col">
+                                                                    <small class="font1">Local Transit</small><br />
+                                                                    <img src="~/Content/Template/assets/imgs/svg/transport.svg" />
+                                                                </div>*@
+                                                            <div class="col">
+                                                                <small>BOROUGH</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Borough</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <small>NEIGHBORHOOD</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Neighbourhood</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                catch (Exception) { }
+                            }
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane @activeSale" id="profile">
+                        <div class="row m-0" style="margin-left:-10px !important;">
+                            @{
+                                try
+                                {
+                                    foreach (var item in Model.Where(x => x.Type.Equals("Sale")))
+                                    {
+                                        try
+                                        {
+                                            var price = "";
+                                            if (item.Price.ToString().Contains('.'))
+                                            {
+
+                                                var splitdot = item.Price.ToString().Split('.');
+                                                var toIntValue = Int32.Parse(splitdot[1]);
+
+                                                if (toIntValue > 0)
+                                                {
+                                                    price = @String.Format("{0:C2}", Convert.ToDouble(item.Price));
+                                                }
+                                                else
+                                                {
+                                                    price = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                price = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                                            }
+
+                                            var sp = item.Address.Split(',');
+                                            var name = sp[0];
+                                            var address = "";
+                                            if (sp[0] == item.Name)
+                                            {
+                                                address = "";
+                                            }
+                                            else
+                                            {
+                                                address = item.Name;
+                                            }
+
+                                            <div class="col-md-4 pt-2 pl-2 pr-0">
+                                                <div class="card" style="min-height:430px;">
+                                                    <div class="card-img-box" style="height:200px;">
+                                                        <img src="@item.Image" class="img-responsive center" onclick="SingleListing(@item.ID);" style="cursor:pointer; width:auto; height:100%;" />
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <a href="../../Home/SingleListing/@item.ID" class="user-link"><h1 class="font1" style="margin-left:-6px;">@name</h1></a>
+                                                        <span class="room-short-text font1 uppeer-case">@address</span>
+                                                        <div class="row m-t-15">
+                                                            <div class="col">
+                                                                <small>Price</small><br />
+                                                                <h5 class="rate font1">@price</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <small>Rooms</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Beds BED / @item.Baths BATH</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <small>BOROUGH</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Borough</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <small class="font1">NEIGHBORHOOD</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Neighbourhood</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        catch (Exception)
+                                        {
+                                            var price = "";
+                                            if (item.Price.ToString().Contains('.'))
+                                            {
+
+                                                var splitdot = item.Price.ToString().Split('.');
+                                                var toIntValue = Int32.Parse(splitdot[1]);
+
+                                                if (toIntValue > 0)
+                                                {
+                                                    price = @String.Format("{0:C2}", Convert.ToDouble(item.Price));
+                                                }
+                                                else
+                                                {
+                                                    price = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                price = @String.Format("{0:C0}", Convert.ToDouble(item.Price));
+                                            }
+                                            <div class="col-md-4 pt-2 pl-2 pr-0">
+                                                <div class="card" style="min-height:430px;">
+                                                    <div class="card-img-box" style="height:200px;">
+                                                        <img src="@item.Image" class="img-responsive center" onclick="SingleListing(@item.ID);" style="cursor:pointer; width:auto; height:100%;" />
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <a href="../../Home/SingleListing/@item.ID" class="user-link"><h1 class="font1" style="margin-left:-6px;">@item.Address</h1></a>
+                                                        <span class="room-short-text font1 uppeer-case">@item.Name</span>
+                                                        <div class="row m-t-15">
+                                                            <div class="col">
+                                                                <small>Price</small><br />
+                                                                <h5 class="rate font1">@price</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <small>Rooms</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Beds BED / @item.Baths BATH</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <small>BOROUGH</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Borough</h5>
+                                                            </div>
+                                                            <div class="col">
+                                                                <small class="font1">NEIGHBORHOOD</small><br />
+                                                                <h5 class="rate font1 uppeer-case">@item.Neighbourhood</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

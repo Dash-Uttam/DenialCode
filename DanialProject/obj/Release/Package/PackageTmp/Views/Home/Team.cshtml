@@ -1,0 +1,70 @@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CompleteLayout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        $('#home-bg').addClass('bg-extra-image');
+    });
+    function SingleAgent(id) {
+        window.location = '../../Home/SingleAgent/' + id;
+    }
+</script>
+<div class="container">
+    <h1 class="d-none d-sm-block">THE HUDSON TEAM</h1>
+    <h3 class="d-block d-sm-none" style="margin-top:200px;">THE HUDSON TEAM</h3>
+</div>
+</div>
+<div class="container content">
+    <p class="paragraph" style="line-height:1.8 !important; font-size:14px;">
+        Amanda Hudson leads Dallien Realty’s top-producing agent team, The Hudson Team,
+        which specializes in providing bespoke advisory services to New York City developers
+        and landlords, along with domestic and international buyers, renters, sellers and investors
+        alike. An experienced agent with a keen ability to analyze real estate from an owner’s perspective,
+        Amanda and her team of skilled professionals have led the marketing, leasing and branding for a wide
+        array of properties and projects ranging from: a condo conversion on historic Bleecker Street, to a
+        boutique mixed-use building in Flatiron, 100 luxury units in the East Village, a 110-unit portfolio
+        in Brooklyn’s booming Bushwick and a multiple building portfolio in Brooklyn's Crown Heights, and more.
+        The team's assignments have seen coverage in The Real Deal, The New York Times, Business Insider and Commercial
+        Observer, and more. Despite having represented projects in a variety of areas across New York City, Amanda and
+        The Hudson Team specialize as brokers in downtown Manhattan.
+    </p>
+    <div class="row m-t-25">
+        <div class="col">
+            <div class="tab-content m-t-15">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="row">
+                        @{
+                            try
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <div class="col-lg-3 col-md-4 col-6 m-t-25 our-agents-card">
+                                        <div class="card">
+                                            <div class="agent-card-img img-box-agent">
+                                                <img src="@item.Path" onclick="SingleAgent('@item.ID');" class="cursor-pointer display-box" />
+                                            </div>
+                                            <div class="card-content">
+                                                <a href="../../Home/SingleAgent/@item.ID" class="user-link"><h2 class="font1">@item.FirstName @item.LastName</h2></a>
+                                                <span class="short-text font1 uppeer-case">@item.Position</span>
+                                                <hr />
+                                                <p class="m-t-15">
+                                                    <img src="~/Content/Template/assets/imgs/svg/phone.svg" /> &nbsp;<a href="tel:@item.Phone"><u>@item.Phone</u></a><br />
+                                                    <img src="~/Content/Template/assets/imgs/svg/email.svg" /> &nbsp;<a href="mailto:@item.EmailField"><u>@item.EmailField</u></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            catch (Exception) { }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,131 @@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+<script type="text/javascript" src="~/Content/Template/assets/jquery/jquery.priceformat.js"></script>
+
+<div class="container-fluid content-wrap-main custom-height-main">
+    <div class="row custom-height align-items-center m-t-">
+        <div class="col-md-7 col-xs-8">
+            <div class="row">
+                <div class="col pl-5 pl-sm-15">
+                    <div class="primary-filter text-left primary-filter-box">
+                        <div class="relative mb-6 hr-gray filter-img">
+                            <img src="~/Content/Template/assets/imgs/logo/white-transparent-logo.png" style="width:266px; height:153px;" alt="">
+                        </div>
+                        <div class="filter-controls">
+                            <h1 class="heading-style-1 c-293847 tabed-heading text-center-sm">
+                                <span class="rent selected-rent category-tabs">Rent</span>
+                                <span class="buy category-tabs">buy</span>
+                                <span class="find-room category-tabs">find a room</span>
+                            </h1>
+                            <form action="../../Home/FindListing" method="post">
+                                <div class="row">
+                                    <input type="text" class="hidden" name="Filter" id="Filter" value="Rent" />
+                                    <div class="col-lg-4 col-md-5 search-underline search-underline1">
+                                        <small class="font-15">PRICE</small>
+                                        <label class="field" onclick="ShowField(this);"><span id="label-price">$0 - $10,000</span><img src="~/Content/Template/assets/imgs/svg/path.svg" alt="" /></label>
+                                        <div class="slide row" style="display: none;">
+                                            <div class="col-md-6">
+                                                <small class="font-12">FROM</small>
+                                                <input type="text" id="from-price" name="From_price" oninput="label_Price_Change();" class="form-control field-shaddow" value="$0">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="font-12">TO</small>
+                                                <input type="text" id="to-price" name="To_price" oninput="label_Price_Change();" class="form-control field-shaddow" value="$10000">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-5 search-underline search-underline2">
+                                        <small class="font-15">ROOMS</small>
+                                        <label class="field" onclick="ShowField(this);"><span id="label-room">0+ BED / .5+ BATH</span><img src="~/Content/Template/assets/imgs/svg/path.svg" alt="" /></label>
+                                        <div class="slide row" style="display: none;">
+                                            <div class="col-md-6">
+                                                <small class="font-12">BEDS</small>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <i class="fas fa-minus-circle left-icon" onclick="U_Bedsdec($('#bed').val());"></i>
+                                                    </div>
+                                                    <input type="text" readonly class="form-control text-center" id="bed" name="Bed" value="0+">
+                                                    <div class="input-group-append">
+                                                        <i class="fas fa-plus-circle right-icon" onclick="U_BedsInc($('#bed').val());"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <small class="font-12">BATHS</small>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <i class="fas fa-minus-circle left-icon" onclick="U_Bathsdec($('#bath').val());"></i>
+                                                    </div>
+                                                    <input type="text" readonly class="form-control text-center" id="bath" name="Bath" value=".5+">
+                                                    <div class="input-group-append">
+                                                        <i class="fas fa-plus-circle right-icon" onclick="U_BathsInc($('#bath').val());"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <button type="submit" id="filter-search" class="btn search-btn btn-filter btn-selected-rent">SEARCH</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 custom-height skewed-section">
+            <div class="row custom-height custom-height-top align-items-center">
+                <div class="des-section des-section-alt">
+                    <h1 class="heading-style-1 hr-gray-Index white">Real Estate Advisors</h1>
+                    <p class="white">
+                        Dallien is a tech driven, customer service focused, real estate
+                        company that offers a full suite of advisory services including,
+                        developer consulting and representation, comparative market analysis,
+                        real estate optimization and traditional apartment and condo selection.
+                        By exercising a deep understanding of the dynamics that govern real estate
+                        development, financing and investment, our team of knowledgeable agents can
+                        help you navigate the entirety of the New York real estate market.
+                    </p>
+                    <div class="des-section-alt">
+                        <a class="btn btn-bg-white mr-2" href="../../Home/LearnMore">
+                            learn more
+                        </a>
+                        <a class="btn btn-bg-transparent" href="../../Home/ContactUs">
+                            become an agent
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function ShowField(_this) {
+        $(_this).next().slideToggle("fast");
+    }
+
+    function relocate(reload) {
+        location.href = reload;
+    }
+    $(function () {
+        // from-price
+        $('#from-price').priceFormat({
+            prefix: '$',
+            suffix: '',
+            centsLimit: 0
+        });
+
+        // to-price
+        $('#to-price').priceFormat({
+            prefix: '$',
+            suffix: '',
+            centsLimit: 0
+        });
+    });
+</script>
+
+
